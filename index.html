@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE FULL PICTURE | Create Your Path</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Montserrat:wght@500;600;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- DESIGN TOKENS --- */
+        :root {
+            --burgundy: #800020;
+            --wood: #C19A6B;
+            --gold: #D4AF37;
+            --black: #0F172A; /* Deep Navy Black */
+            --paper: #F5F5F5; /* Soft White */
+            --white: #ffffff;
+            
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        /* --- RESET --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background-color: var(--paper);
+            color: var(--black);
+            font-family: 'Lato', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* --- TYPOGRAPHY SYSTEM --- */
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; text-transform: uppercase; line-height: 0.9; }
+        .serif { font-family: 'Playfair Display', serif; font-style: italic; text-transform: none; }
+        
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.5rem;
+            color: var(--wood);
+            position: absolute;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* --- NAVIGATION (Sticky & Minimal) --- */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.5s ease;
+        }
+        nav.scrolled { background: rgba(255,255,255,0.95); padding: 1rem 3rem; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        
+        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: -1px; color: var(--black); }
+        
+        .nav-right { display: flex; align-items: center; gap: 2rem; }
+        .lang-toggle { font-size: 0.8rem; font-weight: 700; cursor: pointer; color: var(--burgundy); border: 1px solid var(--burgundy); padding: 5px 10px; border-radius: 20px; }
+        
+        .menu-btn { 
+            font-size: 1rem; font-weight: 700; cursor: pointer; 
+            position: relative; display: flex; flex-direction: column; gap: 4px; width: 30px;
+        }
+        .menu-btn span { width: 100%; height: 2px; background: var(--black); transition: 0.3s; }
+        .menu-btn:hover span:nth-child(2) { width: 70%; }
+
+        /* --- HERO SECTION (The "Curtain") --- */
+        .hero {
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--paper);
+            padding-top: 80px;
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            width: 90%;
+            max-width: 1600px;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .hero-text { position: relative; z-index: 10; }
+        
+        .hero h1 {
+            font-size: clamp(3rem, 5vw, 6rem);
+            color: var(--black);
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero h1 span { display: block; color: var(--burgundy); }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 400px;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            border-left: 3px solid var(--wood);
+            padding-left: 1.5rem;
+        }
+
+        .hero-img-wrapper {
+            position: relative;
+            height: 80vh;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* THE IMAGE YOU UPLOADED */
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Interesting Geometric Mask */
+            clip-path: polygon(10% 0, 100% 0, 100% 85%, 0% 100%); 
+            filter: grayscale(20%) contrast(1.1);
+            transform: scale(1.1);
+            animation: zoomOut 2s var(--ease-out-expo) forwards;
+        }
+
+        @keyframes zoomOut { to { transform: scale(1); } }
+
+        .btn-hero {
+            display: inline-block;
+            background: var(--burgundy);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        .btn-hero:hover { background: var(--black); transform: translateY(-3px); }
+
+        /* --- MARQUEE (Kinetic Energy) --- */
+        .marquee-container {
+            background: var(--burgundy);
+            color: white;
+            padding: 1.5rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+            transform: rotate(-1deg);
+            margin: 4rem 0;
+            box-shadow: 0 10px 30px rgba(128,0,32,0.2);
+        }
+        .marquee-content {
+            display: inline-block;
+            font-family: 'Montserrat';
+            font-weight: 800;
+            font-size: 1.5rem;
+            animation: scroll 25s linear infinite;
+        }
+        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        /* --- ABOUT / TRAINER (The Story) --- */
+        .about-section {
+            padding: 8rem 5vw;
+            position: relative;
+        }
+
+        /* The Meridian Line (Feng Shui Alignment) */
+        .meridian {
+            position: absolute;
+            top: 0; left: 50%;
+            width: 1px; height: 100%;
+            background: rgba(0,0,0,0.1);
+            z-index: 0;
+        }
+
+        .about-container {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .about-img-stack {
+            position: relative;
+            height: 600px;
+        }
+
+        .about-img-back {
+            position: absolute;
+            top: 0; left: 0;
+            width: 80%; height: 80%;
+            background: #ccc;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .about-img-front {
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 60%; height: 60%;
+            background: #888;
+            object-fit: cover;
+            z-index: 2;
+            border: 10px solid var(--paper);
+            box-shadow: -20px 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .about-content h4 { color: var(--wood); letter-spacing: 2px; margin-bottom: 1rem; }
+        .about-content h2 { font-size: 3rem; margin-bottom: 2rem; color: var(--black); }
+        
+        .quote {
+            font-family: 'Playfair Display';
+            font-size: 1.8rem;
+            line-height: 1.4;
+            color: var(--burgundy);
+            margin-bottom: 2rem;
+        }
+        
+        .bio-text { color: #555; line-height: 1.8; margin-bottom: 1.5rem; }
+
+        /* --- SERVICES (The "Waterfall" Layout) --- */
+        .services-section {
+            background: var(--black);
+            color: white;
+            padding: 10rem 5vw;
+            position: relative;
+        }
+
+        .section-head { text-align: center; margin-bottom: 6rem; }
+        .section-head h2 { font-size: 3rem; color: white; }
+        .section-head span { color: var(--gold); font-family: 'Playfair Display'; font-style: italic; font-size: 1.5rem; }
+
+        .waterfall-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            width: 30%;
+            background: #1a1a1a;
+            padding: 2rem;
+            border-top: 3px solid var(--wood);
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 4rem;
+        }
+        
+        /* The Stagger Effect */
+        .service-card:nth-child(2) { margin-top: 6rem; } 
+        .service-card:nth-child(3) { margin-top: 0rem; }
+
+        .service-card:hover { transform: translateY(-10px); border-top-color: var(--gold); }
+
+        .card-icon { font-size: 2rem; color: var(--gold); margin-bottom: 1.5rem; }
+        .service-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: white; }
+        
+        .service-list li {
+            list-style: none;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        
+        /* --- MISSION --- */
+        .mission-banner {
+            background: var(--wood);
+            padding: 6rem 2rem;
+            text-align: center;
+            color: white;
+        }
+        .mission-banner h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .mission-banner p { font-size: 1.3rem; max-width: 800px; margin: 0 auto; font-family: 'Playfair Display'; }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--white);
+            padding: 5rem 5vw 2rem;
+            color: var(--black);
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+        
+        .footer-col h3 { font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--burgundy); }
+        .footer-col p, .footer-col a { color: #666; display: block; margin-bottom: 0.5rem; text-decoration: none; transition: 0.3s; }
+        .footer-col a:hover { color: var(--burgundy); padding-left: 5px; }
+        
+        .copyright { border-top: 1px solid #eee; padding-top: 2rem; text-align: center; font-size: 0.8rem; color: #999; }
+
+        /* --- MOBILE FIXES --- */
+        @media (max-width: 768px) {
+            .hero-grid { grid-template-columns: 1fr; }
+            .hero-img-wrapper { height: 50vh; margin-top: 2rem; }
+            .about-container { grid-template-columns: 1fr; gap: 3rem; }
+            .about-img-stack { height: 400px; }
+            .waterfall-grid { flex-direction: column; }
+            .service-card { width: 100%; margin-top: 0 !important; margin-bottom: 2rem; }
+            .meridian { display: none; }
+            .hero h1 { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="logo">THE FULL PICTURE</div>
+        <div class="nav-right">
+            <div class="lang-toggle">EN / 中文</div>
+            <div class="menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="vertical-text" style="left: 5vw; top: 20vh; font-size: 5rem;">全图</div>
+        
+        <div class="hero-grid">
+            <div class="hero-text">
+                <h4 style="color: var(--wood); letter-spacing: 2px; margin-bottom: 1rem;">Official Website</h4>
+                <h1>CREATE YOUR PATH.<br><span>ACHIEVE SUCCESS.</span></h1>
+                <p>Combining Ancient Wisdom with Modern Business Strategy. Where leaders are born, and individuals are transformed.</p>
+                
+                <div style="margin-top: 2rem;">
+                    <a href="#courses" class="btn-hero">Explore Services</a>
+                    <a href="#contact" style="margin-left: 1rem; color: var(--black); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--wood);">Book Consultation</a>
+                </div>
+            </div>
+            
+            <div class="hero-img-wrapper">
+                <img src="image_c71117.jpg" 
+                     alt="Jose He - The Full Picture" 
+                     class="hero-img"
+                     onerror="this.src='https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2071&auto=format&fit=crop'">
+            </div>
+        </div>
+    </header>
+
+    <div class="marquee-container">
+        <div class="marquee-content">
+            FENG SHUI STRATEGY • WEALTH ACTIVATION • LEADERSHIP AWAKENING • HOLISTIC TRANSFORMATION • FENG SHUI STRATEGY • 
+        </div>
+    </div>
+
+    <section class="about-section" id="about">
+        <div class="meridian"></div>
+        <div class="vertical-text" style="right: 5vw; top: 10vh; font-size: 4rem;">命运觉醒</div>
+
+        <div class="about-container">
+            <div class="about-img-stack">
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop" class="about-img-back" alt="Consultation">
+                <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop" class="about-img-front" alt="Jose He Speaking">
+            </div>
+            
+            <div class="about-content">
+                <h4>LEAD TRAINER & LIFE COACH</h4>
+                <h2>JOSE HE (何德伟)</h2>
+                <p class="quote">"My true path is to continue my family's legacy and bring it to new heights — 发扬光大."</p>
+                <div class="bio-text">
+                    <p>Coming from a family with deep expertise in geomancy, Jose has always been connected to ancient wisdom. Not too long ago, after experiencing a profound moment of awakening (大运, 命运觉醒), he realized that his true path was to bridge the gap between metaphysics and modern strategy.</p>
+                    <br>
+                    <p>He has worked with high-level professionals across Southeast Asia, including Malaysia, Singapore, Thailand, Vietnam, and Indonesia, helping them find their true 轨道 (life’s calling).</p>
+                </div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Signature_sample.svg" style="height: 50px; opacity: 0.6;" alt="Signature">
+            </div>
+        </div>
+    </section>
+
+    <section class="services-section" id="services">
+        <div class="section-head">
+            <span>What We Offer</span>
+            <h2>CORE SERVICES</h2>
+        </div>
+
+        <div class="waterfall-grid">
+            <div class="service-card">
+                <i class="fas fa-graduation-cap card-icon"></i>
+                <h3>Training & Masterclasses</h3>
+                <ul class="service-list">
+                    <li>Volume 1: 《轨道觉醒启动》 The Path Unlocker</li>
+                    <li>Volume 2: 《财富成功觉醒》The Art of Wealth</li>
+                    <li>Volume 3: 《领导觉醒》Leadership Awakening</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-compass card-icon"></i>
+                <h3>Geomancy Feng Shui</h3>
+                <ul class="service-list">
+                    <li>Feng Shui Audit (Residence & Commercial)</li>
+                    <li>Bazi Reading & Analysis (Annual + 10 Year)</li>
+                    <li>Ziwei Doushu & Qimen Dujia Analysis</li>
+                    <li>I-Ching Number Energy Reading</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-gem card-icon"></i>
+                <h3>Auspicious Wealth Items</h3>
+                <ul class="service-list">
+                    <li>Energy Crystals (Ji Xiang Wu)</li>
+                    <li>Auspicious Products for Prosperity</li>
+                    <li>Wealth Activation Anchors</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="mission-banner">
+        <h2>Our Mission</h2>
+        <p>"To guide individuals and businesses in aligning their true purpose with their success, through the integration of ancient wisdom and modern strategies."</p>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>THE FULL PICTURE</h3>
+                <p>Combining Ancient Wisdom and Modern Business Strategy.</p>
+                <br>
+                <p><strong>Tagline:</strong> Create Your Path. Achieve Your Success.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p>Email: info@thefullpicture.com</p>
+                <p>Phone: +65 XXXX XXXX</p>
+                <p>Location: Singapore</p>
+                <br>
+                <div style="display: flex; gap: 1rem;">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Navigation</h3>
+                <a href="#about">About Jose He</a>
+                <a href="#services">Training Courses</a>
+                <a href="#services">Geomancy Services</a>
+                <a href="#contact">Book Consultation</a>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2025 THE FULL PICTURE LLP. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        // 1. Sticky Nav Logic
+        const nav = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // 2. Image Fallback logic (Just in case)
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('error', function() {
+                this.src = 'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2074&auto=format&fit=crop';
+            });
+        });
+    </script>
+</body>
+</html>
