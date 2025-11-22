@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission & Vision | THE FULL PICTURE</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- DESIGN SYSTEM --- */
+        :root {
+            --burgundy: #800020;
+            --wood: #C19A6B;
+            --gold: #D4AF37;
+            --deep-navy: #050a14;
+            --paper: #ffffff;
+            --white: #ffffff;
+            --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+            --container-width: 1200px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        body { background-color: var(--paper); color: #222; font-family: 'Lato', sans-serif; overflow-x: hidden; }
+
+        /* --- UTILS --- */
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
+        .noise { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9000; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
+
+        /* --- CURSOR --- */
+        @media (hover: hover) and (pointer: fine) {
+            .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; }
+            .cursor-dot { width: 6px; height: 6px; background-color: var(--burgundy); }
+            .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(128, 0, 32, 0.3); transition: 0.1s; }
+            body.hovering .cursor-outline { width: 80px; height: 80px; background-color: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: -1px; }
+        .serif { font-family: 'Playfair Display', serif; font-style: italic; }
+        
+        /* --- NAV (Dark) --- */
+        nav { position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 0; z-index: 100; mix-blend-mode: difference; color: white; }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 900; font-size: 1.4rem; text-decoration: none; color: white; }
+        .menu-trigger { font-weight: 700; cursor: pointer; font-size: 0.9rem; letter-spacing: 1px; color: white; }
+
+        /* --- MENU OVERLAY --- */
+        .menu-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: var(--deep-navy); z-index: 99;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transform: translateY(-100%); transition: transform 0.8s var(--ease-smooth);
+        }
+        .menu-overlay.active { transform: translateY(0); }
+        .menu-link { font-family: 'Montserrat'; font-size: 3rem; color: rgba(255,255,255,0.3); text-decoration: none; margin: 0.5rem 0; transition: 0.3s; font-weight: 900; }
+        .menu-link:hover { color: var(--gold); letter-spacing: 2px; }
+
+        /* --- HEADER --- */
+        .page-header {
+            height: 60vh; width: 100%;
+            background-color: var(--deep-navy);
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+        }
+        .header-bg-text {
+            position: absolute; bottom: -5%; left: 50%; transform: translateX(-50%);
+            font-size: 18vw; font-weight: 900; color: rgba(255,255,255,0.02);
+            white-space: nowrap; pointer-events: none;
+        }
+        .header-content { text-align: center; color: white; z-index: 2; }
+        .header-title { font-size: 4rem; margin-bottom: 1rem; opacity: 0; animation: fadeUp 1s forwards 0.3s; }
+        .header-sub { font-family: 'Playfair Display'; font-size: 1.5rem; color: var(--gold); opacity: 0; animation: fadeUp 1s forwards 0.5s; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- MISSION SECTION (WHITE) --- */
+        .mission-section {
+            padding: 10rem 0 4rem; 
+            position: relative;
+            background: var(--white); /* White Background */
+            color: var(--deep-navy);  /* Dark Text */
+        }
+        .mission-grid {
+            display: grid; grid-template-columns: 1fr; gap: 4rem; text-align: center;
+            max-width: 1000px; margin: 0 auto;
+        }
+        
+        .section-label {
+            display: block; font-family: 'Montserrat'; font-weight: 700; 
+            letter-spacing: 4px; margin-bottom: 2rem;
+            font-size: 0.9rem; text-transform: uppercase;
+        }
+
+        /* Mission Specific Colors */
+        .mission-section .section-label { color: var(--burgundy); }
+        .mission-section .statement-text { color: var(--deep-navy); }
+        .mission-section .statement-text span { color: var(--burgundy); border-bottom: 2px solid var(--wood); }
+
+        .statement-text {
+            font-family: 'Playfair Display'; font-size: 3rem; line-height: 1.4;
+            margin-bottom: 1rem; font-style: italic;
+        }
+
+        /* --- CONNECTOR --- */
+        .connector-wrapper {
+            height: 100px; width: 100%;
+            background: linear-gradient(to bottom, white, transparent); /* Fade into image */
+            display: flex; justify-content: center; align-items: center;
+            position: relative; z-index: 5;
+        }
+        .connector-line {
+            width: 1px; height: 100%; 
+            background: var(--wood);
+        }
+
+        /* --- VISION SECTION (IMAGE BACKGROUND) --- */
+        .vision-section {
+            padding: 10rem 0; 
+            position: relative; 
+            /* Architectural Background */
+            background: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            color: white;
+        }
+        
+        /* Dark Overlay */
+        .vision-section::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 10, 20, 0.85); z-index: 1;
+        }
+
+        .vision-box {
+            border-left: 5px solid var(--gold); /* Gold border for vision */
+            padding-left: 4rem; margin-left: 10vw;
+            position: relative; z-index: 2;
+        }
+        
+        .vision-section .section-label { color: var(--gold); }
+        
+        .vision-text {
+            font-family: 'Montserrat'; font-size: 2.5rem; font-weight: 300;
+            color: rgba(255,255,255,0.9); line-height: 1.5;
+        }
+        .vision-text strong { font-weight: 800; color: white; }
+
+        /* --- TAGLINE BANNER --- */
+        .tagline-section {
+            padding: 8rem 0; background: var(--wood); color: white; text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .big-tagline {
+            font-family: 'Montserrat'; font-weight: 900; font-size: 4vw; 
+            text-transform: uppercase; letter-spacing: -1px; line-height: 1.2;
+        }
+        
+        .pattern-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px; pointer-events: none;
+        }
+
+        /* --- FOOTER --- */
+        footer { background: var(--deep-navy); color: white; padding: 5rem 0; border-top: 4px solid var(--burgundy); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 4rem; }
+        .footer-col h4 { color: var(--gold); margin-bottom: 1.5rem; letter-spacing: 1px; }
+        .footer-col a { color: #888; display: block; margin-bottom: 0.8rem; text-decoration: none; transition: 0.3s; }
+        .footer-col a:hover { color: white; }
+
+        /* --- MOBILE --- */
+        @media (max-width: 900px) {
+            .header-title { font-size: 3rem; }
+            .statement-text { font-size: 2rem; }
+            .vision-text { font-size: 1.8rem; }
+            .vision-box { padding-left: 2rem; margin-left: 0; border-left-width: 3px; }
+            .big-tagline { font-size: 2.5rem; }
+            .cursor-dot, .cursor-outline { display: none; }
+        }
+    </style>
+</head>
+<body class="hover-target">
+
+    <div class="noise"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div class="menu-overlay" id="menuOverlay">
+        <a href="index.html" class="menu-link hover-target" onclick="toggleMenu()">HOME</a>
+        <a href="about.html" class="menu-link hover-target" onclick="toggleMenu()">ABOUT US</a>
+        <a href="trainer.html" class="menu-link hover-target" onclick="toggleMenu()">THE TRAINER</a>
+        <a href="services.html" class="menu-link hover-target" onclick="toggleMenu()">SERVICES</a>
+        <a href="contact.html" class="menu-link hover-target" onclick="toggleMenu()">CONTACT</a>
+    </div>
+
+    <nav>
+        <div class="container">
+            <div class="nav-inner">
+                <a href="index.html" class="logo hover-target">THE FULL PICTURE</a>
+                <div class="menu-trigger hover-target" onclick="toggleMenu()">MENU</div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="header-bg-text">PURPOSE</div>
+        <div class="header-content">
+            <h1 class="header-title">OUR<br>PURPOSE</h1>
+            <div class="header-sub">The Why Behind The Way</div>
+        </div>
+    </header>
+
+    <section class="mission-section">
+        <div class="container">
+            <div class="mission-grid fade-in">
+                <span class="section-label">OUR MISSION</span>
+                <h2 class="statement-text">
+                    "To guide individuals and businesses in <span>aligning their true purpose</span> with their success, through the integration of ancient wisdom and modern strategies."
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <div class="connector-wrapper">
+        <div class="connector-line"></div>
+    </div>
+
+    <section class="vision-section">
+        <div class="container">
+            <div class="vision-box fade-in">
+                <span class="section-label">OUR VISION</span>
+                <p class="vision-text">
+                    "To be the leading provider of transformational training and geomancy services in Southeast Asia, empowering people to unlock their full potential and <strong>lead balanced, successful lives.</strong>"
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="tagline-section">
+        <div class="pattern-overlay"></div>
+        <div class="container fade-in">
+            <h2 class="big-tagline">Create Your Path.<br>Achieve Your Success.</h2>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>THE FULL PICTURE</h4>
+                    <p>Combining Ancient Wisdom and Modern Business Strategy.</p>
+                    <br>
+                    <p>&copy; 2025 THE FULL PICTURE LLP.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>CONTACT</h4>
+                    <p>info@thefullpicture.com</p>
+                    <p>+65 XXXX XXXX</p>
+                    <p>Singapore</p>
+                </div>
+                <div class="footer-col">
+                    <h4>LINKS</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="services.html">Services</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // MENU
+        let menuOpen = false;
+        function toggleMenu() {
+            const overlay = document.getElementById('menuOverlay');
+            const trigger = document.querySelector('.menu-trigger');
+            menuOpen = !menuOpen;
+            if(menuOpen) {
+                overlay.classList.add('active');
+                trigger.textContent = "CLOSE";
+                trigger.style.color = "white";
+            } else {
+                overlay.classList.remove('active');
+                trigger.textContent = "MENU";
+                trigger.style.color = "white";
+            }
+        }
+
+        // CURSOR
+        const dot = document.querySelector('.cursor-dot');
+        const outline = document.querySelector('.cursor-outline');
+        const targets = document.querySelectorAll('.hover-target');
+
+        if(window.matchMedia("(pointer: fine)").matches) {
+            window.addEventListener('mousemove', (e) => {
+                dot.style.left = e.clientX + "px";
+                dot.style.top = e.clientY + "px";
+                outline.animate({ left: e.clientX + "px", top: e.clientY + "px" }, { duration: 500, fill: "forwards" });
+            });
+            targets.forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+            });
+        }
+
+        // FADE IN
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
