@@ -7,11 +7,11 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- DESIGN SYSTEM --- */
+        /* --- DESIGN TOKENS --- */
         :root {
             --burgundy: #800020;
             --wood: #C19A6B;
@@ -19,93 +19,170 @@
             --deep-navy: #050a14;
             --paper: #f9f9f9;
             --white: #ffffff;
+            
             --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
-            --container-width: 1200px;
+            --ease-wipe: cubic-bezier(0.65, 0, 0.35, 1);
+            --container-width: 1400px;
         }
 
+        /* --- BASE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        body { background-color: var(--deep-navy); color: white; font-family: 'Lato', sans-serif; overflow-x: hidden; }
+        
+        body {
+            background-color: var(--deep-navy); /* Dark Premium Theme */
+            color: white;
+            font-family: 'Lato', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+        }
 
-        /* --- UTILS --- */
-        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
-        .noise { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9000; opacity: 0.05; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
+        /* --- BACKGROUND GRID --- */
+        .grid-lines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
+            display: flex; justify-content: space-between; padding: 0 5vw;
+        }
+        .line-v { width: 1px; height: 100%; background: rgba(255,255,255,0.03); }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+            position: relative; z-index: 2;
+        }
+
+        .noise {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9000; opacity: 0.05;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+        }
 
         /* --- CURSOR --- */
         @media (hover: hover) and (pointer: fine) {
-            .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; }
-            .cursor-dot { width: 6px; height: 6px; background-color: var(--gold); }
-            .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(212, 175, 55, 0.5); transition: 0.1s; }
-            body.hovering .cursor-outline { width: 80px; height: 80px; background-color: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
+            .cursor-dot, .cursor-outline {
+                position: fixed; top: 0; left: 0;
+                transform: translate(-50%, -50%); border-radius: 50%;
+                z-index: 9999; pointer-events: none;
+                mix-blend-mode: difference;
+            }
+            .cursor-dot { width: 6px; height: 6px; background-color: white; }
+            .cursor-outline {
+                width: 40px; height: 40px;
+                border: 1px solid rgba(255, 255, 255, 0.5);
+                transition: width 0.2s, height 0.2s, background-color 0.2s;
+            }
+            body.hovering .cursor-outline {
+                width: 80px; height: 80px;
+                background-color: rgba(255, 255, 255, 0.1);
+                border-color: white;
+            }
         }
 
         /* --- TYPOGRAPHY --- */
-        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: -1px; }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; text-transform: uppercase; }
         .serif { font-family: 'Playfair Display', serif; font-style: italic; }
-        
-        /* --- NAV (Dark) --- */
-        nav { position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 0; z-index: 100; mix-blend-mode: difference; color: white; }
-        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: 900; font-size: 1.4rem; text-decoration: none; color: white; }
-        .menu-trigger { font-weight: 700; cursor: pointer; font-size: 0.9rem; letter-spacing: 1px; }
+
+        /* --- LOADER --- */
+        .loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--burgundy);
+            z-index: 10000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: transform 1s var(--ease-smooth);
+        }
+        .loader h1 { color: white; font-size: 4vw; opacity: 0; animation: fadeUp 0.8s forwards 0.2s; letter-spacing: -1px; }
+        .loader-line { width: 0%; height: 2px; background: var(--wood); margin-top: 1rem; animation: loadLine 1.2s forwards; }
+        .loader.hide { transform: translateY(-100%); }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes loadLine { to { width: 150px; } }
+
+        /* --- NAV --- */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 2rem 0;
+            z-index: 9600; 
+            background: rgba(5, 10, 20, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo { font-weight: 900; font-size: 1.4rem; letter-spacing: -0.5px; color: white; text-decoration: none; }
+        .menu-trigger { font-weight: 700; cursor: pointer; font-size: 0.9rem; position: relative; letter-spacing: 1px; color: white; }
+        .menu-trigger::after { content: ''; display: block; width: 100%; height: 2px; background: var(--burgundy); margin-top: 4px; transition: 0.3s; }
+        .menu-trigger:hover::after { width: 50%; }
 
         /* --- MENU OVERLAY --- */
         .menu-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: var(--deep-navy); z-index: 99;
+            background: #020408;
+            z-index: 9500;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transform: translateY(-100%); transition: transform 0.8s var(--ease-smooth);
+            transform: translateY(-100%);
+            transition: transform 0.8s var(--ease-smooth);
         }
         .menu-overlay.active { transform: translateY(0); }
-        .menu-link { font-family: 'Montserrat'; font-size: 3rem; color: rgba(255,255,255,0.3); text-decoration: none; margin: 0.5rem 0; transition: 0.3s; font-weight: 900; }
-        .menu-link:hover { color: var(--gold); letter-spacing: 2px; }
+        .menu-link {
+            font-family: 'Montserrat'; font-size: 3.5rem; color: rgba(255,255,255,0.3);
+            text-decoration: none; margin: 0.5rem 0; transition: 0.3s;
+            position: relative; font-weight: 900; letter-spacing: -1px;
+        }
+        .menu-link:hover { color: white; letter-spacing: 0px; }
 
-        /* --- HEADER --- */
+        /* --- HERO --- */
         .portfolio-header {
             height: 60vh; width: 100%;
             display: flex; align-items: center; justify-content: center;
             position: relative; overflow: hidden;
+            margin-top: 80px;
         }
         .header-content { text-align: center; z-index: 2; }
-        .header-title { font-size: 4.5rem; margin-bottom: 1rem; opacity: 0; animation: fadeUp 1s forwards 0.3s; }
-        .header-sub { font-family: 'Playfair Display'; font-size: 1.5rem; color: var(--gold); opacity: 0; animation: fadeUp 1s forwards 0.5s; }
+        .header-title { 
+            font-size: clamp(3.5rem, 8vw, 6rem); margin-bottom: 1rem; opacity: 0; 
+            animation: fadeUp 1s forwards 0.3s; font-weight: 900; letter-spacing: -2px;
+        }
+        .header-sub { 
+            font-family: 'Montserrat'; font-size: 0.9rem; letter-spacing: 3px; 
+            color: var(--wood); font-weight: 700; opacity: 0; animation: fadeUp 1s forwards 0.5s; 
+        }
 
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- LOGO WALL --- */
+        /* --- LOGO WALL (UPDATED: IMAGES) --- */
         .client-logos {
             border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             padding: 4rem 0;
         }
         .logo-grid {
-            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 3rem; opacity: 0.6;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4rem; 
         }
-        .client-logo { 
-            font-family: 'Montserrat'; font-weight: 900; font-size: 1.5rem; color: white; 
-            letter-spacing: -1px; opacity: 0.5; transition: 0.3s;
+        /* Solid White Logos */
+        .client-logo-img { 
+            height: 40px; 
+            width: auto;
+            object-fit: contain;
+            /* Invert filter creates white logo from black placeholder */
+            filter: invert(1) brightness(100%); 
+            opacity: 1; /* Solid Opacity as requested */
+            transition: 0.3s;
         }
-        .client-logo:hover { opacity: 1; color: var(--gold); }
+        .client-logo-img:hover { transform: scale(1.1); }
 
-        /* --- NEW: QUOTE SECTION WITH BACKGROUND --- */
+        /* --- QUOTE SECTION --- */
         .quote-section {
             position: relative;
             padding: 10rem 0;
-            /* Background Image */
             background: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
-            background-size: cover;
-            background-attachment: fixed; /* Parallax feel */
+            background-size: cover; background-attachment: fixed;
             margin-bottom: 6rem;
         }
-        
-        /* Dark Overlay to ensure text readability */
         .quote-section::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 10, 20, 0.85); /* Dark Navy Wash */
-            z-index: 1;
+            background: rgba(5, 10, 20, 0.85); z-index: 1;
         }
-
         .quote-break {
             text-align: center; max-width: 900px; margin: 0 auto;
-            position: relative; z-index: 2; /* Text above overlay */
+            position: relative; z-index: 2;
         }
         .quote-icon { font-size: 3rem; color: var(--burgundy); margin-bottom: 2rem; }
         .quote-text { 
@@ -114,15 +191,16 @@
         }
         .quote-author { 
             font-family: 'Montserrat'; font-weight: 700; color: var(--gold); 
-            letter-spacing: 3px; font-size: 0.9rem; text-transform: uppercase;
-            display: block;
+            letter-spacing: 3px; font-size: 0.8rem; text-transform: uppercase;
         }
 
         /* --- FILTERS --- */
-        .filter-container { display: flex; justify-content: center; gap: 3rem; margin-bottom: 6rem; }
+        .filter-container { display: flex; justify-content: center; gap: 3rem; margin-bottom: 6rem; margin-top: 4rem; }
         .filter-btn {
-            background: none; border: none; color: #777; font-family: 'Montserrat'; font-weight: 700;
-            font-size: 0.9rem; cursor: pointer; letter-spacing: 1px; position: relative; transition: 0.3s;
+            background: none; border: none; color: rgba(255,255,255,0.4); 
+            font-family: 'Montserrat'; font-weight: 700;
+            font-size: 0.9rem; cursor: pointer; letter-spacing: 1px; 
+            position: relative; transition: 0.3s;
         }
         .filter-btn.active, .filter-btn:hover { color: white; }
         .filter-btn.active::after {
@@ -133,53 +211,55 @@
         /* --- PORTFOLIO GRID --- */
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 4rem 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 6rem 2rem;
             padding-bottom: 8rem;
         }
 
         .portfolio-item {
             position: relative;
             transition: all 0.5s ease;
-            opacity: 1;
-            transform: scale(1);
+            opacity: 1; transform: scale(1);
         }
-        
         .portfolio-item.hidden { display: none; }
 
-        .item-inner:hover { transform: translateY(-10px); }
-        .item-inner { transition: transform 0.3s ease; }
+        .item-img-wrapper {
+            position: relative; width: 100%; height: 500px;
+            overflow: hidden; margin-bottom: 1.5rem;
+            /* Start state for wipe animation */
+            clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+            transition: clip-path 1.2s var(--ease-wipe);
+        }
+        /* Reveal state */
+        .item-img-wrapper.visible {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
 
         .item-img {
-            height: 450px; width: 100%;
-            background: #222;
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-            position: relative;
-        }
-        .item-img img {
             width: 100%; height: 100%; object-fit: cover;
-            transition: 1s; filter: grayscale(20%);
+            transition: transform 1s ease;
+            filter: grayscale(0%); /* Solid, no opacity or grayscale fade */
         }
-        .item-inner:hover .item-img img { transform: scale(1.05); filter: grayscale(0%); }
+        .portfolio-item:hover .item-img { transform: scale(1.05); }
 
         .item-num {
-            position: absolute; top: -2rem; left: -1rem;
-            font-family: 'Montserrat'; font-weight: 900; font-size: 5rem;
-            color: var(--burgundy);
-            opacity: 0.8; z-index: 2;
-            text-shadow: 2px 2px 0px var(--deep-navy);
+            position: absolute; top: -3rem; left: 0;
+            font-family: 'Montserrat'; font-weight: 900; font-size: 6rem;
+            color: rgba(255,255,255,0.05);
+            z-index: 0; pointer-events: none;
         }
 
-        .item-info h3 { font-size: 1.5rem; margin-bottom: 0.5rem; color: white; }
-        .item-info p { font-size: 0.9rem; color: #999; margin-bottom: 1rem; }
+        .item-info { position: relative; z-index: 2; }
+        .item-info h3 { font-size: 1.8rem; margin-bottom: 0.5rem; color: white; font-weight: 800; }
+        .item-info p { font-size: 1rem; color: #888; margin-bottom: 1rem; }
         .item-tag {
-            display: inline-block; border: 1px solid var(--wood); color: var(--wood);
-            padding: 5px 10px; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase;
+            display: inline-block; border: 1px solid rgba(255,255,255,0.2); color: var(--wood);
+            padding: 8px 15px; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase;
+            font-weight: 700;
         }
 
         /* --- FOOTER --- */
-        footer { background: #020408; color: white; padding: 5rem 0; border-top: 4px solid var(--burgundy); }
+        footer { background: #020408; color: white; padding: 6rem 0; border-top: 4px solid var(--burgundy); }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 4rem; }
         .footer-col h4 { color: var(--gold); margin-bottom: 1.5rem; letter-spacing: 1px; }
         .footer-col a { color: #888; display: block; margin-bottom: 0.8rem; text-decoration: none; transition: 0.3s; }
@@ -189,10 +269,12 @@
         @media (max-width: 900px) {
             .header-title { font-size: 3rem; }
             .logo-grid { justify-content: center; gap: 2rem; }
+            .client-logo-img { height: 30px; }
             .quote-text { font-size: 1.5rem; }
             .portfolio-grid { grid-template-columns: 1fr; }
-            .item-img { height: 350px; }
+            .item-img-wrapper { height: 350px; }
             .cursor-dot, .cursor-outline { display: none; }
+            .grid-lines { display: none; }
         }
     </style>
 </head>
@@ -202,14 +284,25 @@
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
+    <div class="grid-lines">
+        <div class="line-v"></div>
+        <div class="line-v"></div>
+        <div class="line-v"></div>
+    </div>
+
+    <div class="loader">
+        <h1>THE FULL PICTURE</h1>
+        <div class="loader-line"></div>
+    </div>
+
     <div class="menu-overlay" id="menuOverlay">
-        <a href="index.html" class="menu-link hover-target" data-text="HOME">HOME</a>
-        <a href="about.html" class="menu-link hover-target" data-text="ABOUT">ABOUT</a>
-        <a href="mission.html" class="menu-link hover-target" data-text="MISSION">MISSION</a>
-        <a href="portfolio.html" class="menu-link hover-target" data-text="PORTFOLIO">PORTFOLIO</a>
-        <a href="services.html" class="menu-link hover-target" data-text="SERVICES">SERVICES</a>
-        <a href="trainer.html" class="menu-link hover-target" data-text="TRAINER">TRAINER</a>
-        <a href="contact.html" class="menu-link hover-target" data-text="CONTACT">CONTACT</a>
+        <a href="index.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="HOME">HOME</a>
+        <a href="about.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="ABOUT US">ABOUT</a>
+        <a href="mission.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="MISSION">MISSION</a>
+        <a href="portfolio.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="PORTFOLIO">PORTFOLIO</a>
+        <a href="services.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="SERVICES">SERVICES</a>
+        <a href="trainer.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="TRAINER">TRAINER</a>
+        <a href="contact.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="CONTACT">CONTACT</a>
     </div>
 
     <nav>
@@ -223,19 +316,19 @@
 
     <header class="portfolio-header">
         <div class="header-content">
+            <div class="header-sub">TRANSFORMATIVE RESULTS</div>
             <h1 class="header-title">PAST<br>PORTFOLIOS</h1>
-            <div class="header-sub">Transformative Results & Case Studies</div>
         </div>
     </header>
 
     <div class="container">
         <div class="client-logos fade-in">
             <div class="logo-grid">
-                <span class="client-logo">UOB BANK</span>
-                <span class="client-logo">AIA SINGAPORE</span>
-                <span class="client-logo">PRUDENTIAL</span>
-                <span class="client-logo">PROPERTYGURU</span>
-                <span class="client-logo">MARINA BAY SANDS</span>
+                <img src="https://placehold.co/200x80/000000/FFF?text=UOB+BANK" class="client-logo-img" alt="UOB">
+                <img src="https://placehold.co/200x80/000000/FFF?text=AIA" class="client-logo-img" alt="AIA">
+                <img src="https://placehold.co/200x80/000000/FFF?text=PRUDENTIAL" class="client-logo-img" alt="Prudential">
+                <img src="https://placehold.co/200x80/000000/FFF?text=PROPERTYGURU" class="client-logo-img" alt="PropertyGuru">
+                <img src="https://placehold.co/200x80/000000/FFF?text=MARINA+BAY" class="client-logo-img" alt="MBS">
             </div>
         </div>
     </div>
@@ -252,7 +345,7 @@
 
     <div class="container">
         <div class="filter-container fade-in">
-            <button class="filter-btn active hover-target" onclick="filterSelection('all', this)">ALL</button>
+            <button class="filter-btn active hover-target" onclick="filterSelection('all', this)">ALL WORKS</button>
             <button class="filter-btn hover-target" onclick="filterSelection('corporate', this)">CORPORATE</button>
             <button class="filter-btn hover-target" onclick="filterSelection('residential', this)">RESIDENTIAL</button>
             <button class="filter-btn hover-target" onclick="filterSelection('events', this)">EVENTS</button>
@@ -260,87 +353,76 @@
 
         <div class="portfolio-grid">
             
-            <div class="portfolio-item fade-in" data-cat="corporate">
-                <div class="item-inner">
-                    <span class="item-num">01</span>
-                    <div class="item-img">
-                        <img src="image_7c59ff.jpg" alt="Leadership Seminar">
-                    </div>
-                    <div class="item-info">
-                        <h3>Leadership Masterclass</h3>
-                        <p>Strategic alignment for C-Suite Executives.</p>
-                        <span class="item-tag">CORPORATE</span>
-                    </div>
+            <div class="portfolio-item" data-cat="corporate">
+                <span class="item-num">01</span>
+                <div class="item-img-wrapper">
+                    <img class="item-img" src="image_7c59ff.jpg" alt="Leadership Seminar"
+                         onerror="this.src='https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070'">
+                </div>
+                <div class="item-info">
+                    <h3>Leadership Masterclass</h3>
+                    <p>Strategic alignment for C-Suite Executives.</p>
+                    <span class="item-tag">CORPORATE</span>
                 </div>
             </div>
 
-            <div class="portfolio-item fade-in" data-cat="residential">
-                <div class="item-inner">
-                    <span class="item-num">02</span>
-                    <div class="item-img">
-                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop" alt="Feng Shui">
-                    </div>
-                    <div class="item-info">
-                        <h3>Sentosa Cove Residence</h3>
-                        <p>Complete Feng Shui audit and wealth activation.</p>
-                        <span class="item-tag">RESIDENTIAL</span>
-                    </div>
+            <div class="portfolio-item" data-cat="residential">
+                <span class="item-num">02</span>
+                <div class="item-img-wrapper">
+                    <img class="item-img" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop" alt="Feng Shui">
+                </div>
+                <div class="item-info">
+                    <h3>Sentosa Cove Residence</h3>
+                    <p>Complete Feng Shui audit and wealth activation.</p>
+                    <span class="item-tag">RESIDENTIAL</span>
                 </div>
             </div>
 
-            <div class="portfolio-item fade-in" data-cat="events">
-                <div class="item-inner">
-                    <span class="item-num">03</span>
-                    <div class="item-img">
-                        <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2070&auto=format&fit=crop" alt="Seminar">
-                    </div>
-                    <div class="item-info">
-                        <h3>Wealth Activation Summit</h3>
-                        <p>Annual seminar with over 500 attendees.</p>
-                        <span class="item-tag">EVENTS</span>
-                    </div>
+            <div class="portfolio-item" data-cat="events">
+                <span class="item-num">03</span>
+                <div class="item-img-wrapper">
+                    <img class="item-img" src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2070&auto=format&fit=crop" alt="Seminar">
+                </div>
+                <div class="item-info">
+                    <h3>Wealth Activation Summit</h3>
+                    <p>Annual seminar with over 500 attendees.</p>
+                    <span class="item-tag">EVENTS</span>
                 </div>
             </div>
 
-            <div class="portfolio-item fade-in" data-cat="corporate">
-                <div class="item-inner">
-                    <span class="item-num">04</span>
-                    <div class="item-img">
-                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop" alt="Office">
-                    </div>
-                    <div class="item-info">
-                        <h3>Tech Startup HQ</h3>
-                        <p>Office layout optimization for innovation flow.</p>
-                        <span class="item-tag">CORPORATE</span>
-                    </div>
+            <div class="portfolio-item" data-cat="corporate">
+                <span class="item-num">04</span>
+                <div class="item-img-wrapper">
+                    <img class="item-img" src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop" alt="Office">
+                </div>
+                <div class="item-info">
+                    <h3>Tech Startup HQ</h3>
+                    <p>Office layout optimization for innovation flow.</p>
+                    <span class="item-tag">CORPORATE</span>
                 </div>
             </div>
 
-            <div class="portfolio-item fade-in" data-cat="events">
-                <div class="item-inner">
-                    <span class="item-num">05</span>
-                    <div class="item-img">
-                        <img src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=2073&auto=format&fit=crop" alt="Networking">
-                    </div>
-                    <div class="item-info">
-                        <h3>Regional Networking</h3>
-                        <p>Connecting business leaders across SEA.</p>
-                        <span class="item-tag">EVENTS</span>
-                    </div>
+            <div class="portfolio-item" data-cat="events">
+                <span class="item-num">05</span>
+                <div class="item-img-wrapper">
+                    <img class="item-img" src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=2073&auto=format&fit=crop" alt="Networking">
+                </div>
+                <div class="item-info">
+                    <h3>Regional Networking</h3>
+                    <p>Connecting business leaders across SEA.</p>
+                    <span class="item-tag">EVENTS</span>
                 </div>
             </div>
 
-            <div class="portfolio-item fade-in" data-cat="residential">
-                <div class="item-inner">
-                    <span class="item-num">06</span>
-                    <div class="item-img">
-                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" alt="Home Audit">
-                    </div>
-                    <div class="item-info">
-                        <h3>Orchard Road Penthouse</h3>
-                        <p>Luxury residential geomancy audit.</p>
-                        <span class="item-tag">RESIDENTIAL</span>
-                    </div>
+            <div class="portfolio-item" data-cat="residential">
+                <span class="item-num">06</span>
+                <div class="item-img-wrapper">
+                    <img class="item-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070" alt="Home Audit">
+                </div>
+                <div class="item-info">
+                    <h3>Orchard Road Penthouse</h3>
+                    <p>Luxury residential geomancy audit.</p>
+                    <span class="item-tag">RESIDENTIAL</span>
                 </div>
             </div>
 
@@ -373,7 +455,16 @@
     </footer>
 
     <script>
-        // MENU
+        // 1. LOADER & INITIALIZATION
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loader').classList.add('hide');
+                // Trigger animations for visible elements immediately
+                checkScroll(); 
+            }, 1000);
+        });
+
+        // 2. MENU TOGGLE
         let menuOpen = false;
         function toggleMenu() {
             const overlay = document.getElementById('menuOverlay');
@@ -390,41 +481,42 @@
             }
         }
 
-        // CURSOR
+        // 3. CURSOR
         const dot = document.querySelector('.cursor-dot');
         const outline = document.querySelector('.cursor-outline');
-        const targets = document.querySelectorAll('.hover-target');
-
         if(window.matchMedia("(pointer: fine)").matches) {
             window.addEventListener('mousemove', (e) => {
                 dot.style.left = e.clientX + "px";
                 dot.style.top = e.clientY + "px";
                 outline.animate({ left: e.clientX + "px", top: e.clientY + "px" }, { duration: 500, fill: "forwards" });
             });
-            targets.forEach(el => {
+            document.querySelectorAll('.hover-target').forEach(el => {
                 el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
                 el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
             });
         }
 
-        // FADE IN
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
+        // 4. ANIMATION OBSERVER (WIPE EFFECT & FADE)
+        // Combined logic to ensure images load immediately
+        function checkScroll() {
+            const elements = document.querySelectorAll('.fade-in, .item-img-wrapper');
+            elements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                if (rect.top < windowHeight * 0.9) {
+                    el.style.opacity = 1;
+                    el.style.transform = 'translateY(0)';
+                    el.classList.add('visible'); // Triggers clip-path wipe
                 }
             });
-        }, { threshold: 0.1 });
+        }
 
-        document.querySelectorAll('.fade-in').forEach(el => {
-            el.style.opacity = 0;
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.8s ease';
-            observer.observe(el);
-        });
+        window.addEventListener('scroll', checkScroll);
+        
+        // Initial check for elements already in view
+        setTimeout(checkScroll, 1100); 
 
-        // FILTER LOGIC
+        // 5. FILTER LOGIC
         function filterSelection(c, btn) {
             var buttons = document.getElementsByClassName("filter-btn");
             for (var i = 0; i < buttons.length; i++) {
@@ -432,25 +524,29 @@
             }
             btn.classList.add("active");
 
-            var x = document.getElementsByClassName("portfolio-item");
-            for (var i = 0; i < x.length; i++) {
-                x[i].style.opacity = "0";
-                x[i].style.transform = "translateY(20px)";
+            var items = document.getElementsByClassName("portfolio-item");
+            for (var i = 0; i < items.length; i++) {
+                let item = items[i];
+                let imgWrapper = item.querySelector('.item-img-wrapper');
                 
-                setTimeout((function(item) {
-                    return function() {
-                        if (c == "all") c = "";
-                        if (item.getAttribute("data-cat").indexOf(c) > -1) {
-                            item.classList.remove("hidden");
-                            setTimeout(() => {
-                                item.style.opacity = "1";
-                                item.style.transform = "translateY(0)";
-                            }, 50);
-                        } else {
-                            item.classList.add("hidden");
-                        }
+                // Hide animation
+                item.style.opacity = "0";
+                item.style.transform = "scale(0.95)";
+                imgWrapper.classList.remove('visible'); // Reset wipe
+                
+                setTimeout(() => {
+                    if (c == "all" || item.getAttribute("data-cat").indexOf(c) > -1) {
+                        item.classList.remove("hidden");
+                        // Reveal animation
+                        setTimeout(() => {
+                            item.style.opacity = "1";
+                            item.style.transform = "scale(1)";
+                            imgWrapper.classList.add('visible'); // Re-trigger wipe
+                        }, 50);
+                    } else {
+                        item.classList.add("hidden");
                     }
-                })(x[i]), 300);
+                }, 300);
             }
         }
     </script>
