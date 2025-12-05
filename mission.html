@@ -28,8 +28,7 @@
 
         /* --- UTILS --- */
         .container { max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
-        .noise { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9000; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
-
+        
         /* --- CURSOR --- */
         @media (hover: hover) and (pointer: fine) {
             .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; }
@@ -59,110 +58,74 @@
         .menu-link { font-family: 'Montserrat'; font-size: 3rem; color: rgba(255,255,255,0.3); text-decoration: none; margin: 0.5rem 0; transition: 0.3s; font-weight: 900; }
         .menu-link:hover { color: var(--gold); letter-spacing: 2px; }
 
-        /* --- HEADER --- */
+        /* --- PARALLAX HERO SECTION --- */
         .page-header {
-            height: 60vh; width: 100%;
-            background-color: var(--deep-navy);
+            height: 70vh; width: 100%;
             display: flex; align-items: center; justify-content: center;
             position: relative; overflow: hidden;
         }
-        .header-bg-text {
-            position: absolute; bottom: -5%; left: 50%; transform: translateX(-50%);
-            font-size: 18vw; font-weight: 900; color: rgba(255,255,255,0.02);
-            white-space: nowrap; pointer-events: none;
+        
+        /* The Parallax Image */
+        .hero-bg-img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 120%; /* Taller for parallax room */
+            object-fit: cover;
+            z-index: 0;
+            filter: brightness(0.6); /* Darken for readability */
+            will-change: transform;
         }
-        .header-content { text-align: center; color: white; z-index: 2; }
-        .header-title { font-size: 4rem; margin-bottom: 1rem; opacity: 0; animation: fadeUp 1s forwards 0.3s; }
-        .header-sub { font-family: 'Playfair Display'; font-size: 1.5rem; color: var(--gold); opacity: 0; animation: fadeUp 1s forwards 0.5s; }
+
+        .header-content { text-align: center; color: white; z-index: 2; position: relative; }
+        
+        /* Restored Word Formatting */
+        .header-title { 
+            font-size: 4.5rem; margin-bottom: 1rem; opacity: 0; 
+            animation: fadeUp 1s forwards 0.3s; 
+            font-weight: 900; letter-spacing: -2px;
+        }
+        
+        .header-sub { 
+            font-family: 'Playfair Display'; font-size: 1.5rem; color: var(--gold); 
+            opacity: 0; animation: fadeUp 1s forwards 0.5s; 
+            position: relative; display: inline-block; padding-bottom: 15px;
+        }
+        
+        /* The Divider Line */
+        .header-sub::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 60px; height: 2px; background: var(--burgundy);
+        }
 
         @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- MISSION SECTION (WHITE) --- */
-        .mission-section {
-            padding: 10rem 0 4rem; 
-            position: relative;
-            background: var(--white); /* White Background */
-            color: var(--deep-navy);  /* Dark Text */
-        }
-        .mission-grid {
-            display: grid; grid-template-columns: 1fr; gap: 4rem; text-align: center;
-            max-width: 1000px; margin: 0 auto;
-        }
+        /* --- MISSION SECTION --- */
+        .mission-section { padding: 10rem 0 4rem; background: var(--white); color: var(--deep-navy); }
+        .mission-grid { max-width: 1000px; margin: 0 auto; text-align: center; }
         
-        .section-label {
-            display: block; font-family: 'Montserrat'; font-weight: 700; 
-            letter-spacing: 4px; margin-bottom: 2rem;
-            font-size: 0.9rem; text-transform: uppercase;
-        }
-
-        /* Mission Specific Colors */
-        .mission-section .section-label { color: var(--burgundy); }
-        .mission-section .statement-text { color: var(--deep-navy); }
-        .mission-section .statement-text span { color: var(--burgundy); border-bottom: 2px solid var(--wood); }
-
-        .statement-text {
-            font-family: 'Playfair Display'; font-size: 3rem; line-height: 1.4;
-            margin-bottom: 1rem; font-style: italic;
-        }
+        .section-label { display: block; font-family: 'Montserrat'; font-weight: 700; letter-spacing: 4px; margin-bottom: 2rem; font-size: 0.9rem; color: var(--burgundy); }
+        
+        .statement-text { font-family: 'Playfair Display'; font-size: 3rem; line-height: 1.4; margin-bottom: 1rem; font-style: italic; }
+        .statement-text span { color: var(--burgundy); border-bottom: 2px solid var(--wood); }
 
         /* --- CONNECTOR --- */
-        .connector-wrapper {
-            height: 100px; width: 100%;
-            background: linear-gradient(to bottom, white, transparent); /* Fade into image */
-            display: flex; justify-content: center; align-items: center;
-            position: relative; z-index: 5;
-        }
-        .connector-line {
-            width: 1px; height: 100%; 
-            background: var(--wood);
-        }
+        .connector-wrapper { height: 100px; width: 100%; background: linear-gradient(to bottom, white, transparent); display: flex; justify-content: center; align-items: center; position: relative; z-index: 5; }
+        .connector-line { width: 1px; height: 100%; background: var(--wood); }
 
-        /* --- VISION SECTION (IMAGE BACKGROUND) --- */
+        /* --- VISION SECTION --- */
         .vision-section {
-            padding: 10rem 0; 
-            position: relative; 
-            /* Architectural Background */
+            padding: 10rem 0; position: relative; 
             background: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
-            background-size: cover;
-            background-attachment: fixed;
-            color: white;
+            background-size: cover; background-attachment: fixed; color: white;
         }
-        
-        /* Dark Overlay */
-        .vision-section::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 10, 20, 0.85); z-index: 1;
-        }
-
-        .vision-box {
-            border-left: 5px solid var(--gold); /* Gold border for vision */
-            padding-left: 4rem; margin-left: 10vw;
-            position: relative; z-index: 2;
-        }
-        
+        .vision-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 10, 20, 0.85); z-index: 1; }
+        .vision-box { border-left: 5px solid var(--gold); padding-left: 4rem; margin-left: 10vw; position: relative; z-index: 2; }
         .vision-section .section-label { color: var(--gold); }
-        
-        .vision-text {
-            font-family: 'Montserrat'; font-size: 2.5rem; font-weight: 300;
-            color: rgba(255,255,255,0.9); line-height: 1.5;
-        }
+        .vision-text { font-family: 'Montserrat'; font-size: 2.5rem; font-weight: 300; color: rgba(255,255,255,0.9); line-height: 1.5; }
         .vision-text strong { font-weight: 800; color: white; }
 
-        /* --- TAGLINE BANNER --- */
-        .tagline-section {
-            padding: 8rem 0; background: var(--wood); color: white; text-align: center;
-            position: relative; overflow: hidden;
-        }
-        .big-tagline {
-            font-family: 'Montserrat'; font-weight: 900; font-size: 4vw; 
-            text-transform: uppercase; letter-spacing: -1px; line-height: 1.2;
-        }
-        
-        .pattern-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 30px 30px; pointer-events: none;
-        }
+        /* --- TAGLINE --- */
+        .tagline-section { padding: 8rem 0; background: var(--wood); color: white; text-align: center; position: relative; overflow: hidden; }
+        .big-tagline { font-family: 'Montserrat'; font-weight: 900; font-size: 4vw; text-transform: uppercase; letter-spacing: -1px; line-height: 1.2; position: relative; z-index: 2; }
+        .pattern-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 30px 30px; pointer-events: none; }
 
         /* --- FOOTER --- */
         footer { background: var(--deep-navy); color: white; padding: 5rem 0; border-top: 4px solid var(--burgundy); }
@@ -174,17 +137,12 @@
         /* --- MOBILE --- */
         @media (max-width: 900px) {
             .header-title { font-size: 3rem; }
-            .statement-text { font-size: 2rem; }
-            .vision-text { font-size: 1.8rem; }
-            .vision-box { padding-left: 2rem; margin-left: 0; border-left-width: 3px; }
-            .big-tagline { font-size: 2.5rem; }
             .cursor-dot, .cursor-outline { display: none; }
         }
     </style>
 </head>
 <body class="hover-target">
 
-    <div class="noise"></div>
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
@@ -208,9 +166,10 @@
     </nav>
 
     <header class="page-header">
-        <div class="header-bg-text">PURPOSE</div>
+        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070" class="hero-bg-img" alt="Background">
+        
         <div class="header-content">
-            <h1 class="header-title">OUR<br>PURPOSE</h1>
+            <h1 class="header-title">OUR PURPOSE</h1>
             <div class="header-sub">The Why Behind The Way</div>
         </div>
     </header>
@@ -324,6 +283,16 @@
             el.style.transform = 'translateY(30px)';
             el.style.transition = 'all 0.8s ease';
             observer.observe(el);
+        });
+
+        // PARALLAX EFFECT (New)
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const bgImg = document.querySelector('.hero-bg-img');
+            if(bgImg) {
+                // Move background slower than scroll speed (0.5)
+                bgImg.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
         });
     </script>
 </body>

@@ -7,239 +7,333 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- DESIGN SYSTEM --- */
+        /* --- DESIGN TOKENS --- */
         :root {
             --burgundy: #800020;
             --wood: #C19A6B;
-            --gold: #D4AF37;
-            --deep-navy: #050a14;
-            --paper: #f9f9f9;
             --white: #ffffff;
+            --off-white: #f9f9f9;
+            --black: #1a1a1a;
+            --gray: #666666;
+            
             --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
-            --container-width: 1200px;
+            --ease-out: cubic-bezier(0.165, 0.84, 0.44, 1);
+            --container-width: 1400px;
         }
 
+        /* --- BASE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        body { background-color: var(--paper); color: #222; font-family: 'Lato', sans-serif; overflow-x: hidden; }
-
-        /* --- UTILS --- */
-        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
         
-        /* --- TEXTURE (Fixed & Visible) --- */
-        .noise { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            pointer-events: none; z-index: 9000; opacity: 0.06; 
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        body {
+            background-color: var(--white);
+            color: var(--black);
+            font-family: 'Lato', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
         }
 
-        /* --- CURSOR --- */
+        /* --- BACKGROUND GRID --- */
+        .grid-lines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
+            display: flex; justify-content: space-between; padding: 0 5vw;
+        }
+        .line-v { width: 1px; height: 100%; background: rgba(0,0,0,0.05); }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+            position: relative; z-index: 2;
+        }
+
+        /* --- CUSTOM CURSOR --- */
         @media (hover: hover) and (pointer: fine) {
-            .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; }
-            .cursor-dot { width: 6px; height: 6px; background-color: var(--burgundy); }
-            .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(128, 0, 32, 0.3); transition: 0.1s; }
-            body.hovering .cursor-outline { width: 80px; height: 80px; background-color: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
+            .cursor-dot, .cursor-outline {
+                position: fixed; top: 0; left: 0;
+                transform: translate(-50%, -50%); border-radius: 50%;
+                z-index: 9999; pointer-events: none;
+                mix-blend-mode: difference;
+            }
+            .cursor-dot { width: 6px; height: 6px; background-color: white; }
+            .cursor-outline {
+                width: 40px; height: 40px;
+                border: 1px solid rgba(255, 255, 255, 0.5);
+                transition: width 0.2s, height 0.2s, background-color 0.2s;
+            }
+            body.hovering .cursor-outline {
+                width: 80px; height: 80px;
+                background-color: rgba(255, 255, 255, 0.1);
+                border-color: white;
+            }
         }
 
         /* --- TYPOGRAPHY --- */
-        h1, h2, h3 { font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: -1px; }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; text-transform: uppercase; }
         .serif { font-family: 'Playfair Display', serif; font-style: italic; }
-        
-        /* --- DECORATIONS --- */
-        .vertical-decor {
-            writing-mode: vertical-rl; text-orientation: mixed;
-            position: absolute; top: 100px; right: 5vw;
-            font-family: 'Montserrat'; font-weight: 900; font-size: 4rem;
-            color: rgba(0,0,0,0.03); user-select: none; pointer-events: none; z-index: 0;
-        }
 
-        /* --- NAV --- */
-        nav { position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 0; z-index: 100; mix-blend-mode: difference; color: white; }
-        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: 900; font-size: 1.4rem; text-decoration: none; color: white; }
-        .menu-trigger { font-weight: 700; cursor: pointer; font-size: 0.9rem; letter-spacing: 1px; }
+        /* --- LOADER --- */
+        .loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--burgundy);
+            z-index: 10000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: transform 1s var(--ease-smooth);
+        }
+        .loader h1 { color: white; font-size: 4vw; opacity: 0; animation: fadeUp 0.8s forwards 0.2s; letter-spacing: -1px; }
+        .loader-line { width: 0%; height: 2px; background: var(--wood); margin-top: 1rem; animation: loadLine 1.2s forwards; }
+        .loader.hide { transform: translateY(-100%); }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes loadLine { to { width: 150px; } }
 
         /* --- MENU OVERLAY --- */
         .menu-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: var(--deep-navy); z-index: 99;
+            background: #111;
+            z-index: 9500;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transform: translateY(-100%); transition: transform 0.8s var(--ease-smooth);
+            transform: translateY(-100%);
+            transition: transform 0.8s var(--ease-smooth);
         }
         .menu-overlay.active { transform: translateY(0); }
-        .menu-link { font-family: 'Montserrat'; font-size: 3rem; color: rgba(255,255,255,0.3); text-decoration: none; margin: 0.5rem 0; transition: 0.3s; font-weight: 900; }
-        .menu-link:hover { color: var(--gold); letter-spacing: 2px; }
+        .menu-link {
+            font-family: 'Montserrat'; font-size: 3.5rem; color: rgba(255,255,255,0.3);
+            text-decoration: none; margin: 0.5rem 0; transition: 0.3s;
+            position: relative; font-weight: 900; letter-spacing: -1px;
+        }
+        .menu-link:hover { color: white; letter-spacing: 0px; }
 
-        /* --- HEADER --- */
+        /* --- NAV --- */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 2rem 0;
+            z-index: 9600; 
+            background: transparent;
+            mix-blend-mode: difference;
+            color: white;
+        }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo { font-weight: 900; font-size: 1.4rem; letter-spacing: -0.5px; color: white; text-decoration: none; }
+        .menu-trigger { font-weight: 700; cursor: pointer; font-size: 0.9rem; position: relative; letter-spacing: 1px; color: white; }
+        .menu-trigger::after { content: ''; display: block; width: 100%; height: 2px; background: white; margin-top: 4px; transition: 0.3s; }
+        .menu-trigger:hover::after { width: 50%; }
+
+        /* --- HEADER (Static Image Background) --- */
         .page-header {
-            height: 60vh; width: 100%;
-            background-color: var(--deep-navy);
-            display: flex; align-items: center; justify-content: center;
-            position: relative; overflow: hidden;
-        }
-        .header-bg-text {
-            position: absolute; bottom: -5%; left: 50%; transform: translateX(-50%);
-            font-size: 18vw; font-weight: 900; color: rgba(255,255,255,0.02);
-            white-space: nowrap; pointer-events: none;
-        }
-        .header-content { text-align: center; color: white; z-index: 2; }
-        .header-title { font-size: 4rem; margin-bottom: 1rem; opacity: 0; animation: fadeUp 1s forwards 0.3s; }
-        .header-sub { 
-            font-family: 'Playfair Display'; font-size: 1.5rem; color: var(--gold); 
-            opacity: 0; animation: fadeUp 1s forwards 0.5s; position: relative; display: inline-block;
-        }
-        .header-sub::after {
-            content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
-            width: 40px; height: 2px; background: var(--burgundy);
-        }
-
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- MERIDIAN LINE (ADJUSTED POSITION) --- */
-        .meridian-container {
-            position: fixed; 
-            top: 0; 
-            left: 35%; /* FIX: MOVED TO ALIGN WITH LEFT EDGE OF DESCRIPTION COLUMN */
-            width: 1px; height: 100vh; z-index: 2; /* Above content but below menu */
-            pointer-events: none;
-        }
-        .meridian-track { width: 100%; height: 100%; background: rgba(0,0,0,0.06); }
-        .meridian-line {
-            width: 1px; height: 0%; 
-            background: linear-gradient(to bottom, var(--burgundy), var(--gold));
-            transition: height 0.1s linear;
-            position: absolute; top: 0; left: 0;
-        }
-
-        /* --- STICKY STORY --- */
-        .sticky-story-section { position: relative; }
-        .sticky-container { display: flex; min-height: 150vh; position: relative; }
-
-        /* Left Column (Sticky) */
-        .sticky-left {
-            width: 35%; /* Matches the meridian line position */
-            position: sticky; top: 0; height: 100vh;
+            height: 70vh;
             display: flex; flex-direction: column; justify-content: center;
-            padding: 4rem; 
-            background: var(--paper); z-index: 5;
-        }
-
-        .sticky-title-wrapper { position: relative; height: 150px; overflow: hidden; }
-        .sticky-title {
-            font-size: 3.5rem; color: var(--deep-navy); line-height: 1;
-            position: absolute; top: 50%; transform: translateY(-50%);
-            transition: all 0.6s var(--ease-smooth); white-space: nowrap;
-        }
-        .sticky-title.state-who { opacity: 1; transform: translateY(-50%); }
-        .sticky-title.state-values { opacity: 0; transform: translateY(50%); }
-
-        .sticky-title-secondary {
-            font-size: 3.5rem; color: var(--burgundy); line-height: 1;
-            position: absolute; top: 50%; transform: translateY(-150%);
-            opacity: 0; transition: all 0.6s var(--ease-smooth); white-space: nowrap;
-        }
-        .sticky-title-secondary.active { opacity: 1; transform: translateY(-50%); }
-
-        .story-line { width: 60px; height: 4px; background: var(--burgundy); margin-top: 2rem; }
-
-        /* Right Scroll Area */
-        .scrolling-right { 
-            width: 65%; 
-            padding: 8rem 6rem; /* Generous padding to separate from line */
-            position: relative; 
-        }
-
-        .text-block h2 { font-size: 2.5rem; margin-bottom: 2rem; line-height: 1.1; color: #111; }
-        .text-block p { margin-bottom: 1.5rem; line-height: 1.8; color: #555; font-size: 1.1rem; }
-        .highlight { color: var(--burgundy); font-weight: 700; border-bottom: 1px solid var(--wood); }
-
-        .editorial-tag {
-            display: flex; align-items: center; gap: 1rem; margin-top: 2.5rem; margin-bottom: 4rem; opacity: 0.7;
-        }
-        .editorial-line { width: 40px; height: 1px; background: var(--gold); }
-        .editorial-text { 
-            font-family: 'Montserrat'; font-size: 0.75rem; letter-spacing: 3px; 
-            font-weight: 700; color: var(--deep-navy); text-transform: uppercase;
-        }
-
-        .image-frame { 
-            position: relative; height: 500px; width: 100%; margin-bottom: 8rem; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-        }
-        .image-frame img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* --- VALUES GRID --- */
-        .values-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
-        
-        .value-item { 
-            background: white; padding: 3rem; 
-            border: 1px solid #eee; transition: 0.3s; position: relative; overflow: hidden;
-        }
-        .value-item:hover { 
-            transform: translateY(-5px); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05); 
-            border-color: var(--wood); 
+            position: relative;
+            overflow: hidden;
         }
         
-        /* Vertical Slide Effect */
-        .value-item::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 0%; 
-            background: var(--burgundy); transition: 0.3s;
+        .header-bg-img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7) contrast(1.1);
+            z-index: 0;
         }
-        .value-item:hover::before { height: 100%; }
 
-        .value-icon { font-size: 2rem; color: var(--gold); margin-bottom: 1.5rem; transition: 0.3s; }
-        .value-item:hover .value-icon { color: var(--burgundy); transform: scale(1.1); }
+        .header-content {
+            position: relative; z-index: 2; padding: 0 5vw;
+            color: white;
+        }
         
-        .value-item h3 { font-size: 1.4rem; margin-bottom: 1rem; color: var(--deep-navy); }
-        .value-item p { color: #666; line-height: 1.6; font-size: 0.95rem; }
+        .header-label {
+            font-family: 'Montserrat'; font-size: 0.8rem; letter-spacing: 2px; color: var(--wood); font-weight: 700;
+            margin-bottom: 1rem; opacity: 0; animation: fadeUp 1s forwards 0.5s;
+        }
+        
+        .header-title-wrap { overflow: hidden; margin-bottom: 0.5rem; }
+        .header-title {
+            font-size: clamp(3.5rem, 9vw, 9rem); line-height: 0.85; font-weight: 900; 
+            letter-spacing: -3px; color: white; text-transform: uppercase;
+            transform: translateY(100%); animation: slideText 1.2s var(--ease-out) forwards 0.6s;
+        }
+        
+        @keyframes slideText { to { transform: translateY(0); } }
+
+        /* --- SPLIT LAYOUT ENGINE --- */
+        .split-layout {
+            display: grid;
+            grid-template-columns: 30% 70%;
+            min-height: 100vh;
+            position: relative;
+            background: var(--white);
+        }
+
+        /* LEFT: Mechanical Sidebar */
+        .sidebar {
+            border-right: 1px solid rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 5;
+            background: var(--white);
+        }
+        
+        .sidebar-inner {
+            position: sticky; top: 0;
+            height: 100vh;
+            padding: 0 3rem;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        
+        /* The Mechanical Title Animation */
+        .title-mask {
+            height: 60px; /* Viewport for one line */
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .sidebar-titles {
+            display: flex; flex-direction: column;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); /* Mechanical easing */
+        }
+        .sidebar-title {
+            font-size: 2rem; font-weight: 900; color: var(--black);
+            line-height: 60px; height: 60px; white-space: nowrap;
+            letter-spacing: -1px;
+        }
+        
+        .sidebar-decoration {
+            width: 100%; height: 1px; background: rgba(0,0,0,0.1); position: relative;
+        }
+        .sidebar-decoration::after {
+            content: ''; position: absolute; left: 0; top: -2px; width: 40px; height: 5px; background: var(--burgundy);
+        }
+
+        /* RIGHT: Content */
+        .content-area { background: var(--white); position: relative; }
+
+        .content-block {
+            padding: 8rem 6rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            min-height: 80vh;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+
+        /* Typography */
+        .lead-text {
+            font-size: 2rem; line-height: 1.4; font-weight: 400; color: var(--black); margin-bottom: 2rem;
+            opacity: 0; transform: translateY(30px); transition: 1s var(--ease-out);
+        }
+        .lead-text.active { opacity: 1; transform: translateY(0); }
+        .lead-text .highlight { font-family: 'Playfair Display'; font-style: italic; color: var(--burgundy); font-weight: 400; }
+        
+        .body-text {
+            font-size: 1.1rem; line-height: 1.8; color: var(--gray); max-width: 650px; margin-bottom: 3rem;
+            opacity: 0; transform: translateY(30px); transition: 1s 0.2s var(--ease-out);
+        }
+        .body-text.active { opacity: 1; transform: translateY(0); }
+
+        /* PICTURE FRAMES (Restored) */
+        .image-frame {
+            position: relative; width: 100%; height: 550px;
+            /* Frame Styling */
+            padding: 15px; background: white;
+            border: 1px solid #eee;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            
+            opacity: 0; transform: translateY(50px); transition: 1s var(--ease-out);
+        }
+        .image-frame.active { opacity: 1; transform: translateY(0); }
+
+        /* The Wipe Reveal Inner */
+        .image-inner {
+            width: 100%; height: 100%; overflow: hidden; position: relative;
+        }
+        .image-inner img {
+            width: 100%; height: 100%; object-fit: cover;
+            clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+            transition: clip-path 1.5s cubic-bezier(0.65, 0, 0.35, 1), transform 2s ease;
+            transform: scale(1.1);
+            filter: grayscale(100%);
+        }
+        .image-frame.active img { 
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); 
+            transform: scale(1);
+        }
+        .image-frame:hover img { filter: grayscale(0%); transform: scale(1.05); }
+
+        /* --- VALUES LIST (Line Style from Reference) --- */
+        .values-list { margin-top: 4rem; border-top: 1px solid rgba(0,0,0,0.1); }
+        
+        .value-row {
+            display: grid; grid-template-columns: 80px 1fr;
+            padding: 3rem 0; border-bottom: 1px solid rgba(0,0,0,0.1);
+            transition: background 0.3s;
+            opacity: 0; transform: translateY(20px); transition: all 0.6s ease;
+        }
+        .value-row.active { opacity: 1; transform: translateY(0); }
+        .value-row:hover { background: var(--off-white); }
+        
+        .v-num { font-family: 'Montserrat'; font-weight: 700; color: var(--wood); font-size: 1rem; }
+        .v-content h3 { font-size: 1.8rem; margin-bottom: 0.8rem; color: var(--black); font-weight: 800; letter-spacing: -1px; text-transform: uppercase; }
+        .v-content p { font-size: 1rem; color: var(--gray); line-height: 1.6; max-width: 600px; }
+
+        /* --- MARQUEE --- */
+        .marquee {
+            background: var(--burgundy); color: white; padding: 1.5rem 0;
+            overflow: hidden; width: 100%; position: relative; z-index: 10;
+        }
+        .marquee-inner { display: flex; gap: 4rem; white-space: nowrap; animation: scroll 30s linear infinite; }
+        .marquee span { font-family: 'Montserrat'; font-weight: 800; font-size: 1.5rem; letter-spacing: 2px; }
+        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
         /* --- FOOTER --- */
-        footer { background: var(--deep-navy); color: white; padding: 5rem 0; border-top: 4px solid var(--burgundy); position: relative; z-index: 10; }
+        footer { background: #111; color: white; padding: 6rem 0; position: relative; z-index: 10; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 4rem; }
-        .footer-col h4 { color: var(--gold); margin-bottom: 1.5rem; letter-spacing: 1px; }
+        .footer-col h4 { color: var(--wood); margin-bottom: 1.5rem; letter-spacing: 1px; }
         .footer-col a { color: #888; display: block; margin-bottom: 0.8rem; text-decoration: none; transition: 0.3s; }
         .footer-col a:hover { color: white; }
 
         /* --- MOBILE --- */
         @media (max-width: 1024px) {
-            .sticky-container { flex-direction: column; }
-            .sticky-left { 
-                width: 100%; height: auto; position: relative; 
-                padding: 4rem 2rem; text-align: center; border-bottom: 1px solid #eee;
-            }
-            .scrolling-right { width: 100%; padding: 4rem 2rem; }
+            .header-title { font-size: 4rem; }
+            .split-layout { grid-template-columns: 1fr; display: flex; flex-direction: column; }
+            .sidebar { height: auto; border-right: none; border-bottom: 1px solid #eee; }
+            .sidebar-inner { height: auto; padding: 2rem; position: relative; top: auto; }
+            .title-mask { height: auto; margin: 0; }
+            .sidebar-titles { transform: none !important; }
+            .sidebar-title { font-size: 1.5rem; line-height: normal; height: auto; display: none; }
+            .sidebar-title:first-child { display: block; content: "ABOUT US"; }
+            .sidebar-decoration { display: none; }
             
-            /* Hide Meridian on Mobile as columns stack */
-            .meridian-container { display: none; }
-
-            .sticky-title-wrapper { height: auto; }
-            .sticky-title, .sticky-title-secondary { position: relative; top: auto; transform: none !important; opacity: 1 !important; font-size: 2.5rem; margin-bottom: 1rem; }
-            .sticky-title-secondary { color: var(--deep-navy); }
-            .story-line { margin: 0 auto 2rem; }
+            .content-block { padding: 4rem 2rem; min-height: auto; }
+            .image-frame { height: 350px; }
+            .lead-text { font-size: 1.6rem; }
+            .value-row { grid-template-columns: 1fr; gap: 1rem; }
             
-            .values-grid { grid-template-columns: 1fr; }
+            .grid-lines { display: none; }
             .cursor-dot, .cursor-outline { display: none; }
         }
     </style>
 </head>
 <body class="hover-target">
 
-    <div class="noise"></div>
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
+    <div class="grid-lines">
+        <div class="line-v"></div>
+        <div class="line-v"></div>
+        <div class="line-v"></div>
+    </div>
+
+    <div class="loader">
+        <h1>THE FULL PICTURE</h1>
+        <div class="loader-line"></div>
+    </div>
+
     <div class="menu-overlay" id="menuOverlay">
-        <a href="index.html" class="menu-link hover-target" data-text="HOME">HOME</a>
-        <a href="about.html" class="menu-link hover-target" data-text="ABOUT">ABOUT</a>
-        <a href="mission.html" class="menu-link hover-target" data-text="MISSION">MISSION</a>
-        <a href="portfolio.html" class="menu-link hover-target" data-text="PORTFOLIO">PORTFOLIO</a>
-        <a href="services.html" class="menu-link hover-target" data-text="SERVICES">SERVICES</a>
-        <a href="trainer.html" class="menu-link hover-target" data-text="TRAINER">TRAINER</a>
-        <a href="contact.html" class="menu-link hover-target" data-text="CONTACT">CONTACT</a>
+        <a href="index.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="HOME">HOME</a>
+        <a href="about.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="ABOUT US">ABOUT</a>
+        <a href="services.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="SERVICES">SERVICES</a>
+        <a href="contact.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="CONTACT">CONTACT</a>
     </div>
 
     <nav>
@@ -252,82 +346,121 @@
     </nav>
 
     <header class="page-header">
-        <div class="header-bg-text">PHILOSOPHY</div>
-        <div class="header-content">
-            <h1 class="header-title">ABOUT US</h1>
-            <div class="header-sub">Our Journey & Philosophy</div>
+        <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=2070" class="header-bg-img" alt="Background">
+        
+        <div class="container header-content">
+            <div class="header-label">OUR PHILOSOPHY</div>
+            <div class="header-title-wrap">
+                <h1 class="header-title">ABOUT</h1>
+            </div>
+            <div class="header-title-wrap">
+                <h1 class="header-title">US & THEM</h1>
+            </div>
         </div>
     </header>
 
-    <div class="meridian-container">
-        <div class="meridian-track"></div>
-        <div class="meridian-line"></div>
-    </div>
-
-    <div class="sticky-story-section">
-        <div class="sticky-container">
+    <div class="container">
+        <div class="split-layout">
             
-            <div class="vertical-decor">全图</div>
-
-            <div class="sticky-left">
-                <div class="sticky-title-wrapper">
-                    <h2 class="sticky-title state-who">WHO WE ARE</h2>
-                    <h2 class="sticky-title-secondary">CORE VALUES</h2>
+            <aside class="sidebar">
+                <div class="sidebar-inner">
+                    <div class="title-mask">
+                        <div class="sidebar-titles" id="sidebarTitles">
+                            <div class="sidebar-title">WHO WE ARE</div>
+                            <div class="sidebar-title">CORE VALUES</div>
+                            <div class="sidebar-title">LEAD TRAINER</div>
+                        </div>
+                    </div>
+                    <div class="sidebar-decoration"></div>
                 </div>
-                <div class="story-line"></div>
-            </div>
+            </aside>
 
-            <div class="scrolling-right">
+            <main class="content-area">
                 
-                <div class="text-block fade-in">
-                    <h2>Aligning Mind, Body, and Spirit for Business Growth.</h2>
-                    <p>
-                        THE FULL PICTURE is a premier training consultancy that blends ancient knowledge with modern business strategies. Our holistic approach integrates <span class="highlight">leadership development, wealth empowerment, and metaphysical practices</span>, helping you create balance, unlock potential, and achieve success.
+                <div class="content-block" id="block-who">
+                    <p class="lead-text scroll-reveal">
+                        We blend <span class="highlight">ancient wisdom</span> with modern business strategies to create holistic success.
                     </p>
-                    <p>
-                        Over the years, we’ve helped individuals and companies find their true path, activate wealth, and foster effective leadership through personalized coaching, masterclasses, and geomancy consultations.
+                    <p class="body-text scroll-reveal">
+                        THE FULL PICTURE is a premier training consultancy based in Singapore. Our approach isn't just about theory; it's about actionable alignment. We help individuals and organizations unlock their true potential by harmonizing leadership development with metaphysical practices.
                     </p>
                     
-                    <div class="editorial-tag">
-                        <div class="editorial-line"></div>
-                        <div class="editorial-text">Wisdom & Strategy</div>
+                    <div class="image-frame hover-target">
+                        <div class="image-inner">
+                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070" alt="Consulting Team">
+                        </div>
                     </div>
                 </div>
 
-                <div class="image-frame fade-in">
-                    <img src="image_d1ef1a.jpg" alt="Consultancy Session">
-                </div>
-
-                <div id="valuesTrigger"></div>
-
-                <div class="values-grid">
-                    <div class="value-item hover-target fade-in">
-                        <div class="value-icon"><i class="fas fa-circle-notch"></i></div>
-                        <h3>Holistic</h3>
-                        <p>We believe in aligning mind, body, and spirit for business and personal growth. Success isn't just financial; it's structural and spiritual.</p>
-                    </div>
-                    <div class="value-item hover-target fade-in">
-                        <div class="value-icon"><i class="fas fa-fire"></i></div>
-                        <h3>Transformative</h3>
-                        <p>Our goal is to empower individuals and organizations to reach their full potential through profound "Awakening" moments.</p>
-                    </div>
-                    <div class="value-item hover-target fade-in">
-                        <div class="value-icon"><i class="fas fa-briefcase"></i></div>
-                        <h3>Practical</h3>
-                        <p>Ancient wisdom isn’t just theoretical — it’s actionable and practical in today’s business world. We apply metaphysics directly to modern ROI.</p>
-                    </div>
-                    <div class="value-item hover-target fade-in">
-                        <div class="value-icon"><i class="fas fa-gem"></i></div>
-                        <h3>Success</h3>
-                        <p>We’re committed to helping our clients achieve Wealth, Success, and Harmonious Leadership in their specific industries.</p>
+                <div class="marquee">
+                    <div class="marquee-inner">
+                        <span>TRANSFORMATION • STRATEGY • WISDOM • SUCCESS • TRANSFORMATION • STRATEGY • WISDOM • SUCCESS •</span>
                     </div>
                 </div>
 
-            </div>
+                <div class="content-block" id="block-values">
+                    <p class="lead-text scroll-reveal">
+                        Principles that guide our <span class="highlight">Transformation.</span>
+                    </p>
+                    
+                    <div class="values-list">
+                        <div class="value-row scroll-reveal">
+                            <div class="v-num">01</div>
+                            <div class="v-content">
+                                <h3>HOLISTIC</h3>
+                                <p>We believe in aligning mind, body, and spirit. Success is structural and spiritual.</p>
+                            </div>
+                        </div>
+                        <div class="value-row scroll-reveal" style="transition-delay: 0.1s;">
+                            <div class="v-num">02</div>
+                            <div class="v-content">
+                                <h3>PRACTICAL</h3>
+                                <p>Ancient wisdom isn't just theoretical. We make metaphysics actionable for modern ROI.</p>
+                            </div>
+                        </div>
+                        <div class="value-row scroll-reveal" style="transition-delay: 0.2s;">
+                            <div class="v-num">03</div>
+                            <div class="v-content">
+                                <h3>TRANSFORMATIVE</h3>
+                                <p>Empowering leaders to reach "Awakening" moments that shift their entire trajectory.</p>
+                            </div>
+                        </div>
+                        <div class="value-row scroll-reveal" style="transition-delay: 0.3s;">
+                            <div class="v-num">04</div>
+                            <div class="v-content">
+                                <h3>SUCCESS</h3>
+                                <p>Committed to helping our clients achieve Wealth and Harmonious Leadership.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-block" id="block-trainer" style="border-bottom: none;">
+                    
+                    <div class="image-frame hover-target" style="margin-bottom: 3rem;">
+                        <div class="image-inner">
+                            <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2071" alt="Jose He">
+                        </div>
+                    </div>
+
+                    <p class="lead-text scroll-reveal">
+                        <span class="highlight">Jose He (何德伟)</span>
+                    </p>
+                    
+                    <p class="body-text scroll-reveal">
+                        "My true path is to continue my family's legacy and bring it to new heights — 发扬光大."
+                    </p>
+                    
+                    <p class="body-text scroll-reveal">
+                        Coming from a family with deep expertise in geomancy, Jose experienced a profound "Destiny Awakening" that led him to bridge the gap between Bazi/Feng Shui and Corporate Strategy.
+                    </p>
+                </div>
+
+            </main>
         </div>
     </div>
 
-    <footer>
+    <footer id="contact">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
@@ -343,17 +476,24 @@
                     <p>Singapore</p>
                 </div>
                 <div class="footer-col">
-                    <h4>LINKS</h4>
-                    <a href="about.html">About Us</a>
-                    <a href="services.html">Services</a>
-                    <a href="contact.html">Contact</a>
+                    <h4>SOCIAL</h4>
+                    <a href="#" class="hover-target">Instagram</a>
+                    <a href="#" class="hover-target">LinkedIn</a>
+                    <a href="#" class="hover-target">Facebook</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // MENU
+        // 1. LOADER
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loader').classList.add('hide');
+            }, 1000);
+        });
+
+        // 2. MENU TOGGLE
         let menuOpen = false;
         function toggleMenu() {
             const overlay = document.getElementById('menuOverlay');
@@ -366,80 +506,71 @@
             } else {
                 overlay.classList.remove('active');
                 trigger.textContent = "MENU";
-                trigger.style.color = "white";
+                trigger.style.color = "white"; // Kept white due to mix-blend-mode
             }
         }
 
-        // CURSOR
+        // 3. CURSOR
         const dot = document.querySelector('.cursor-dot');
         const outline = document.querySelector('.cursor-outline');
-        const targets = document.querySelectorAll('.hover-target');
-
         if(window.matchMedia("(pointer: fine)").matches) {
             window.addEventListener('mousemove', (e) => {
                 dot.style.left = e.clientX + "px";
                 dot.style.top = e.clientY + "px";
                 outline.animate({ left: e.clientX + "px", top: e.clientY + "px" }, { duration: 500, fill: "forwards" });
             });
-            targets.forEach(el => {
+            document.querySelectorAll('.hover-target').forEach(el => {
                 el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
                 el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
             });
         }
 
-        // MERIDIAN LINE (Tracks scroll position)
+        // 4. ANIMATION OBSERVER (Wipes & Reveals)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.scroll-reveal, .image-frame, .value-row').forEach(el => observer.observe(el));
+
+        // 5. STICKY TITLE MECHANIC (The "Elevator")
+        const titlesContainer = document.getElementById('sidebarTitles');
+        const blockWho = document.getElementById('block-who');
+        const blockValues = document.getElementById('block-values');
+        const blockTrainer = document.getElementById('block-trainer');
+
         window.addEventListener('scroll', () => {
-            const scrolled = window.scrollY;
-            const windowHeight = window.innerHeight;
-            const docHeight = document.body.offsetHeight;
-            
-            const scrollPercent = ((scrolled + (windowHeight / 2)) / docHeight) * 100;
-            
-            const line = document.querySelector('.meridian-line');
-            if(line) {
-                line.style.height = Math.min(scrollPercent, 100) + "%";
+            if(window.innerWidth <= 1024) return;
+
+            const valuesRect = blockValues.getBoundingClientRect();
+            const trainerRect = blockTrainer.getBoundingClientRect();
+            const triggerPoint = window.innerHeight / 2;
+
+            // Logic: Move container UP to show items below
+            // Item height = 60px
+            if (trainerRect.top < triggerPoint) {
+                // Show Index 2 (Trainer) -> Translate -120px
+                titlesContainer.style.transform = 'translateY(-120px)';
+            } else if (valuesRect.top < triggerPoint) {
+                // Show Index 1 (Values) -> Translate -60px
+                titlesContainer.style.transform = 'translateY(-60px)';
+            } else {
+                // Show Index 0 (Who) -> Translate 0
+                titlesContainer.style.transform = 'translateY(0px)';
             }
         });
 
-        // FADE IN
-        const fadeObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.fade-in').forEach(el => {
-            el.style.opacity = 0;
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.8s ease';
-            fadeObserver.observe(el);
+        // 6. HEADER PARALLAX
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const bgImg = document.querySelector('.header-bg-img');
+            if(bgImg) {
+                bgImg.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
         });
-
-        // STICKY TITLE
-        const valuesSection = document.getElementById('valuesTrigger');
-        const titleWho = document.querySelector('.sticky-title');
-        const titleValues = document.querySelector('.sticky-title-secondary');
-
-        const stickyObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && entry.intersectionRatio > 0) {
-                    titleWho.classList.remove('state-who');
-                    titleWho.classList.add('state-values');
-                    titleValues.classList.add('active');
-                } else {
-                    titleWho.classList.add('state-who');
-                    titleWho.classList.remove('state-values');
-                    titleValues.classList.remove('active');
-                }
-            });
-        }, { rootMargin: "0px 0px -20% 0px", threshold: 0 });
-
-        if(window.innerWidth > 1024) {
-            stickyObserver.observe(valuesSection);
-        }
     </script>
 </body>
 </html>
