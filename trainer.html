@@ -7,280 +7,194 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- DESIGN SYSTEM --- */
+        /* --- DESIGN TOKENS --- */
         :root {
             --burgundy: #800020;
             --wood: #C19A6B;
-            --gold: #D4AF37;
-            --deep-navy: #050a14;
-            --paper: #f9f9f9;
             --white: #ffffff;
+            --off-white: #f9f9f9;
+            --black: #1a1a1a;
+            --gray: #666666;
+            
             --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
-            --container-width: 1200px;
+            --ease-out: cubic-bezier(0.165, 0.84, 0.44, 1);
+            --container-width: 1400px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        body { background-color: var(--deep-navy); color: #fff; font-family: 'Lato', sans-serif; overflow-x: hidden; }
+        
+        body {
+            background-color: var(--white);
+            color: var(--black);
+            font-family: 'Lato', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+        }
 
-        /* --- UTILS --- */
-        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
-        .noise { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9000; opacity: 0.03; background-image: url("https://grainy-gradients.vercel.app/noise.svg"); }
+        /* --- GLOBAL ASSETS --- */
+        .noise { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9000; opacity: 0.05; background-image: url("https://grainy-gradients.vercel.app/noise.svg"); }
+        .grid-lines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; display: flex; justify-content: space-between; padding: 0 5vw; }
+        .line-v { width: 1px; height: 100%; background: rgba(0,0,0,0.05); }
+
+        .loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--burgundy); z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: transform 1s var(--ease-smooth); }
+        .loader h1 { color: white; font-size: 4vw; opacity: 0; animation: fadeUp 0.8s forwards 0.2s; letter-spacing: -1px; font-family: 'Montserrat'; }
+        .loader-line { width: 0%; height: 2px; background: var(--wood); margin-top: 1rem; animation: loadLine 1.2s forwards; }
+        .loader.hide { transform: translateY(-100%); }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes loadLine { to { width: 150px; } }
 
         /* --- CURSOR --- */
         @media (hover: hover) and (pointer: fine) {
-            .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; }
-            .cursor-dot { width: 6px; height: 6px; background-color: var(--gold); }
-            .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(212, 175, 55, 0.5); transition: 0.1s; }
-            body.hovering .cursor-outline { width: 80px; height: 80px; background-color: rgba(212, 175, 55, 0.1); border-color: var(--gold); }
+            .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; mix-blend-mode: difference; }
+            .cursor-dot { width: 6px; height: 6px; background-color: white; }
+            .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(255, 255, 255, 0.5); transition: width 0.2s, height 0.2s, background-color 0.2s; }
+            body.hovering .cursor-outline { width: 80px; height: 80px; background-color: rgba(255, 255, 255, 0.1); border-color: white; }
         }
 
         /* --- TYPOGRAPHY --- */
-        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: -1px; }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; text-transform: uppercase; }
         .serif { font-family: 'Playfair Display', serif; font-style: italic; }
-        
+
         /* --- NAV --- */
-        nav { position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 0; z-index: 100; mix-blend-mode: difference; color: white; }
-        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: 900; font-size: 1.4rem; text-decoration: none; color: white; }
-        .menu-trigger { font-weight: 700; cursor: pointer; font-size: 0.9rem; letter-spacing: 1px; }
+        nav { position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 0; z-index: 9600; background: transparent; mix-blend-mode: difference; color: white; }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; }
+        .logo { font-weight: 900; font-size: 1.4rem; letter-spacing: -0.5px; color: white; text-decoration: none; font-family: 'Montserrat'; }
+        .menu-trigger { font-weight: 700; cursor: pointer; font-size: 0.9rem; position: relative; letter-spacing: 1px; color: white; font-family: 'Montserrat'; }
 
         /* --- MENU OVERLAY --- */
-        .menu-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: var(--deep-navy); z-index: 99;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transform: translateY(-100%); transition: transform 0.8s var(--ease-smooth);
-        }
+        .menu-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #111; z-index: 9500; display: flex; flex-direction: column; justify-content: center; align-items: center; transform: translateY(-100%); transition: transform 0.8s var(--ease-smooth); }
         .menu-overlay.active { transform: translateY(0); }
-        .menu-link { font-family: 'Montserrat'; font-size: 3rem; color: rgba(255,255,255,0.3); text-decoration: none; margin: 0.5rem 0; transition: 0.3s; font-weight: 900; }
-        .menu-link:hover { color: var(--gold); letter-spacing: 2px; }
+        .menu-link { font-family: 'Montserrat'; font-size: 3.5rem; color: rgba(255,255,255,0.3); text-decoration: none; margin: 0.5rem 0; transition: 0.3s; font-weight: 900; letter-spacing: -1px; }
+        .menu-link:hover { color: white; letter-spacing: 0px; }
 
-        /* --- HERO PROFILE --- */
-        .profile-hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            padding-top: 100px;
-            padding-bottom: 100px;
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
+
+        /* --- HEADER --- */
+        .page-header {
+            height: 70vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: flex-start; /* Left Align */
+            position: relative; overflow: hidden; background: #000;
         }
+        .header-bg-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7) contrast(1.1); z-index: 0; }
         
-        .profile-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
-            gap: 4rem;
-        }
-
-        /* Left: Content */
-        .profile-info { position: relative; z-index: 10; }
+        .header-content { position: relative; z-index: 2; padding: 0 5vw; color: white; text-align: left; width: 100%; }
         
-        .role-tag { 
-            display: inline-block; border: 1px solid var(--gold); color: var(--gold); 
-            padding: 10px 20px; font-family: 'Montserrat'; font-weight: 700; 
-            letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 2rem;
-        }
+        .header-label { font-family: 'Montserrat'; font-size: 0.8rem; letter-spacing: 2px; color: var(--wood); font-weight: 700; margin-bottom: 1rem; opacity: 0; animation: fadeUp 1s forwards 0.5s; display: block; }
+        .header-title-wrap { overflow: hidden; margin-bottom: 0.5rem; }
+        .header-title { font-size: clamp(3.5rem, 9vw, 9rem); line-height: 0.85; font-weight: 900; letter-spacing: -3px; color: white; text-transform: uppercase; transform: translateY(100%); animation: slideText 1.2s var(--ease-out) forwards 0.6s; }
+        @keyframes slideText { to { transform: translateY(0); } }
 
-        .profile-name { font-size: 5rem; line-height: 0.9; margin-bottom: 1.5rem; font-weight: 900; }
-        .profile-name span { color: var(--burgundy); display: block; }
+        /* --- SPLIT LAYOUT ENGINE --- */
+        .split-layout { display: grid; grid-template-columns: 30% 70%; min-height: 100vh; position: relative; background: var(--white); border-top: 1px solid rgba(0,0,0,0.05); }
+
+        /* LEFT SIDEBAR */
+        .sidebar { border-right: 1px solid rgba(0,0,0,0.1); position: relative; z-index: 5; background: var(--white); }
+        .sidebar-inner { position: sticky; top: 0; height: 100vh; padding: 0 3rem; display: flex; flex-direction: column; justify-content: center; }
         
-        .profile-bio-intro {
-            font-family: 'Playfair Display'; font-size: 1.5rem; color: #ccc; 
-            margin-bottom: 2rem; line-height: 1.4; max-width: 500px;
-        }
-
-        .signature { height: 60px; opacity: 0.8; margin-top: 2rem; filter: invert(1); }
-
-        /* Right: Image */
-        .profile-img-wrapper {
-            position: relative; height: 80vh;
-            display: flex; align-items: flex-end; justify-content: center;
-        }
-        .profile-img {
-            width: 90%; height: 90%; object-fit: cover; 
-            filter: grayscale(100%) contrast(1.1); transition: 1s;
-            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-        }
-        .profile-img:hover { filter: grayscale(0%); transform: scale(1.02); }
-
-        /* Floating Decor */
-        .floating-text {
-            position: absolute; top: 20%; right: 0;
-            font-size: 10rem; font-weight: 900; color: rgba(255,255,255,0.02);
-            writing-mode: vertical-rl; pointer-events: none;
-        }
-
-        /* --- STICKY STORY SECTION --- */
-        .sticky-story-section {
-            background: var(--paper); color: #222;
-            position: relative;
-        }
-
-        .sticky-container {
-            display: flex;
-            min-height: 150vh; /* Ensures enough scroll space */
-        }
-
-        /* Left Column (Sticky) */
-        .sticky-left {
-            width: 35%;
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 4rem;
-            border-right: 1px solid rgba(0,0,0,0.1);
-        }
-
-        /* Animated Title container */
-        .sticky-title-wrapper {
-            position: relative;
-            height: 150px; /* Fixed height for smooth transition */
-            overflow: hidden;
-        }
-
-        .sticky-title {
-            font-size: 3.5rem; color: var(--deep-navy); line-height: 1;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            transition: all 0.6s var(--ease-smooth);
-            white-space: nowrap;
-        }
+        .title-mask { height: 60px; overflow: hidden; position: relative; margin-bottom: 2rem; }
+        .sidebar-titles { display: flex; flex-direction: column; transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); }
+        .sidebar-title { font-size: 2rem; font-weight: 900; color: var(--black); line-height: 60px; height: 60px; white-space: nowrap; letter-spacing: -1px; font-family: 'Montserrat'; cursor: pointer; transition: color 0.3s; }
+        .sidebar-title:hover { color: var(--burgundy); }
         
-        /* States for the title */
-        .sticky-title.state-journey { opacity: 1; transform: translateY(-50%); }
-        .sticky-title.state-countries { opacity: 0; transform: translateY(50%); }
+        .sidebar-decoration { width: 100%; height: 1px; background: rgba(0,0,0,0.1); position: relative; }
+        .sidebar-decoration::after { content: ''; position: absolute; left: 0; top: -2px; width: 40px; height: 5px; background: var(--burgundy); }
 
-        .sticky-title-secondary {
-            font-size: 3.5rem; color: var(--burgundy); line-height: 1;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-150%); /* Start above */
-            opacity: 0;
-            transition: all 0.6s var(--ease-smooth);
-            white-space: nowrap;
-        }
-        .sticky-title-secondary.active { opacity: 1; transform: translateY(-50%); }
+        /* RIGHT CONTENT */
+        .content-area { background: var(--white); position: relative; }
+        .content-block { padding: 8rem 6rem; border-bottom: 1px solid rgba(0,0,0,0.05); min-height: 90vh; display: flex; flex-direction: column; justify-content: center; }
 
-        .story-line { width: 60px; height: 4px; background: var(--burgundy); margin-top: 2rem; }
-
-        /* Right Column (Scrolling) */
-        .scrolling-right {
-            width: 65%;
-            padding: 8rem 6rem;
-        }
-
-        .story-content p { margin-bottom: 2rem; font-size: 1.15rem; line-height: 1.8; color: #555; }
-        .story-content strong { color: var(--burgundy); }
+        /* Typography */
+        .lead-text { font-size: 2rem; line-height: 1.4; font-weight: 400; color: var(--black); margin-bottom: 2rem; opacity: 0; transform: translateY(30px); transition: 1s var(--ease-out); }
+        .lead-text.active { opacity: 1; transform: translateY(0); }
+        .lead-text .highlight { font-family: 'Playfair Display'; font-style: italic; color: var(--burgundy); font-weight: 400; }
         
-        .awakening-box {
-            background: white; padding: 3rem; border-left: 4px solid var(--gold);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05); margin: 4rem 0;
-        }
-        .awakening-box h3 { color: var(--wood); font-size: 1.5rem; margin-bottom: 1rem; }
-        .awakening-box p { margin-bottom: 0; font-style: italic; font-family: 'Playfair Display'; font-size: 1.2rem; }
+        .body-text { font-size: 1.1rem; line-height: 1.8; color: var(--gray); max-width: 650px; margin-bottom: 3rem; opacity: 0; transform: translateY(30px); transition: 1s 0.2s var(--ease-out); }
+        .body-text.active { opacity: 1; transform: translateY(0); }
 
-        /* --- NEW COUNTRIES GRID --- */
-        .countries-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 3rem;
-            margin-top: 10rem; /* Spacing from the story */
-        }
+        /* Profile Elements */
+        .profile-name { font-size: 4rem; line-height: 0.9; margin-bottom: 1.5rem; font-weight: 900; color: var(--black); }
+        .profile-name span { color: var(--burgundy); }
+        .signature { height: 60px; opacity: 0.8; margin-top: 1rem; margin-bottom: 3rem; }
 
-        .country-card {
-            display: block; /* Makes it a link */
-            text-decoration: none;
-            background: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: 0.3s var(--ease-smooth);
-            overflow: hidden;
-            border-bottom: 3px solid transparent;
-        }
-        .country-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            border-bottom-color: var(--burgundy);
-        }
+        .image-frame { position: relative; width: 100%; height: 500px; padding: 15px; background: white; border: 1px solid #eee; box-shadow: 0 20px 40px rgba(0,0,0,0.05); opacity: 0; transform: translateY(50px); transition: 1s var(--ease-out); }
+        .image-frame.active { opacity: 1; transform: translateY(0); }
+        .image-inner { width: 100%; height: 100%; overflow: hidden; position: relative; }
+        .image-inner img { width: 100%; height: 100%; object-fit: cover; clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%); transition: clip-path 1.5s cubic-bezier(0.65, 0, 0.35, 1), transform 2s ease; transform: scale(1.1); filter: grayscale(100%); }
+        .image-frame.active img { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); transform: scale(1); }
+        .image-frame:hover img { filter: grayscale(0%); transform: scale(1.05); }
 
-        .country-img {
-            height: 200px; width: 100%;
-            overflow: hidden;
-        }
-        .country-img img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: 1s; filter: grayscale(30%);
-        }
-        .country-card:hover .country-img img {
-            transform: scale(1.1); filter: grayscale(0%);
-        }
+        /* Awakening Box */
+        .awakening-box { background: var(--off-white); padding: 3rem; border-left: 4px solid var(--wood); margin: 3rem 0; }
+        .awakening-box h3 { color: var(--black); font-size: 1.5rem; margin-bottom: 1rem; font-family: 'Montserrat'; font-weight: 700; }
+        .awakening-box p { margin: 0; font-family: 'Playfair Display'; font-style: italic; font-size: 1.2rem; color: var(--gray); }
 
-        .country-info { padding: 2rem; }
-        .country-info h4 { color: var(--deep-navy); font-size: 1.2rem; margin-bottom: 0.5rem; }
-        .country-info p { color: #777; font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.5rem; }
-        .view-portfolio-btn {
-            font-family: 'Montserrat'; font-weight: 700; font-size: 0.8rem;
-            color: var(--burgundy); letter-spacing: 1px; display: flex; align-items: center; gap: 10px;
-        }
-        .view-portfolio-btn i { transition: 0.3s; }
-        .country-card:hover .view-portfolio-btn i { transform: translateX(5px); }
-
+        /* Countries Grid */
+        .countries-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .country-card { display: block; text-decoration: none; background: white; border: 1px solid #eee; transition: 0.3s; }
+        .country-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); border-color: var(--burgundy); }
+        .country-img { height: 180px; width: 100%; overflow: hidden; }
+        .country-img img { width: 100%; height: 100%; object-fit: cover; transition: 1s; filter: grayscale(100%); }
+        .country-card:hover .country-img img { transform: scale(1.1); filter: grayscale(0%); }
+        .country-info { padding: 1.5rem; }
+        .country-info h4 { color: var(--black); font-size: 1rem; margin-bottom: 0.5rem; font-family: 'Montserrat'; font-weight: 700; }
+        .country-info p { color: var(--gray); font-size: 0.85rem; line-height: 1.5; margin-bottom: 1rem; }
+        .view-btn { font-family: 'Montserrat'; font-weight: 700; font-size: 0.7rem; color: var(--burgundy); letter-spacing: 1px; display: flex; align-items: center; gap: 5px; }
 
         /* --- FOOTER --- */
-        footer { background: var(--deep-navy); color: white; padding: 5rem 0; border-top: 4px solid var(--burgundy); }
+        footer { background: #111; color: white; padding: 6rem 0; position: relative; z-index: 10; border-top: 4px solid var(--burgundy); }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 4rem; }
-        .footer-col h4 { color: var(--gold); margin-bottom: 1.5rem; letter-spacing: 1px; }
+        .footer-col h4 { color: var(--wood); margin-bottom: 1.5rem; letter-spacing: 1px; font-family: 'Montserrat'; }
         .footer-col a { color: #888; display: block; margin-bottom: 0.8rem; text-decoration: none; transition: 0.3s; }
         .footer-col a:hover { color: white; }
 
         /* --- MOBILE --- */
         @media (max-width: 1024px) {
-            .profile-grid { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
-            .profile-info { align-items: center; display: flex; flex-direction: column; }
-            .signature { margin: 2rem auto; }
-            .profile-img-wrapper { height: 50vh; margin-top: 2rem; }
-            .profile-name { font-size: 3.5rem; }
-            .floating-text { display: none; }
+            .split-layout { grid-template-columns: 1fr; display: flex; flex-direction: column; }
+            .sidebar { height: auto; border-right: none; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+            .sidebar-inner { height: auto; padding: 1.5rem; flex-direction: row; justify-content: flex-start; overflow-x: auto; }
+            .title-mask { height: auto; margin: 0; overflow: visible; }
+            .sidebar-titles { flex-direction: row; gap: 2rem; transform: none !important; }
+            .sidebar-title { font-size: 0.9rem; height: auto; line-height: normal; opacity: 0.5; }
+            .sidebar-title.active-mobile { opacity: 1; color: var(--burgundy); border-bottom: 2px solid var(--burgundy); }
+            .sidebar-decoration { display: none; }
             
-            /* Disable sticky on mobile */
-            .sticky-container { flex-direction: column; }
-            .sticky-left { 
-                width: 100%; height: auto; position: relative; 
-                padding: 4rem 2rem; text-align: center; border-right: none; border-bottom: 1px solid #eee;
-            }
-            .sticky-title-wrapper { height: auto; }
-            .sticky-title, .sticky-title-secondary { position: relative; top: auto; transform: none !important; opacity: 1 !important; font-size: 2.5rem; margin-bottom: 1rem; }
-            .sticky-title-secondary { color: var(--deep-navy); } /* Reset color */
-            .story-line { margin: 0 auto 2rem; }
-            .scrolling-right { width: 100%; padding: 4rem 2rem; }
-            .countries-grid { margin-top: 4rem; }
-            
+            .content-block { padding: 4rem 2rem; min-height: auto; }
+            .header-title { font-size: 4rem; }
+            .profile-name { font-size: 3rem; }
+            .grid-lines { display: none; }
             .cursor-dot, .cursor-outline { display: none; }
         }
     </style>
 </head>
 <body class="hover-target">
 
-    <div class="noise"></div>
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
+    <div class="noise"></div>
+    
+    <div class="grid-lines">
+        <div class="line-v"></div>
+        <div class="line-v"></div>
+        <div class="line-v"></div>
+    </div>
+
+    <div class="loader">
+        <h1>THE FULL PICTURE</h1>
+        <div class="loader-line"></div>
+    </div>
 
     <div class="menu-overlay" id="menuOverlay">
-        <a href="index.html" class="menu-link hover-target" data-text="HOME">HOME</a>
-        <a href="about.html" class="menu-link hover-target" data-text="ABOUT">ABOUT</a>
-        <a href="mission.html" class="menu-link hover-target" data-text="MISSION">MISSION</a>
-        <a href="portfolio.html" class="menu-link hover-target" data-text="PORTFOLIO">PORTFOLIO</a>
-        <a href="services.html" class="menu-link hover-target" data-text="SERVICES">SERVICES</a>
-        <a href="trainer.html" class="menu-link hover-target" data-text="TRAINER">TRAINER</a>
-        <a href="contact.html" class="menu-link hover-target" data-text="CONTACT">CONTACT</a>
+        <a href="index.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="HOME">HOME</a>
+        <a href="about.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="ABOUT US">ABOUT</a>
+        <a href="services.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="SERVICES">SERVICES</a>
+        <a href="mission.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="MISSION">MISSION</a>
+        <a href="portfolio.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="PORTFOLIO">PORTFOLIO</a>
+        <a href="trainer.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="TRAINER">TRAINER</a>
+        <a href="contact.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="CONTACT">CONTACT</a>
     </div>
 
     <nav>
@@ -292,111 +206,112 @@
         </div>
     </nav>
 
-    <section class="profile-hero">
-        <div class="floating-text">LEADER</div>
-        <div class="container">
-            <div class="profile-grid">
+    <header class="page-header">
+        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2032" class="header-bg-img" alt="Trainer Background">
+        <div class="container header-content">
+            <div class="header-label">LEAD TRAINER & COACH</div>
+            <div class="header-title-wrap"><h1 class="header-title">THE</h1></div>
+            <div class="header-title-wrap"><h1 class="header-title">TRAINER</h1></div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="split-layout">
+            
+            <aside class="sidebar">
+                <div class="sidebar-inner">
+                    <div class="title-mask">
+                        <div class="sidebar-titles" id="sidebarTitles">
+                            <div class="sidebar-title" onclick="scrollToBlock('block-profile')">PROFILE</div>
+                            <div class="sidebar-title" onclick="scrollToBlock('block-journey')">JOURNEY</div>
+                            <div class="sidebar-title" onclick="scrollToBlock('block-reach')">REACH</div>
+                        </div>
+                    </div>
+                    <div class="sidebar-decoration"></div>
+                </div>
+            </aside>
+
+            <main class="content-area">
                 
-                <div class="profile-info fade-in">
-                    <span class="role-tag">LEAD TRAINER & LIFE COACH</span>
-                    <h1 class="profile-name">JOSE <span>HE</span></h1>
-                    <div style="font-size: 1.5rem; font-weight: 300; color: var(--wood); margin-bottom: 1rem;">(何德伟)</div>
-                    <p class="profile-bio-intro">
+                <div class="content-block" id="block-profile">
+                    <h1 class="profile-name scroll-reveal">JOSE <span>HE</span></h1>
+                    <p class="lead-text scroll-reveal" style="font-size: 1.5rem; color: var(--wood);">
+                        (何德伟)
+                    </p>
+                    <p class="body-text scroll-reveal">
                         "My true path is to continue my family's legacy and bring it to new heights — 发扬光大."
                     </p>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Signature_sample.svg" class="signature" alt="Signature">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Signature_sample.svg" class="signature scroll-reveal" alt="Signature">
+                    
+                    <div class="image-frame hover-target">
+                        <div class="image-inner">
+                            <img src="image_d1ef1a.jpg" alt="Jose He">
+                        </div>
+                    </div>
                 </div>
 
-                <div class="profile-img-wrapper fade-in">
-                    <img src="image_d1ef1a.jpg" class="profile-img" alt="Jose He">
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section class="sticky-story-section">
-        <div class="sticky-container">
-            
-            <div class="sticky-left">
-                <div class="sticky-title-wrapper">
-                    <h2 class="sticky-title state-journey">THE<br>JOURNEY</h2>
-                    <h2 class="sticky-title-secondary">REGIONAL<br>REACH</h2>
-                </div>
-                <div class="story-line"></div>
-            </div>
-
-            <div class="scrolling-right">
-                
-                <div class="story-content fade-in">
-                    <p>
+                <div class="content-block" id="block-journey">
+                    <p class="lead-text scroll-reveal">
+                        From <span class="highlight">Tradition</span> to Transformation.
+                    </p>
+                    <p class="body-text scroll-reveal">
                         Coming from a family with deep expertise in geomancy, Jose has always been connected to ancient wisdom and practices. However, the path wasn't always clear.
                     </p>
                     
-                    <div class="awakening-box hover-target">
+                    <div class="awakening-box scroll-reveal hover-target">
                         <h3>The Awakening (命运觉醒)</h3>
                         <p>Not too long ago, after experiencing a profound moment of awakening (Da Yun), he realized that his true path was to bridge the gap between metaphysics and modern strategy.</p>
                     </div>
 
-                    <p>
-                        This revelation led him to embrace his true <strong>轨道 (life’s calling)</strong> and dedicate his life to helping others achieve clarity, success, and transformation. He realized that ancient wisdom isn't just about tradition—it's a practical tool for the modern business world.
-                    </p>
-                    <p>
-                        Today, he stands as a leader, speaker, and coach, empowering individuals and organizations to awaken their own potential and navigate life with purpose and direction.
+                    <p class="body-text scroll-reveal">
+                        This revelation led him to embrace his true <strong>轨道 (life’s calling)</strong>. Today, he stands as a leader, speaker, and coach, empowering individuals and organizations to awaken their own potential.
                     </p>
                 </div>
 
-                <div class="countries-grid" id="countriesTrigger">
+                <div class="content-block" id="block-reach" style="border-bottom: none;">
+                    <p class="lead-text scroll-reveal">
+                        <span class="highlight">Regional Impact</span>
+                    </p>
                     
-                    <a href="portfolio.html" class="country-card hover-target fade-in">
-                        <div class="country-img">
-                            <img src="image_7994fa.jpg" alt="Singapore">
-                        </div>
-                        <div class="country-info">
-                            <h4>SINGAPORE</h4>
-                            <p>Corporate workshops and high-net-worth individual consultations centered in the financial hub.</p>
-                            <span class="view-portfolio-btn">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
-                        </div>
-                    </a>
-
-                    <a href="portfolio.html" class="country-card hover-target fade-in">
-                        <div class="country-img">
-                            <img src="image_7994fc.jpg" alt="Malaysia">
-                        </div>
-                        <div class="country-info">
-                            <h4>MALAYSIA</h4>
-                            <p>Large-scale seminars and SME business strategy alignment across major cities.</p>
-                            <span class="view-portfolio-btn">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
-                        </div>
-                    </a>
-
-                     <a href="portfolio.html" class="country-card hover-target fade-in">
-                        <div class="country-img">
-                            <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=2039&auto=format&fit=crop" alt="Thailand">
-                        </div>
-                        <div class="country-info">
-                            <h4>THAILAND</h4>
-                            <p>Integrating spiritual wellness with leadership retreat programs for executives.</p>
-                            <span class="view-portfolio-btn">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
-                        </div>
-                    </a>
-                    
-                    <a href="portfolio.html" class="country-card hover-target fade-in">
-                        <div class="country-img">
-                            <img src="https://images.unsplash.com/photo-1504457047772-27faf1c00561?q=80&w=2147&auto=format&fit=crop" alt="Vietnam">
-                        </div>
-                        <div class="country-info">
-                            <h4>VIETNAM & INDONESIA</h4>
-                            <p>Expanding presence with localized strategies for emerging market leaders.</p>
-                            <span class="view-portfolio-btn">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
-                        </div>
-                    </a>
-
+                    <div class="countries-grid">
+                        <a href="portfolio.html" class="country-card hover-target scroll-reveal">
+                            <div class="country-img"><img src="image_7994fa.jpg" alt="Singapore"></div>
+                            <div class="country-info">
+                                <h4>SINGAPORE</h4>
+                                <p>Corporate workshops and high-net-worth individual consultations.</p>
+                                <span class="view-btn">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </a>
+                        <a href="portfolio.html" class="country-card hover-target scroll-reveal" style="transition-delay: 0.1s;">
+                            <div class="country-img"><img src="image_7994fc.jpg" alt="Malaysia"></div>
+                            <div class="country-info">
+                                <h4>MALAYSIA</h4>
+                                <p>Large-scale seminars and SME business strategy alignment.</p>
+                                <span class="view-btn">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </a>
+                        <a href="portfolio.html" class="country-card hover-target scroll-reveal" style="transition-delay: 0.2s;">
+                            <div class="country-img"><img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=2039" alt="Thailand"></div>
+                            <div class="country-info">
+                                <h4>THAILAND</h4>
+                                <p>Spiritual wellness and leadership retreat programs.</p>
+                                <span class="view-btn">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </a>
+                        <a href="portfolio.html" class="country-card hover-target scroll-reveal" style="transition-delay: 0.3s;">
+                            <div class="country-img"><img src="https://images.unsplash.com/photo-1504457047772-27faf1c00561?q=80&w=2147" alt="Vietnam"></div>
+                            <div class="country-info">
+                                <h4>VIETNAM</h4>
+                                <p>Expanding presence with localized strategies for emerging leaders.</p>
+                                <span class="view-btn">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-            </div>
 
+            </main>
         </div>
-    </section>
+    </div>
 
     <footer>
         <div class="container">
@@ -414,95 +329,78 @@
                     <p>Singapore</p>
                 </div>
                 <div class="footer-col">
-                    <h4>LINKS</h4>
-                    <a href="about.html">About Us</a>
-                    <a href="services.html">Services</a>
-                    <a href="contact.html">Contact</a>
+                    <h4>SOCIAL</h4>
+                    <a href="#" class="hover-target">Instagram</a>
+                    <a href="#" class="hover-target">LinkedIn</a>
+                    <a href="#" class="hover-target">Facebook</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // MENU
+        // 1. LOADER
+        window.addEventListener('load', () => { setTimeout(() => { document.querySelector('.loader').classList.add('hide'); }, 1000); });
+
+        // 2. MENU
         let menuOpen = false;
         function toggleMenu() {
             const overlay = document.getElementById('menuOverlay');
             const trigger = document.querySelector('.menu-trigger');
             menuOpen = !menuOpen;
-            if(menuOpen) {
-                overlay.classList.add('active');
-                trigger.textContent = "CLOSE";
-                trigger.style.color = "white";
-            } else {
-                overlay.classList.remove('active');
-                trigger.textContent = "MENU";
-                trigger.style.color = "white";
-            }
+            if(menuOpen) { overlay.classList.add('active'); trigger.textContent = "CLOSE"; trigger.style.color = "white"; } 
+            else { overlay.classList.remove('active'); trigger.textContent = "MENU"; trigger.style.color = "white"; }
         }
 
-        // CURSOR
+        // 3. CURSOR
         const dot = document.querySelector('.cursor-dot');
         const outline = document.querySelector('.cursor-outline');
-        const targets = document.querySelectorAll('.hover-target');
-
         if(window.matchMedia("(pointer: fine)").matches) {
             window.addEventListener('mousemove', (e) => {
-                dot.style.left = e.clientX + "px";
-                dot.style.top = e.clientY + "px";
+                dot.style.left = e.clientX + "px"; dot.style.top = e.clientY + "px";
                 outline.animate({ left: e.clientX + "px", top: e.clientY + "px" }, { duration: 500, fill: "forwards" });
             });
-            targets.forEach(el => {
+            document.querySelectorAll('.hover-target, .view-btn, .sidebar-title').forEach(el => {
                 el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
                 el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
             });
         }
 
-        // FADE IN ANIMATION
-        const fadeObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
+        // 4. ANIMATION OBSERVER
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } });
         }, { threshold: 0.1 });
+        document.querySelectorAll('.scroll-reveal, .image-frame, .country-card').forEach(el => observer.observe(el));
 
-        document.querySelectorAll('.fade-in').forEach(el => {
-            el.style.opacity = 0;
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.8s ease';
-            fadeObserver.observe(el);
+        // 5. STICKY TITLE MECHANIC
+        const titlesContainer = document.getElementById('sidebarTitles');
+        const blockProfile = document.getElementById('block-profile');
+        const blockJourney = document.getElementById('block-journey');
+        const blockReach = document.getElementById('block-reach');
+
+        window.addEventListener('scroll', () => {
+            // Header Parallax
+            const scrolled = window.scrollY;
+            const bgImg = document.querySelector('.header-bg-img');
+            if(bgImg) bgImg.style.transform = `translateY(${scrolled * 0.5}px)`;
+
+            if(window.innerWidth <= 1024) return;
+
+            const journeyRect = blockJourney.getBoundingClientRect();
+            const reachRect = blockReach.getBoundingClientRect();
+            const triggerPoint = window.innerHeight / 2;
+
+            if (reachRect.top < triggerPoint) {
+                titlesContainer.style.transform = 'translateY(-120px)'; // Show Reach (Index 2)
+            } else if (journeyRect.top < triggerPoint) {
+                titlesContainer.style.transform = 'translateY(-60px)'; // Show Journey (Index 1)
+            } else {
+                titlesContainer.style.transform = 'translateY(0px)'; // Show Profile (Index 0)
+            }
         });
 
-        // --- STICKY TITLE ANIMATION LOGIC ---
-        const countriesSection = document.getElementById('countriesTrigger');
-        const titleJourney = document.querySelector('.sticky-title');
-        const titleRegional = document.querySelector('.sticky-title-secondary');
-
-        const stickyObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                // If the countries section is intersecting (even a little bit from the bottom)
-                if (entry.isIntersecting && entry.intersectionRatio > 0) {
-                    // Switch to "Regional Reach"
-                    titleJourney.classList.remove('state-journey');
-                    titleJourney.classList.add('state-countries');
-                    titleRegional.classList.add('active');
-                } else {
-                    // Revert to "The Journey"
-                    titleJourney.classList.add('state-journey');
-                    titleJourney.classList.remove('state-countries');
-                    titleRegional.classList.remove('active');
-                }
-            });
-        }, { 
-            // Trigger when the top of the countries section is 60% down the viewport
-            rootMargin: "0px 0px -40% 0px",
-            threshold: 0
-        });
-
-        if(window.innerWidth > 1024) { // Only run on desktop
-            stickyObserver.observe(countriesSection);
+        function scrollToBlock(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>

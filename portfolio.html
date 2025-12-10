@@ -15,281 +15,134 @@
         :root {
             --burgundy: #800020;
             --wood: #C19A6B;
-            --gold: #D4AF37;
-            --deep-navy: #050a14;
-            --paper: #f9f9f9;
             --white: #ffffff;
-            
+            --off-white: #f9f9f9;
+            --black: #1a1a1a;
+            --gray: #666666;
             --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
             --ease-wipe: cubic-bezier(0.65, 0, 0.35, 1);
             --container-width: 1400px;
         }
 
-        /* --- BASE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         
-        body {
-            background-color: var(--deep-navy); /* Dark Premium Theme */
-            color: white;
-            font-family: 'Lato', sans-serif;
-            overflow-x: hidden;
-            width: 100%;
-        }
+        /* LIGHT THEME */
+        body { background-color: var(--white); color: var(--black); font-family: 'Lato', sans-serif; overflow-x: hidden; }
 
-        /* --- BACKGROUND GRID --- */
-        .grid-lines {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 0;
-            display: flex; justify-content: space-between; padding: 0 5vw;
-        }
-        .line-v { width: 1px; height: 100%; background: rgba(255,255,255,0.03); }
+        /* --- GLOBAL ASSETS --- */
+        .grid-lines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; display: flex; justify-content: space-between; padding: 0 5vw; }
+        .line-v { width: 1px; height: 100%; background: rgba(0,0,0,0.05); }
 
-        /* --- UTILITIES --- */
-        .container {
-            max-width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 2rem;
-            width: 100%;
-            position: relative; z-index: 2;
-        }
-
-        .noise {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 9000; opacity: 0.05;
-            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-        }
-
-        /* --- CURSOR --- */
-        @media (hover: hover) and (pointer: fine) {
-            .cursor-dot, .cursor-outline {
-                position: fixed; top: 0; left: 0;
-                transform: translate(-50%, -50%); border-radius: 50%;
-                z-index: 9999; pointer-events: none;
-                mix-blend-mode: difference;
-            }
-            .cursor-dot { width: 6px; height: 6px; background-color: white; }
-            .cursor-outline {
-                width: 40px; height: 40px;
-                border: 1px solid rgba(255, 255, 255, 0.5);
-                transition: width 0.2s, height 0.2s, background-color 0.2s;
-            }
-            body.hovering .cursor-outline {
-                width: 80px; height: 80px;
-                background-color: rgba(255, 255, 255, 0.1);
-                border-color: white;
-            }
-        }
-
-        /* --- TYPOGRAPHY --- */
-        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; text-transform: uppercase; }
-        .serif { font-family: 'Playfair Display', serif; font-style: italic; }
-
-        /* --- LOADER --- */
-        .loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--burgundy);
-            z-index: 10000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: transform 1s var(--ease-smooth);
-        }
-        .loader h1 { color: white; font-size: 4vw; opacity: 0; animation: fadeUp 0.8s forwards 0.2s; letter-spacing: -1px; }
+        .loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--burgundy); z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: transform 1s var(--ease-smooth); }
+        .loader h1 { color: white; font-size: 4vw; opacity: 0; animation: fadeUp 0.8s forwards 0.2s; letter-spacing: -1px; font-family: 'Montserrat'; }
         .loader-line { width: 0%; height: 2px; background: var(--wood); margin-top: 1rem; animation: loadLine 1.2s forwards; }
         .loader.hide { transform: translateY(-100%); }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes loadLine { to { width: 150px; } }
 
-        /* --- NAV --- */
-        nav {
-            position: fixed; top: 0; left: 0; width: 100%;
-            padding: 2rem 0;
-            z-index: 9600; 
-            background: rgba(5, 10, 20, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+        /* --- CURSOR --- */
+        @media (hover: hover) and (pointer: fine) {
+            .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; mix-blend-mode: difference; }
+            .cursor-dot { width: 6px; height: 6px; background-color: white; }
+            .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(255, 255, 255, 0.5); transition: width 0.2s, height 0.2s, background-color 0.2s; }
+            body.hovering .cursor-outline { width: 80px; height: 80px; background-color: rgba(255, 255, 255, 0.1); border-color: white; }
         }
-        .nav-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .logo { font-weight: 900; font-size: 1.4rem; letter-spacing: -0.5px; color: white; text-decoration: none; }
-        .menu-trigger { font-weight: 700; cursor: pointer; font-size: 0.9rem; position: relative; letter-spacing: 1px; color: white; }
-        .menu-trigger::after { content: ''; display: block; width: 100%; height: 2px; background: var(--burgundy); margin-top: 4px; transition: 0.3s; }
-        .menu-trigger:hover::after { width: 50%; }
 
-        /* --- MENU OVERLAY --- */
-        .menu-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #020408;
-            z-index: 9500;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transform: translateY(-100%);
-            transition: transform 0.8s var(--ease-smooth);
-        }
+        /* --- NAV --- */
+        nav { position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 0; z-index: 9600; background: transparent; mix-blend-mode: difference; color: white; }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 900; font-size: 1.4rem; letter-spacing: -0.5px; color: white; text-decoration: none; font-family: 'Montserrat'; }
+        .menu-trigger { font-weight: 700; cursor: pointer; font-size: 0.9rem; position: relative; letter-spacing: 1px; color: white; font-family: 'Montserrat'; }
+
+        /* --- MENU OVERLAY (FIXED) --- */
+        .menu-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #111; z-index: 9500; display: flex; flex-direction: column; justify-content: center; align-items: center; transform: translateY(-100%); transition: transform 0.8s var(--ease-smooth); }
         .menu-overlay.active { transform: translateY(0); }
-        .menu-link {
-            font-family: 'Montserrat'; font-size: 3.5rem; color: rgba(255,255,255,0.3);
-            text-decoration: none; margin: 0.5rem 0; transition: 0.3s;
-            position: relative; font-weight: 900; letter-spacing: -1px;
-        }
+        .menu-link { font-family: 'Montserrat'; font-size: 3.5rem; color: rgba(255,255,255,0.3); text-decoration: none; margin: 0.5rem 0; transition: 0.3s; font-weight: 900; letter-spacing: -1px; }
         .menu-link:hover { color: white; letter-spacing: 0px; }
 
-        /* --- HERO --- */
-        .portfolio-header {
-            height: 60vh; width: 100%;
-            display: flex; align-items: center; justify-content: center;
-            position: relative; overflow: hidden;
-            margin-top: 80px;
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
+
+        /* --- HEADER (FIXED: LEFT ALIGNMENT) --- */
+        .portfolio-header { 
+            height: 70vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            /* Force Left Align on Flex Child */
+            align-items: flex-start; 
+            position: relative; 
+            overflow: hidden; 
+            background: #000; 
         }
-        .header-content { text-align: center; z-index: 2; }
+        
+        .header-content { 
+            /* Force Left Align on Text */
+            text-align: left; 
+            z-index: 2; color: white; 
+            padding: 0 5vw;
+            width: 100%;
+        }
+        
         .header-title { 
             font-size: clamp(3.5rem, 8vw, 6rem); margin-bottom: 1rem; opacity: 0; 
-            animation: fadeUp 1s forwards 0.3s; font-weight: 900; letter-spacing: -2px;
+            animation: fadeUp 1s forwards 0.3s; 
+            font-weight: 900; letter-spacing: -2px; font-family: 'Montserrat';
+            text-align: left;
         }
+        
         .header-sub { 
             font-family: 'Montserrat'; font-size: 0.9rem; letter-spacing: 3px; 
             color: var(--wood); font-weight: 700; opacity: 0; animation: fadeUp 1s forwards 0.5s; 
+            text-transform: uppercase; display: block; margin-bottom: 1rem;
         }
 
-        /* --- LOGO WALL (UPDATED: IMAGES) --- */
-        .client-logos {
-            border-top: 1px solid rgba(255,255,255,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding: 4rem 0;
-        }
-        .logo-grid {
-            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4rem; 
-        }
-        /* Solid White Logos */
-        .client-logo-img { 
-            height: 40px; 
-            width: auto;
-            object-fit: contain;
-            /* Invert filter creates white logo from black placeholder */
-            filter: invert(1) brightness(100%); 
-            opacity: 1; /* Solid Opacity as requested */
-            transition: 0.3s;
-        }
-        .client-logo-img:hover { transform: scale(1.1); }
+        /* --- CONTENT STYLES --- */
+        .client-logos { border-top: 1px solid rgba(0,0,0,0.1); border-bottom: 1px solid rgba(0,0,0,0.1); padding: 4rem 0; margin-top: 4rem; }
+        .logo-grid { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4rem; }
+        .client-logo-img { height: 40px; width: auto; object-fit: contain; filter: grayscale(100%); opacity: 0.7; transition: 0.3s; }
+        .client-logo-img:hover { transform: scale(1.1); filter: grayscale(0%); opacity: 1; }
 
-        /* --- QUOTE SECTION --- */
-        .quote-section {
-            position: relative;
-            padding: 10rem 0;
-            background: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
-            background-size: cover; background-attachment: fixed;
-            margin-bottom: 6rem;
-        }
-        .quote-section::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 10, 20, 0.85); z-index: 1;
-        }
-        .quote-break {
-            text-align: center; max-width: 900px; margin: 0 auto;
-            position: relative; z-index: 2;
-        }
-        .quote-icon { font-size: 3rem; color: var(--burgundy); margin-bottom: 2rem; }
-        .quote-text { 
-            font-family: 'Playfair Display'; font-size: 2.5rem; font-style: italic; 
-            color: white; line-height: 1.5; margin-bottom: 2.5rem; 
-        }
-        .quote-author { 
-            font-family: 'Montserrat'; font-weight: 700; color: var(--gold); 
-            letter-spacing: 3px; font-size: 0.8rem; text-transform: uppercase;
-        }
-
-        /* --- FILTERS --- */
         .filter-container { display: flex; justify-content: center; gap: 3rem; margin-bottom: 6rem; margin-top: 4rem; }
-        .filter-btn {
-            background: none; border: none; color: rgba(255,255,255,0.4); 
-            font-family: 'Montserrat'; font-weight: 700;
-            font-size: 0.9rem; cursor: pointer; letter-spacing: 1px; 
-            position: relative; transition: 0.3s;
-        }
-        .filter-btn.active, .filter-btn:hover { color: white; }
-        .filter-btn.active::after {
-            content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
-            width: 30px; height: 2px; background: var(--burgundy);
-        }
+        .filter-btn { background: none; border: none; color: #999; font-family: 'Montserrat'; font-weight: 700; font-size: 0.9rem; cursor: pointer; letter-spacing: 1px; position: relative; transition: 0.3s; }
+        .filter-btn.active, .filter-btn:hover { color: var(--black); }
+        .filter-btn.active::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 30px; height: 2px; background: var(--burgundy); }
 
-        /* --- PORTFOLIO GRID --- */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-            gap: 6rem 2rem;
-            padding-bottom: 8rem;
-        }
-
-        .portfolio-item {
-            position: relative;
-            transition: all 0.5s ease;
-            opacity: 1; transform: scale(1);
-        }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 6rem 2rem; padding-bottom: 8rem; }
+        .portfolio-item { position: relative; transition: all 0.5s ease; opacity: 1; transform: scale(1); }
         .portfolio-item.hidden { display: none; }
+        
+        .item-img-wrapper { position: relative; width: 100%; height: 500px; overflow: hidden; margin-bottom: 1.5rem; clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%); transition: clip-path 1.2s var(--ease-wipe); }
+        .item-img-wrapper.visible { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
+        .item-img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s ease; filter: grayscale(20%); }
+        .portfolio-item:hover .item-img { transform: scale(1.05); filter: grayscale(0%); }
 
-        .item-img-wrapper {
-            position: relative; width: 100%; height: 500px;
-            overflow: hidden; margin-bottom: 1.5rem;
-            /* Start state for wipe animation */
-            clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
-            transition: clip-path 1.2s var(--ease-wipe);
-        }
-        /* Reveal state */
-        .item-img-wrapper.visible {
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-        }
-
-        .item-img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform 1s ease;
-            filter: grayscale(0%); /* Solid, no opacity or grayscale fade */
-        }
-        .portfolio-item:hover .item-img { transform: scale(1.05); }
-
-        .item-num {
-            position: absolute; top: -3rem; left: 0;
-            font-family: 'Montserrat'; font-weight: 900; font-size: 6rem;
-            color: rgba(255,255,255,0.05);
-            z-index: 0; pointer-events: none;
-        }
-
+        .item-num { position: absolute; top: -3rem; left: 0; font-family: 'Montserrat'; font-weight: 900; font-size: 6rem; color: rgba(0,0,0,0.03); z-index: 0; pointer-events: none; }
         .item-info { position: relative; z-index: 2; }
-        .item-info h3 { font-size: 1.8rem; margin-bottom: 0.5rem; color: white; font-weight: 800; }
-        .item-info p { font-size: 1rem; color: #888; margin-bottom: 1rem; }
-        .item-tag {
-            display: inline-block; border: 1px solid rgba(255,255,255,0.2); color: var(--wood);
-            padding: 8px 15px; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase;
-            font-weight: 700;
-        }
+        .item-info h3 { font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--black); font-weight: 800; font-family: 'Montserrat'; }
+        .item-info p { font-size: 1rem; color: var(--gray); margin-bottom: 1rem; }
+        .item-tag { display: inline-block; border: 1px solid #ddd; color: var(--wood); padding: 8px 15px; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
 
-        /* --- FOOTER --- */
-        footer { background: #020408; color: white; padding: 6rem 0; border-top: 4px solid var(--burgundy); }
+        footer { background: #111; color: white; padding: 6rem 0; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 4rem; }
-        .footer-col h4 { color: var(--gold); margin-bottom: 1.5rem; letter-spacing: 1px; }
+        .footer-col h4 { color: var(--wood); margin-bottom: 1.5rem; letter-spacing: 1px; font-family: 'Montserrat'; }
         .footer-col a { color: #888; display: block; margin-bottom: 0.8rem; text-decoration: none; transition: 0.3s; }
         .footer-col a:hover { color: white; }
 
-        /* --- MOBILE --- */
         @media (max-width: 900px) {
-            .header-title { font-size: 3rem; }
-            .logo-grid { justify-content: center; gap: 2rem; }
-            .client-logo-img { height: 30px; }
-            .quote-text { font-size: 1.5rem; }
             .portfolio-grid { grid-template-columns: 1fr; }
-            .item-img-wrapper { height: 350px; }
-            .cursor-dot, .cursor-outline { display: none; }
-            .grid-lines { display: none; }
+            .grid-lines, .cursor-dot, .cursor-outline { display: none; }
         }
     </style>
 </head>
 <body class="hover-target">
 
-    <div class="noise"></div>
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
-
     <div class="grid-lines">
         <div class="line-v"></div>
         <div class="line-v"></div>
         <div class="line-v"></div>
     </div>
-
     <div class="loader">
         <h1>THE FULL PICTURE</h1>
         <div class="loader-line"></div>
@@ -297,7 +150,7 @@
 
     <div class="menu-overlay" id="menuOverlay">
         <a href="index.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="HOME">HOME</a>
-        <a href="about.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="ABOUT US">ABOUT</a>
+        <a href="about.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="ABOUT">ABOUT</a>
         <a href="mission.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="MISSION">MISSION</a>
         <a href="portfolio.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="PORTFOLIO">PORTFOLIO</a>
         <a href="services.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="SERVICES">SERVICES</a>
@@ -315,7 +168,9 @@
     </nav>
 
     <header class="portfolio-header">
-        <div class="header-content">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069" style="position:absolute; width:100%; height:100%; object-fit:cover; opacity:0.6;" alt="Portfolio">
+        
+        <div class="container header-content">
             <div class="header-sub">TRANSFORMATIVE RESULTS</div>
             <h1 class="header-title">PAST<br>PORTFOLIOS</h1>
         </div>
@@ -324,26 +179,14 @@
     <div class="container">
         <div class="client-logos fade-in">
             <div class="logo-grid">
-                <img src="https://placehold.co/200x80/000000/FFF?text=UOB+BANK" class="client-logo-img" alt="UOB">
+                <img src="https://placehold.co/200x80/000000/FFF?text=UOB" class="client-logo-img" alt="UOB">
                 <img src="https://placehold.co/200x80/000000/FFF?text=AIA" class="client-logo-img" alt="AIA">
                 <img src="https://placehold.co/200x80/000000/FFF?text=PRUDENTIAL" class="client-logo-img" alt="Prudential">
                 <img src="https://placehold.co/200x80/000000/FFF?text=PROPERTYGURU" class="client-logo-img" alt="PropertyGuru">
-                <img src="https://placehold.co/200x80/000000/FFF?text=MARINA+BAY" class="client-logo-img" alt="MBS">
+                <img src="https://placehold.co/200x80/000000/FFF?text=MBS" class="client-logo-img" alt="MBS">
             </div>
         </div>
-    </div>
 
-    <section class="quote-section fade-in">
-        <div class="container">
-            <div class="quote-break">
-                <i class="fas fa-quote-left quote-icon"></i>
-                <p class="quote-text">"The strategic insights combined with metaphysical wisdom provided a clarity I haven't found elsewhere. Truly transformative."</p>
-                <span class="quote-author">— CEO, LEADING FINTECH SG</span>
-            </div>
-        </div>
-    </section>
-
-    <div class="container">
         <div class="filter-container fade-in">
             <button class="filter-btn active hover-target" onclick="filterSelection('all', this)">ALL WORKS</button>
             <button class="filter-btn hover-target" onclick="filterSelection('corporate', this)">CORPORATE</button>
@@ -352,12 +195,10 @@
         </div>
 
         <div class="portfolio-grid">
-            
             <div class="portfolio-item" data-cat="corporate">
                 <span class="item-num">01</span>
                 <div class="item-img-wrapper">
-                    <img class="item-img" src="image_7c59ff.jpg" alt="Leadership Seminar"
-                         onerror="this.src='https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070'">
+                    <img class="item-img" src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070" alt="Leadership">
                 </div>
                 <div class="item-info">
                     <h3>Leadership Masterclass</h3>
@@ -369,7 +210,7 @@
             <div class="portfolio-item" data-cat="residential">
                 <span class="item-num">02</span>
                 <div class="item-img-wrapper">
-                    <img class="item-img" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop" alt="Feng Shui">
+                    <img class="item-img" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053" alt="Feng Shui">
                 </div>
                 <div class="item-info">
                     <h3>Sentosa Cove Residence</h3>
@@ -377,11 +218,11 @@
                     <span class="item-tag">RESIDENTIAL</span>
                 </div>
             </div>
-
-            <div class="portfolio-item" data-cat="events">
+            
+             <div class="portfolio-item" data-cat="events">
                 <span class="item-num">03</span>
                 <div class="item-img-wrapper">
-                    <img class="item-img" src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2070&auto=format&fit=crop" alt="Seminar">
+                    <img class="item-img" src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2070" alt="Seminar">
                 </div>
                 <div class="item-info">
                     <h3>Wealth Activation Summit</h3>
@@ -389,43 +230,6 @@
                     <span class="item-tag">EVENTS</span>
                 </div>
             </div>
-
-            <div class="portfolio-item" data-cat="corporate">
-                <span class="item-num">04</span>
-                <div class="item-img-wrapper">
-                    <img class="item-img" src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop" alt="Office">
-                </div>
-                <div class="item-info">
-                    <h3>Tech Startup HQ</h3>
-                    <p>Office layout optimization for innovation flow.</p>
-                    <span class="item-tag">CORPORATE</span>
-                </div>
-            </div>
-
-            <div class="portfolio-item" data-cat="events">
-                <span class="item-num">05</span>
-                <div class="item-img-wrapper">
-                    <img class="item-img" src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=2073&auto=format&fit=crop" alt="Networking">
-                </div>
-                <div class="item-info">
-                    <h3>Regional Networking</h3>
-                    <p>Connecting business leaders across SEA.</p>
-                    <span class="item-tag">EVENTS</span>
-                </div>
-            </div>
-
-            <div class="portfolio-item" data-cat="residential">
-                <span class="item-num">06</span>
-                <div class="item-img-wrapper">
-                    <img class="item-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070" alt="Home Audit">
-                </div>
-                <div class="item-info">
-                    <h3>Orchard Road Penthouse</h3>
-                    <p>Luxury residential geomancy audit.</p>
-                    <span class="item-tag">RESIDENTIAL</span>
-                </div>
-            </div>
-
         </div>
     </div>
 
@@ -455,33 +259,16 @@
     </footer>
 
     <script>
-        // 1. LOADER & INITIALIZATION
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.querySelector('.loader').classList.add('hide');
-                // Trigger animations for visible elements immediately
-                checkScroll(); 
-            }, 1000);
-        });
-
-        // 2. MENU TOGGLE
+        window.addEventListener('load', () => { setTimeout(() => { document.querySelector('.loader').classList.add('hide'); checkScroll(); }, 1000); });
         let menuOpen = false;
         function toggleMenu() {
             const overlay = document.getElementById('menuOverlay');
             const trigger = document.querySelector('.menu-trigger');
             menuOpen = !menuOpen;
-            if(menuOpen) {
-                overlay.classList.add('active');
-                trigger.textContent = "CLOSE";
-                trigger.style.color = "white";
-            } else {
-                overlay.classList.remove('active');
-                trigger.textContent = "MENU";
-                trigger.style.color = "white";
-            }
+            if(menuOpen) { overlay.classList.add('active'); trigger.textContent = "CLOSE"; } 
+            else { overlay.classList.remove('active'); trigger.textContent = "MENU"; }
         }
-
-        // 3. CURSOR
+        
         const dot = document.querySelector('.cursor-dot');
         const outline = document.querySelector('.cursor-outline');
         if(window.matchMedia("(pointer: fine)").matches) {
@@ -496,8 +283,6 @@
             });
         }
 
-        // 4. ANIMATION OBSERVER (WIPE EFFECT & FADE)
-        // Combined logic to ensure images load immediately
         function checkScroll() {
             const elements = document.querySelectorAll('.fade-in, .item-img-wrapper');
             elements.forEach(el => {
@@ -506,46 +291,26 @@
                 if (rect.top < windowHeight * 0.9) {
                     el.style.opacity = 1;
                     el.style.transform = 'translateY(0)';
-                    el.classList.add('visible'); // Triggers clip-path wipe
+                    el.classList.add('visible');
                 }
             });
         }
-
         window.addEventListener('scroll', checkScroll);
-        
-        // Initial check for elements already in view
-        setTimeout(checkScroll, 1100); 
 
-        // 5. FILTER LOGIC
         function filterSelection(c, btn) {
             var buttons = document.getElementsByClassName("filter-btn");
-            for (var i = 0; i < buttons.length; i++) {
-                buttons[i].classList.remove("active");
-            }
+            for (var i = 0; i < buttons.length; i++) { buttons[i].classList.remove("active"); }
             btn.classList.add("active");
-
             var items = document.getElementsByClassName("portfolio-item");
             for (var i = 0; i < items.length; i++) {
                 let item = items[i];
                 let imgWrapper = item.querySelector('.item-img-wrapper');
-                
-                // Hide animation
-                item.style.opacity = "0";
-                item.style.transform = "scale(0.95)";
-                imgWrapper.classList.remove('visible'); // Reset wipe
-                
+                item.style.opacity = "0"; item.style.transform = "scale(0.95)"; imgWrapper.classList.remove('visible');
                 setTimeout(() => {
                     if (c == "all" || item.getAttribute("data-cat").indexOf(c) > -1) {
                         item.classList.remove("hidden");
-                        // Reveal animation
-                        setTimeout(() => {
-                            item.style.opacity = "1";
-                            item.style.transform = "scale(1)";
-                            imgWrapper.classList.add('visible'); // Re-trigger wipe
-                        }, 50);
-                    } else {
-                        item.classList.add("hidden");
-                    }
+                        setTimeout(() => { item.style.opacity = "1"; item.style.transform = "scale(1)"; imgWrapper.classList.add('visible'); }, 50);
+                    } else { item.classList.add("hidden"); }
                 }, 300);
             }
         }
