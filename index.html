@@ -40,7 +40,7 @@
         }
         .hero-video-bg video {
             width: 100%; height: 100%; object-fit: cover;
-            opacity: 0.2; /* Slightly higher opacity for atmosphere */
+            opacity: 0.075; /* Slightly higher opacity for atmosphere */
             filter: grayscale(100%) contrast(1.2);
         }
 
@@ -370,7 +370,7 @@
             // Starts at 0.2 (Distant).
             // At max scroll, only goes to 8x (Screen mostly covered but edges might still be darkish depending on screen ratio).
             // This prevents it from washing out the corners instantly.
-            const scale = 0.2 + (fraction * 8); 
+            const scale = 0.2 + (fraction * 5); 
             
             // OPACITY:
             // Starts dim (0.2).
