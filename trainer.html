@@ -107,12 +107,29 @@
         .profile-name span { color: var(--burgundy); }
         .signature { height: 60px; opacity: 0.8; margin-top: 1rem; margin-bottom: 3rem; }
 
-        .image-frame { position: relative; width: 100%; height: 550px; padding: 15px; background: white; border: 1px solid #eee; box-shadow: 0 20px 40px rgba(0,0,0,0.05); opacity: 0; transform: translateY(50px); transition: 1s var(--ease-out); margin-bottom: 3rem; }
+        .image-frame { position: relative; width: 100%; height: 500px; padding: 15px; background: white; border: 1px solid #eee; box-shadow: 0 20px 40px rgba(0,0,0,0.05); opacity: 0; transform: translateY(50px); transition: 1s var(--ease-out); margin-bottom: 3rem; }
         .image-frame.active { opacity: 1; transform: translateY(0); }
         .image-inner { width: 100%; height: 100%; overflow: hidden; position: relative; }
         .image-inner img { width: 100%; height: 100%; object-fit: cover; clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%); transition: clip-path 1.5s cubic-bezier(0.65, 0, 0.35, 1), transform 2s ease; transform: scale(1.1); filter: grayscale(100%); }
         .image-frame.active img { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); transform: scale(1); }
         .image-frame:hover img { filter: grayscale(0%); transform: scale(1.05); }
+
+        /* Awakening Box */
+        .awakening-box { background: var(--off-white); padding: 3rem; border-left: 4px solid var(--wood); margin: 3rem 0; }
+        .awakening-box h3 { color: var(--black); font-size: 1.5rem; margin-bottom: 1rem; font-family: 'Montserrat'; font-weight: 700; }
+        .awakening-box p { margin: 0; font-family: 'Playfair Display'; font-style: italic; font-size: 1.2rem; color: var(--gray); line-height: 1.6; }
+
+        /* Countries Grid */
+        .countries-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .country-card { display: block; text-decoration: none; background: white; border: 1px solid #eee; transition: 0.3s; }
+        .country-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); border-color: var(--burgundy); }
+        .country-img { height: 180px; width: 100%; overflow: hidden; }
+        .country-img img { width: 100%; height: 100%; object-fit: cover; transition: 1s; filter: grayscale(100%); }
+        .country-card:hover .country-img img { transform: scale(1.1); filter: grayscale(0%); }
+        .country-info { padding: 1.5rem; }
+        .country-info h4 { color: var(--black); font-size: 1rem; margin-bottom: 0.5rem; font-family: 'Montserrat'; font-weight: 700; }
+        .country-info p { color: var(--gray); font-size: 0.85rem; line-height: 1.5; margin-bottom: 1rem; }
+        .view-btn { font-family: 'Montserrat'; font-weight: 700; font-size: 0.7rem; color: var(--burgundy); letter-spacing: 1px; display: flex; align-items: center; gap: 5px; }
 
         /* --- FOOTER --- */
         footer { background: #111; color: white; padding: 6rem 0; position: relative; z-index: 10; border-top: 4px solid var(--burgundy); }
@@ -185,7 +202,7 @@
                         <div class="sidebar-titles" id="sidebarTitles">
                             <div class="sidebar-title" onclick="scrollToBlock('block-profile')">PROFILE</div>
                             <div class="sidebar-title" onclick="scrollToBlock('block-journey')">JOURNEY</div>
-                            <div class="sidebar-title" onclick="scrollToBlock('block-mission')">MISSION</div>
+                            <div class="sidebar-title" onclick="scrollToBlock('block-reach')">REACH</div>
                         </div>
                     </div>
                     <div class="sidebar-decoration"></div>
@@ -196,7 +213,7 @@
                 
                 <div class="content-block" id="block-profile">
                     <h1 class="profile-name scroll-reveal">JOSE <span>HE</span></h1>
-                    <p class="lead-text scroll-reveal" style="font-size: 1.5rem; color: var(--wood); margin-bottom: 2rem;">
+                    <p class="lead-text scroll-reveal" style="font-size: 1.5rem; color: var(--wood);">
                         (何德伟)
                     </p>
                     
@@ -206,50 +223,71 @@
                         </div>
                     </div>
 
-                    <p class="lead-text scroll-reveal" style="margin-top: 3rem;">
-                        From Ancient Roots to <span class="highlight">Modern Practice.</span>
-                    </p>
-                    
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Signature_sample.svg" class="signature scroll-reveal" alt="Signature">
+
                     <p class="body-text scroll-reveal">
-                        Growing up in a family of geomancy practitioners, Jose was exposed to ancient metaphysical wisdom from a young age. Despite this early exposure, he was initially reluctant to practise the discipline, believing it to be largely psychological in nature rather than a practical tool for real-world decision-making.
+                        <strong>Growing up in a family of geomancy practitioners</strong>, Jose was exposed to ancient metaphysical wisdom from a young age. Despite this early exposure, he was initially reluctant to practise the discipline, believing it to be largely psychological in nature rather than a practical tool for real-world decision-making.
                     </p>
                 </div>
 
                 <div class="content-block" id="block-journey">
-                    <div class="image-frame">
-                        <div class="image-inner">
-                            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070" alt="Turning Point">
-                        </div>
+                    <p class="lead-text scroll-reveal">
+                        From <span class="highlight">Crisis</span> to Clarity.
+                    </p>
+                    
+                    <div class="awakening-box scroll-reveal">
+                        <h3>The Turning Point (At 35)</h3>
+                        <p>Jose experienced the most challenging period of his life—facing over <strong>half a million dollars in debt</strong>, the breakdown of a long-term relationship, and the loss of his home. During this time, his family guided him through the structured application of Chinese metaphysical principles to reassess his direction.</p>
                     </div>
 
-                    <p class="lead-text scroll-reveal">
-                        The <span class="highlight">Turning Point.</span>
-                    </p>
-                    
                     <p class="body-text scroll-reveal">
-                        At the age of 35, Jose experienced the most challenging period of his life—facing over half a million dollars in debt, the breakdown of a long-term relationship, and the loss of his home. During this time, his family guided him through the structured application of Chinese metaphysical principles to reassess his direction, decisions, and strategies.
+                        Within two years, he successfully cleared his debts and rebuilt stability in his life. This firsthand experience shifted his perspective entirely—from scepticism to conviction. Recognising the tangible impact of these time-tested systems when applied correctly, Jose spent the following decade studying, refining, and practising Chinese Metaphysics.
                     </p>
-                </div>
 
-                <div class="content-block" id="block-mission" style="border-bottom: none;">
-                    
-                    <div class="image-frame">
-                        <div class="image-inner">
-                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070" alt="Consulting">
-                        </div>
-                    </div>
-
-                    <p class="lead-text scroll-reveal">
-                        Clarity & <span class="highlight">Conviction.</span>
-                    </p>
-                    
-                    <p class="body-text scroll-reveal">
-                        Within two years, he successfully cleared his debts and rebuilt stability in his life. This firsthand experience shifted his perspective entirely—from scepticism to conviction. Recognising the tangible impact of these time-tested systems when applied correctly, Jose spent the following decade studying, refining, and practising Chinese Metaphysics with a disciplined and results-driven approach.
-                    </p>
-                    
                     <p class="body-text scroll-reveal">
                         Today, Jose founded <strong>The Full Picture</strong> with a clear mission: to provide clarity, alignment, and actionable strategies that empower individuals and businesses to make informed decisions and create meaningful, sustainable transformation in their lives.
                     </p>
+                </div>
+
+                <div class="content-block" id="block-reach" style="border-bottom: none;">
+                    <p class="lead-text scroll-reveal">
+                        <span class="highlight">Regional Impact</span>
+                    </p>
+                    
+                    <div class="countries-grid">
+                        <a href="portfolio.html" class="country-card hover-target scroll-reveal">
+                            <div class="country-img"><img src="image_7994fa.jpg" alt="Singapore"></div>
+                            <div class="country-info">
+                                <h4>SINGAPORE</h4>
+                                <p>Corporate workshops and high-net-worth individual consultations.</p>
+                                <span class="view-btn">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </a>
+                        <a href="portfolio.html" class="country-card hover-target scroll-reveal" style="transition-delay: 0.1s;">
+                            <div class="country-img"><img src="image_7994fc.jpg" alt="Malaysia"></div>
+                            <div class="country-info">
+                                <h4>MALAYSIA</h4>
+                                <p>Large-scale seminars and SME business strategy alignment.</p>
+                                <span class="view-btn">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </a>
+                        <a href="portfolio.html" class="country-card hover-target scroll-reveal" style="transition-delay: 0.2s;">
+                            <div class="country-img"><img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=2039" alt="Thailand"></div>
+                            <div class="country-info">
+                                <h4>THAILAND</h4>
+                                <p>Spiritual wellness and leadership retreat programs.</p>
+                                <span class="view-btn">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </a>
+                        <a href="portfolio.html" class="country-card hover-target scroll-reveal" style="transition-delay: 0.3s;">
+                            <div class="country-img"><img src="https://images.unsplash.com/photo-1504457047772-27faf1c00561?q=80&w=2147" alt="Vietnam"></div>
+                            <div class="country-info">
+                                <h4>VIETNAM</h4>
+                                <p>Expanding presence with localized strategies for emerging leaders.</p>
+                                <span class="view-btn">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
 
             </main>
@@ -296,16 +334,16 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } });
         }, { threshold: 0.1 });
-        document.querySelectorAll('.scroll-reveal, .image-frame').forEach(el => observer.observe(el));
+        document.querySelectorAll('.scroll-reveal, .image-frame, .country-card').forEach(el => observer.observe(el));
 
         // 3. STICKY TITLE MECHANIC
         const titlesContainer = document.getElementById('sidebarTitles');
         const blockProfile = document.getElementById('block-profile');
         const blockJourney = document.getElementById('block-journey');
-        const blockMission = document.getElementById('block-mission');
+        const blockReach = document.getElementById('block-reach');
 
         window.addEventListener('scroll', () => {
-            // Parallax
+            // Header Parallax
             const scrolled = window.scrollY;
             const bgImg = document.querySelector('.header-bg-img');
             if(bgImg) bgImg.style.transform = `translateY(${scrolled * 0.5}px)`;
@@ -313,15 +351,15 @@
             if(window.innerWidth <= 1024) return;
 
             const journeyRect = blockJourney.getBoundingClientRect();
-            const missionRect = blockMission.getBoundingClientRect();
+            const reachRect = blockReach.getBoundingClientRect();
             const triggerPoint = window.innerHeight / 2;
 
-            if (missionRect.top < triggerPoint) {
-                titlesContainer.style.transform = 'translateY(-120px)'; 
+            if (reachRect.top < triggerPoint) {
+                titlesContainer.style.transform = 'translateY(-120px)'; // Show Reach
             } else if (journeyRect.top < triggerPoint) {
-                titlesContainer.style.transform = 'translateY(-60px)'; 
+                titlesContainer.style.transform = 'translateY(-60px)'; // Show Journey
             } else {
-                titlesContainer.style.transform = 'translateY(0px)'; 
+                titlesContainer.style.transform = 'translateY(0px)'; // Show Profile
             }
         });
 
