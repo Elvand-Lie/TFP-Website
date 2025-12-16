@@ -26,7 +26,7 @@
         }
 
         /* --- BASE --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             background-color: var(--white);
@@ -53,44 +53,29 @@
             position: relative; z-index: 2;
         }
 
-        /* --- CUSTOM CURSOR --- */
-        @media (hover: hover) and (pointer: fine) {
-            .cursor-dot, .cursor-outline {
-                position: fixed; top: 0; left: 0;
-                transform: translate(-50%, -50%); border-radius: 50%;
-                z-index: 9999; pointer-events: none;
-                mix-blend-mode: difference;
-            }
-            .cursor-dot { width: 6px; height: 6px; background-color: white; }
-            .cursor-outline {
-                width: 40px; height: 40px;
-                border: 1px solid rgba(255, 255, 255, 0.5);
-                transition: width 0.2s, height 0.2s, background-color 0.2s;
-            }
-            body.hovering .cursor-outline {
-                width: 80px; height: 80px;
-                background-color: rgba(255, 255, 255, 0.1);
-                border-color: white;
-            }
-        }
-
         /* --- TYPOGRAPHY --- */
         h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; text-transform: uppercase; }
         .serif { font-family: 'Playfair Display', serif; font-style: italic; }
 
-        /* --- LOADER --- */
-        .loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        /* --- BUTTONS --- */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
             background: var(--burgundy);
-            z-index: 10000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: transform 1s var(--ease-smooth);
+            color: white;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+            border: 1px solid var(--burgundy);
         }
-        .loader h1 { color: white; font-size: 4vw; opacity: 0; animation: fadeUp 0.8s forwards 0.2s; letter-spacing: -1px; }
-        .loader-line { width: 0%; height: 2px; background: var(--wood); margin-top: 1rem; animation: loadLine 1.2s forwards; }
-        .loader.hide { transform: translateY(-100%); }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes loadLine { to { width: 150px; } }
+        .btn:hover {
+            background: transparent;
+            color: var(--burgundy);
+        }
 
         /* --- MENU OVERLAY --- */
         .menu-overlay {
@@ -156,6 +141,7 @@
             transform: translateY(100%); animation: slideText 1.2s var(--ease-out) forwards 0.6s;
         }
         
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideText { to { transform: translateY(0); } }
 
         /* --- SPLIT LAYOUT ENGINE --- */
@@ -230,7 +216,7 @@
         }
         .body-text.active { opacity: 1; transform: translateY(0); }
 
-        /* PICTURE FRAMES (Restored) */
+        /* PICTURE FRAMES */
         .image-frame {
             position: relative; width: 100%; height: 550px;
             /* Frame Styling */
@@ -259,7 +245,7 @@
         }
         .image-frame:hover img { filter: grayscale(0%); transform: scale(1.05); }
 
-        /* --- VALUES LIST (Line Style from Reference) --- */
+        /* --- VALUES LIST --- */
         .values-list { margin-top: 4rem; border-top: 1px solid rgba(0,0,0,0.1); }
         
         .value-row {
@@ -309,14 +295,10 @@
             .value-row { grid-template-columns: 1fr; gap: 1rem; }
             
             .grid-lines { display: none; }
-            .cursor-dot, .cursor-outline { display: none; }
         }
     </style>
 </head>
-<body class="hover-target">
-
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
+<body>
 
     <div class="grid-lines">
         <div class="line-v"></div>
@@ -324,26 +306,21 @@
         <div class="line-v"></div>
     </div>
 
-    <div class="loader">
-        <h1>THE FULL PICTURE</h1>
-        <div class="loader-line"></div>
-    </div>
-
     <div class="menu-overlay" id="menuOverlay">
-        <a href="index.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="HOME">HOME</a>
-        <a href="about.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="ABOUT US">ABOUT</a>
-        <a href="services.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="SERVICES">SERVICES</a>
-        <a href="mission.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="MISSION">MISSION</a>
-        <a href="portfolio.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="PORTFOLIO">PORTFOLIO</a>
-        <a href="trainer.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="TRAINER">TRAINER</a>
-        <a href="contact.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="CONTACT">CONTACT</a>
+        <a href="index.html" class="menu-link" onclick="toggleMenu()">HOME</a>
+        <a href="about.html" class="menu-link" onclick="toggleMenu()">ABOUT</a>
+        <a href="services.html" class="menu-link" onclick="toggleMenu()">SERVICES</a>
+        <a href="mission.html" class="menu-link" onclick="toggleMenu()">MISSION</a>
+        <a href="portfolio.html" class="menu-link" onclick="toggleMenu()">PORTFOLIO</a>
+        <a href="trainer.html" class="menu-link" onclick="toggleMenu()">TRAINER</a>
+        <a href="contact.html" class="menu-link" onclick="toggleMenu()">CONTACT</a>
     </div>
 
     <nav>
         <div class="container">
             <div class="nav-inner">
-                <a href="index.html" class="logo hover-target">THE FULL PICTURE</a>
-                <div class="menu-trigger hover-target" onclick="toggleMenu()">MENU</div>
+                <a href="index.html" class="logo">THE FULL PICTURE</a>
+                <div class="menu-trigger" onclick="toggleMenu()">MENU</div>
             </div>
         </div>
     </nav>
@@ -388,7 +365,7 @@
                         THE FULL PICTURE is a premier training consultancy based in Singapore. Our approach isn't just about theory; it's about actionable alignment. We help individuals and organizations unlock their true potential by harmonizing leadership development with metaphysical practices.
                     </p>
                     
-                    <div class="image-frame hover-target">
+                    <div class="image-frame">
                         <div class="image-inner">
                             <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070" alt="Consulting Team">
                         </div>
@@ -440,7 +417,7 @@
 
                 <div class="content-block" id="block-trainer" style="border-bottom: none;">
                     
-                    <div class="image-frame hover-target" style="margin-bottom: 3rem;">
+                    <div class="image-frame" style="margin-bottom: 3rem;">
                         <div class="image-inner">
                             <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2071" alt="Jose He">
                         </div>
@@ -457,6 +434,8 @@
                     <p class="body-text scroll-reveal">
                         Coming from a family with deep expertise in geomancy, Jose experienced a profound "Destiny Awakening" that led him to bridge the gap between Bazi/Feng Shui and Corporate Strategy.
                     </p>
+
+                    <a href="trainer.html" class="btn scroll-reveal">READ FULL BIO</a>
                 </div>
 
             </main>
@@ -480,23 +459,16 @@
                 </div>
                 <div class="footer-col">
                     <h4>SOCIAL</h4>
-                    <a href="#" class="hover-target">Instagram</a>
-                    <a href="#" class="hover-target">LinkedIn</a>
-                    <a href="#" class="hover-target">Facebook</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">LinkedIn</a>
+                    <a href="#">Facebook</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // 1. LOADER
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.querySelector('.loader').classList.add('hide');
-            }, 1000);
-        });
-
-        // 2. MENU TOGGLE
+        // 1. MENU TOGGLE
         let menuOpen = false;
         function toggleMenu() {
             const overlay = document.getElementById('menuOverlay');
@@ -509,26 +481,11 @@
             } else {
                 overlay.classList.remove('active');
                 trigger.textContent = "MENU";
-                trigger.style.color = "white"; // Kept white due to mix-blend-mode
+                trigger.style.color = "white"; 
             }
         }
 
-        // 3. CURSOR
-        const dot = document.querySelector('.cursor-dot');
-        const outline = document.querySelector('.cursor-outline');
-        if(window.matchMedia("(pointer: fine)").matches) {
-            window.addEventListener('mousemove', (e) => {
-                dot.style.left = e.clientX + "px";
-                dot.style.top = e.clientY + "px";
-                outline.animate({ left: e.clientX + "px", top: e.clientY + "px" }, { duration: 500, fill: "forwards" });
-            });
-            document.querySelectorAll('.hover-target').forEach(el => {
-                el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-                el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-            });
-        }
-
-        // 4. ANIMATION OBSERVER (Wipes & Reveals)
+        // 2. ANIMATION OBSERVER (Wipes & Reveals)
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -539,7 +496,7 @@
 
         document.querySelectorAll('.scroll-reveal, .image-frame, .value-row').forEach(el => observer.observe(el));
 
-        // 5. STICKY TITLE MECHANIC (The "Elevator")
+        // 3. STICKY TITLE MECHANIC (The "Elevator")
         const titlesContainer = document.getElementById('sidebarTitles');
         const blockWho = document.getElementById('block-who');
         const blockValues = document.getElementById('block-values');
@@ -566,7 +523,7 @@
             }
         });
 
-        // 6. HEADER PARALLAX
+        // 4. HEADER PARALLAX
         window.addEventListener('scroll', () => {
             const scrolled = window.scrollY;
             const bgImg = document.querySelector('.header-bg-img');

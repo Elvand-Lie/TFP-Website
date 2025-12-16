@@ -18,7 +18,6 @@
             --gold: #D4AF37;
             --white: #ffffff;
             --black: #020408;
-            --text-dark: #111111;
             --container-width: 1300px;
         }
 
@@ -26,13 +25,13 @@
         
         body {
             background-color: var(--black);
-            color: var(--white); /* Default text white */
+            color: var(--white);
             font-family: 'Lato', sans-serif;
             overflow-x: hidden;
             width: 100%;
         }
 
-        /* --- 1. HERO VIDEO BACKGROUND (Darkened) --- */
+        /* --- 1. HERO VIDEO BACKGROUND --- */
         .hero-video-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -2;
@@ -40,11 +39,11 @@
         }
         .hero-video-bg video {
             width: 100%; height: 100%; object-fit: cover;
-            opacity: 0.075; /* Slightly higher opacity for atmosphere */
+            opacity: 0.2; /* Dimmed atmosphere */
             filter: grayscale(100%) contrast(1.2);
         }
 
-        /* --- 2. THE EXPANDING LIGHT (Zoom Engine) --- */
+        /* --- 2. TUNNEL BEAM ENGINE --- */
         .tunnel-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; pointer-events: none;
@@ -54,16 +53,12 @@
         .tunnel-light {
             position: absolute;
             top: 50%; left: 50%;
-            /* The light source */
             width: 100vw; height: 100vw;
-            /* BEAM LOGIC FIX: Tighter gradient. 
-               White core ends at 25%. 
-               Fades to completely transparent by 50% (keeping edges dark). 
-            */
+            /* The Beam Gradient: White Center -> Dark Edges */
             background: radial-gradient(circle, #ffffff 0%, #f0f0f0 25%, rgba(255,255,255,0.9) 35%, rgba(0,0,0,0) 55%);
             border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0.2); /* Start small */
-            opacity: 0.2; /* Start dim */
+            transform: translate(-50%, -50%) scale(0.2);
+            opacity: 0.2;
             will-change: transform, opacity;
         }
 
@@ -84,11 +79,14 @@
         h1, h2, h3, h4, .btn { font-family: 'Montserrat', sans-serif; text-transform: uppercase; }
         .serif { font-family: 'Playfair Display', serif; font-style: italic; }
         
+        /* --- AUTO-CONTRAST TEXT --- */
+        /* Ensures text is readable on both Dark Video and White Light */
+        .auto-contrast { mix-blend-mode: difference; color: white; }
+        
         /* --- NAV --- */
         nav {
             position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 0; z-index: 9600; 
-            mix-blend-mode: difference; /* Critical: Auto-inverts text color */
-            color: white;
+            mix-blend-mode: difference; color: white;
         }
         .nav-inner { display: flex; justify-content: space-between; align-items: center; max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; }
         .logo, .menu-trigger { font-weight: 900; font-family: 'Montserrat'; color: white; cursor: pointer; }
@@ -107,11 +105,10 @@
         }
         .menu-link:hover { color: white; letter-spacing: 0px; }
 
-        /* --- HERO (Dark Mode) --- */
+        /* --- HERO --- */
         .hero {
             min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 100px 0;
-            color: white; 
+            text-align: center; padding: 100px 0; color: white; 
         }
         .hero-title { 
             font-size: clamp(4rem, 9vw, 9rem); line-height: 0.9; margin-bottom: 2rem; font-weight: 900; letter-spacing: -3px; 
@@ -121,19 +118,29 @@
             font-size: 1.5rem; line-height: 1.5; margin-bottom: 3rem; color: #ddd; 
             text-shadow: 0 5px 15px rgba(0,0,0,0.8);
         }
-        
         .btn { padding: 1.2rem 3rem; font-weight: 700; font-size: 0.8rem; letter-spacing: 2px; transition: 0.3s; text-decoration: none; border-radius: 2px; }
         .btn-primary { background: white; color: black; border: 1px solid white; }
         .btn-primary:hover { background: transparent; color: white; }
         .btn-outline { border: 1px solid rgba(255,255,255,0.4); color: white; margin-left: 20px; }
         .btn-outline:hover { border-color: white; }
 
-        /* --- ATLAS (The Transition Point) --- */
-        /* This section uses DARK text because the spotlight will be behind it */
-        .atlas-section { 
-            padding: 12rem 0; text-align: center; position: relative; 
-            color: black; /* Force Dark Text */
+        /* --- 1ST BODY: PHILOSOPHY & COURSES --- */
+        .philosophy-section { padding: 10rem 0; text-align: center; color: white; }
+        
+        .courses-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem; margin: 4rem 0; text-align: left;
         }
+        .course-card {
+            border: 1px solid rgba(255,255,255,0.2); padding: 2rem;
+            transition: 0.3s; background: rgba(0,0,0,0.3);
+        }
+        .course-card:hover { border-color: var(--gold); background: rgba(0,0,0,0.6); }
+        .course-vol { color: var(--gold); font-size: 0.8rem; letter-spacing: 2px; font-weight: 700; margin-bottom: 0.5rem; display: block;}
+        .course-title { font-family: 'Montserrat'; font-weight: 700; font-size: 1.2rem; line-height: 1.4; }
+
+        /* --- ATLAS (Transition Point) --- */
+        .atlas-section { padding: 12rem 0; text-align: center; position: relative; color: black; }
         
         .light-mode-heading { color: black; font-weight: 900; letter-spacing: -1px; }
         .light-mode-tag { color: var(--burgundy); font-weight: 700; letter-spacing: 2px; display: block; margin-bottom: 1rem; }
@@ -141,43 +148,27 @@
 
         .atlas-visual {
             width: 100%; height: 400px; margin: 3rem 0;
-            background-image: 
-                linear-gradient(#ccc 1px, transparent 1px),
-                linear-gradient(90deg, #ccc 1px, transparent 1px);
-            background-size: 50px 50px;
-            border: 2px solid #ddd;
+            background-image: linear-gradient(#ccc 1px, transparent 1px), linear-gradient(90deg, #ccc 1px, transparent 1px);
+            background-size: 50px 50px; border: 2px solid #ddd;
             display: flex; align-items: center; justify-content: center;
         }
         .atlas-visual::after {
-            content: 'LIFE ATLAS';
-            font-family: 'Montserrat'; font-weight: 900; font-size: 5rem;
+            content: 'LIFE ATLAS'; font-family: 'Montserrat'; font-weight: 900; font-size: 5rem;
             color: rgba(0,0,0,0.05); letter-spacing: 20px;
         }
 
-        /* --- JOSE'S PATH (Split Layout) --- */
+        /* --- JOSE'S PATH --- */
         .split-section { padding: 5rem 0; position: relative; z-index: 10; color: black; }
         .split-grid { display: grid; grid-template-columns: 35% 65%; gap: 6rem; position: relative; }
-        
-        /* Sticky Left */
         .sticky-col { position: sticky; top: 15vh; height: 600px; }
         .sticky-name { font-size: 3.5rem; line-height: 1; margin-bottom: 2rem; color: black; text-shadow: none; }
         
-        .img-frame { 
-            width: 100%; height: 450px; position: relative; overflow: hidden; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1); background: #eee;
-        }
-        .img-frame img { 
-            width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; 
-            transition: opacity 0.8s ease, transform 1s ease; opacity: 0; transform: scale(1.1);
-        }
+        .img-frame { width: 100%; height: 450px; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); background: #eee; }
+        .img-frame img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; transition: opacity 0.8s ease, transform 1s ease; opacity: 0; transform: scale(1.1); }
         .img-frame img.active { opacity: 1; transform: scale(1); }
 
-        /* Scroll Right */
         .scroll-col { padding-top: 2rem; padding-bottom: 5rem; }
-        .story-block { 
-            min-height: 70vh; display: flex; flex-direction: column; justify-content: center; 
-            opacity: 0.2; transition: opacity 0.5s; transform: translateY(20px);
-        }
+        .story-block { min-height: 70vh; display: flex; flex-direction: column; justify-content: center; opacity: 0.2; transition: opacity 0.5s; transform: translateY(20px); }
         .story-block.active { opacity: 1; transform: translateY(0); }
         .story-head { font-size: 2.2rem; color: #000; font-weight: 800; margin-bottom: 1.5rem; }
         .story-text { font-size: 1.25rem; line-height: 1.8; margin-bottom: 2rem; font-family: 'Lato'; font-weight: 400; color: #444; }
@@ -185,11 +176,9 @@
         .btn-light-mode { background: var(--burgundy); color: white; border: 1px solid var(--burgundy); }
         .btn-light-mode:hover { background: transparent; color: var(--burgundy); }
 
-        /* --- CONFUSED? --- */
+        /* --- HELP & REVIEWS --- */
         .help-section { padding: 10rem 0; text-align: center; color: black; }
         .help-title { font-size: 5rem; margin-bottom: 2rem; color: black; letter-spacing: -2px; font-weight: 900; }
-        
-        /* --- REVIEWS --- */
         .reviews-section { padding-bottom: 8rem; color: black; }
         .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
         .review-card { padding: 2.5rem; background: #f9f9f9; border-left: 4px solid var(--burgundy); }
@@ -243,12 +232,39 @@
             <span style="color: var(--gold); letter-spacing: 4px; font-weight: 700; display: block; margin-bottom: 2rem;">ANCIENT WISDOM, MODERN STRATEGY</span>
             <h1 class="hero-title">GAIN ABSOLUTE<br>CLARITY</h1>
             <p class="hero-desc">
-                Gain absolute clarity and master your decisions with a proven ancient Chinese metaphysics system.
+                Gain absolute clarity and master your decision with a proven ancient Chinese metaphysics system.
             </p>
             <div class="btn-group">
                 <a href="#contact" class="btn btn-primary">Get Clarity</a>
                 <a href="about.html" class="btn btn-outline">About TFP</a>
             </div>
+        </div>
+    </section>
+
+    <section class="philosophy-section">
+        <div class="container scroll-reveal">
+            <span style="color: var(--gold); letter-spacing: 2px; font-weight: 700; display: block; margin-bottom: 1rem;">THE PHILOSOPHY</span>
+            <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem; font-weight: 800;">Absolute Clarity + Actionable Strategy = <br><span style="color: var(--gold);">A Transformed Life</span></h2>
+            <p style="font-size: 1.2rem; line-height: 1.8; color: #ddd; max-width: 800px; margin: 0 auto; font-family: 'Playfair Display';">
+                We believe the universal energy wants the best for you. Absolute clarity is not the end goal, it’s how well you know yourself, your surroundings, your opportunities and knowing <strong>WHEN</strong> to take action.
+            </p>
+
+            <div class="courses-grid">
+                <div class="course-card">
+                    <span class="course-vol">VOLUME 1</span>
+                    <h3 class="course-title">《轨道觉醒启动》<br>The Path Unlocker</h3>
+                </div>
+                <div class="course-card">
+                    <span class="course-vol">VOLUME 2</span>
+                    <h3 class="course-title">《财富成功觉醒》<br>The Art of Wealth & Success</h3>
+                </div>
+                <div class="course-card">
+                    <span class="course-vol">VOLUME 3</span>
+                    <h3 class="course-title">《领导觉醒》<br>Leadership Awakening</h3>
+                </div>
+            </div>
+
+            <a href="services.html" class="btn btn-outline">Explore Courses</a>
         </div>
     </section>
 
@@ -286,13 +302,13 @@
                     <span class="light-mode-tag">THE ORIGINS</span>
                     <h3 class="story-head">A Reluctant Beginning</h3>
                     <p class="story-text">
-                        Growing up in a family of geomancy practitioners, Jose was exposed to ancient metaphysical wisdom from a young age. Despite this early exposure, he was initially reluctant to practise the discipline, believing it to be largely psychological in nature rather than a practical tool for real-world decision-making.
+                        Growing up in a family of geomancy practitioners, Jose was exposed to ancient metaphysical wisdom from a young age. Despite this early exposure, he was initially reluctant to practise the discipline, believing it to be largely psychological in nature rather than a practical tool.
                     </p>
                 </div>
 
                 <div class="story-block" data-img="img-2">
                     <span class="light-mode-tag">THE TURNING POINT</span>
-                    <h3 class="story-head">At Age 35</h3>
+                    <h3 class="story-head">At Age 26</h3>
                     <p class="story-text">
                         Jose experienced the most challenging period of his life—facing over <strong>half a million dollars in debt</strong>, the breakdown of a long-term relationship, and the loss of his home. During this time, his family guided him through the structured application of Chinese metaphysical principles to reassess his direction.
                     </p>
@@ -358,7 +374,7 @@
             else { overlay.classList.remove('active'); trigger.textContent = "MENU"; }
         }
 
-        // --- TUNNEL ZOOM LOGIC (BEAM EFFECT FIX) ---
+        // --- TUNNEL ZOOM LOGIC (BEAM EFFECT) ---
         const light = document.getElementById('tunnelLight');
         
         window.addEventListener('scroll', () => {
@@ -366,16 +382,13 @@
             const height = document.body.scrollHeight - window.innerHeight;
             const fraction = scrolled / height;
             
-            // BEAM FIX: Slower scaling.
-            // Starts at 0.2 (Distant).
-            // At max scroll, only goes to 8x (Screen mostly covered but edges might still be darkish depending on screen ratio).
-            // This prevents it from washing out the corners instantly.
-            const scale = 0.2 + (fraction * 5); 
+            // ZOOM: Starts at 0.2 (Distant) -> Grows to 8.0 (Screen Filled)
+            // Slower multiplier (12) ensures edges stay dark during the Atlas section
+            const scale = 0.2 + (fraction * 3); 
             
-            // OPACITY:
-            // Starts dim (0.2).
-            // Becomes fully bright/solid white much faster (around 30% scroll) so Atlas is readable.
-            let opacity = 0.2 + (fraction * 3); 
+            // OPACITY: Starts dim (0.2)
+            // HITS 1.0 (Brightest) FASTER now (at 25% scroll) so Atlas is bright.
+            let opacity = 0.2 + (fraction * 1); 
             opacity = Math.min(opacity, 1); // Cap at 1.0
 
             light.style.transform = `translate(-50%, -50%) scale(${scale})`;
