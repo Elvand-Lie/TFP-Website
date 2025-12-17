@@ -79,9 +79,6 @@
         h1, h2, h3, h4, .btn { font-family: 'Montserrat', sans-serif; text-transform: uppercase; }
         .serif { font-family: 'Playfair Display', serif; font-style: italic; }
         
-        /* --- AUTO-CONTRAST TEXT --- */
-        .auto-contrast { mix-blend-mode: difference; color: white; }
-        
         /* --- NAV --- */
         nav {
             position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 0; z-index: 9600; 
@@ -90,7 +87,7 @@
         .nav-inner { display: flex; justify-content: space-between; align-items: center; max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; }
         .logo, .menu-trigger { font-weight: 900; font-family: 'Montserrat'; color: white; cursor: pointer; }
 
-        /* --- MENU OVERLAY --- */
+        /* --- MENU OVERLAY (UPDATED) --- */
         .menu-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #080808; z-index: 9500;
@@ -100,7 +97,8 @@
         .menu-overlay.active { transform: translateY(0); }
         .menu-link {
             font-family: 'Montserrat'; font-size: 3.5rem; color: rgba(255,255,255,0.3);
-            text-decoration: none; margin: 0.5rem 0; transition: 0.3s; font-weight: 900; letter-spacing: -1px;
+            text-decoration: none; margin: 0.5rem 0; transition: 0.3s; 
+            font-weight: 900; letter-spacing: -1px; position: relative;
         }
         .menu-link:hover { color: white; letter-spacing: 0px; }
 
@@ -110,7 +108,7 @@
             text-align: center; padding: 100px 0; color: white; 
         }
         .hero-title { 
-            font-size: clamp(4rem, 9vw, 9rem); /* RESTORED LARGER FONT */
+            font-size: clamp(4rem, 9vw, 9rem); 
             line-height: 0.9; margin-bottom: 2rem; font-weight: 900; letter-spacing: -3px; 
             text-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
@@ -124,7 +122,7 @@
         .btn-outline { border: 1px solid rgba(255,255,255,0.4); color: white; margin-left: 20px; }
         .btn-outline:hover { border-color: white; }
 
-        /* --- 1ST BODY: PHILOSOPHY & COURSES --- */
+        /* --- 1ST BODY --- */
         .philosophy-section { padding: 10rem 0; text-align: center; color: white; }
         
         .courses-grid {
@@ -140,10 +138,10 @@
         .course-vol { color: var(--gold); font-size: 0.8rem; letter-spacing: 2px; font-weight: 700; margin-bottom: 0.5rem; display: block;}
         .course-title { font-family: 'Montserrat'; font-weight: 700; font-size: 1.2rem; line-height: 1.4; }
 
-        /* --- ATLAS (Transition Point) --- */
+        /* --- ATLAS --- */
         .atlas-section { padding: 12rem 0; text-align: center; position: relative; color: black; }
         
-        .light-mode-heading { color: black; font-weight: 900; letter-spacing: -1px; font-size: 4rem; /* RESTORED LARGER FONT */ }
+        .light-mode-heading { color: black; font-weight: 900; letter-spacing: -1px; font-size: 4rem; }
         .light-mode-tag { color: var(--burgundy); font-weight: 700; letter-spacing: 2px; display: block; margin-bottom: 1rem; }
         .light-mode-p { color: #222; font-size: 1.4rem; line-height: 1.6; max-width: 700px; margin: 0 auto; font-weight: 500; }
 
@@ -163,7 +161,7 @@
         .split-grid { display: grid; grid-template-columns: 35% 65%; gap: 6rem; position: relative; }
         
         .sticky-col { position: sticky; top: 15vh; height: 600px; }
-        .sticky-name { font-size: 4rem; /* RESTORED LARGER FONT */ line-height: 1; margin-bottom: 2rem; color: black; text-shadow: none; }
+        .sticky-name { font-size: 4rem; line-height: 1; margin-bottom: 2rem; color: black; text-shadow: none; }
         
         .img-frame { width: 100%; height: 450px; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); background: #eee; }
         .img-frame img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; transition: opacity 0.8s ease, transform 1s ease; opacity: 0; transform: scale(1.1); }
@@ -172,8 +170,8 @@
         .scroll-col { padding-top: 2rem; padding-bottom: 5rem; }
         .story-block { min-height: 70vh; display: flex; flex-direction: column; justify-content: center; opacity: 0.2; transition: opacity 0.5s; transform: translateY(20px); }
         .story-block.active { opacity: 1; transform: translateY(0); }
-        .story-head { font-size: 2.5rem; /* RESTORED LARGER FONT */ color: #000; font-weight: 800; margin-bottom: 1.5rem; }
-        .story-text { font-size: 1.3rem; /* RESTORED LARGER FONT */ line-height: 1.8; margin-bottom: 2rem; font-family: 'Lato'; font-weight: 400; color: #444; }
+        .story-head { font-size: 2.5rem; color: #000; font-weight: 800; margin-bottom: 1.5rem; }
+        .story-text { font-size: 1.3rem; line-height: 1.8; margin-bottom: 2rem; font-family: 'Lato'; font-weight: 400; color: #444; }
 
         .btn-light-mode { background: var(--burgundy); color: white; border: 1px solid var(--burgundy); }
         .btn-light-mode:hover { background: transparent; color: var(--burgundy); }
@@ -223,10 +221,13 @@
     <div class="noise"></div>
 
     <div class="menu-overlay" id="menuOverlay">
-        <a href="index.html" class="menu-link" onclick="toggleMenu()">HOME</a>
-        <a href="about.html" class="menu-link" onclick="toggleMenu()">ABOUT</a>
-        <a href="services.html" class="menu-link" onclick="toggleMenu()">SERVICES</a>
-        <a href="contact.html" class="menu-link" onclick="toggleMenu()">CONTACT</a>
+        <a href="index.html" class="menu-link hover-target" onclick="toggleMenu()">HOME</a>
+        <a href="about.html" class="menu-link hover-target" onclick="toggleMenu()">ABOUT</a>
+        <a href="services.html" class="menu-link hover-target" onclick="toggleMenu()">SERVICES</a>
+        <a href="mission.html" class="menu-link hover-target" onclick="toggleMenu()">MISSION</a>
+        <a href="portfolio.html" class="menu-link hover-target" onclick="toggleMenu()">PORTFOLIO</a>
+        <a href="trainer.html" class="menu-link hover-target" onclick="toggleMenu()">TRAINER</a>
+        <a href="contact.html" class="menu-link hover-target" onclick="toggleMenu()">CONTACT</a>
     </div>
 
     <nav>
@@ -253,15 +254,35 @@
         <div class="container scroll-reveal">
             <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem; font-weight: 800;">Absolute Clarity + Actionable Strategy = <br><span style="color: var(--gold);">A Transformed Life</span></h2>
             <p style="font-size: 1.8rem; line-height: 1.8; color: #ddd; max-width: 800px; margin: 0 auto; font-family: 'Playfair Display';">
-                We believe the universal energy wants the best for you. Absolute clarity is just the beginning; it's HOW and WHEN to take strategic actions for a trasnformed life.
+                We believe the universal energy wants the best for you. Absolute clarity is just the beginning; it's <strong><u>HOW</u></strong> and <strong><u>WHEN</u></strong> to take strategic actions for a trasnformed life.
             </p>
+            <!-- Volumes For Later Implementation -->
+            <!--
+            <div class="courses-grid">
+                <div class="course-card">
+                    <span class="course-vol">VOLUME 1</span>
+                    <h3 class="course-title">《轨道觉醒启动》<br>The Path Unlocker</h3>
+                </div>
+                <div class="course-card">
+                    <span class="course-vol">VOLUME 2</span>
+                    <h3 class="course-title">《财富成功觉醒》<br>The Art of Wealth & Success</h3>
+                </div>
+                <div class="course-card">
+                    <span class="course-vol">VOLUME 3</span>
+                    <h3 class="course-title">《领导觉醒》<br>Leadership Awakening</h3>
+                </div>
+            </div>
+
+
+            <a href="services.html" class="btn btn-outline">Explore Courses</a>
+             -->
         </div>
     </section>
 
     <section class="atlas-section">
         <div class="container scroll-reveal">
             <span class="light-mode-tag">YOUR MAP</span>
-            <h2 class="light-mode-heading" style="font-size: 4rem; margin-bottom: 1rem;">Crafting Your Life's Atlas</h2>
+            <h2 class="light-mode-heading" style="font-size: 4rem; margin-bottom: 1rem; color: var(--gold); text-shadow: 0 10px 30px rgba(0,0,0,0.8);">Crafting Your Life's Atlas</h2>
             
             <div class="atlas-visual"></div>
 
