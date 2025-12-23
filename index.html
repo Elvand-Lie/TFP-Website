@@ -87,7 +87,7 @@
         .nav-inner { display: flex; justify-content: space-between; align-items: center; max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; }
         .logo, .menu-trigger { font-weight: 900; font-family: 'Montserrat'; color: white; cursor: pointer; }
 
-        /* --- MENU OVERLAY (UPDATED) --- */
+        /* --- MENU OVERLAY --- */
         .menu-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #080808; z-index: 9500;
@@ -108,7 +108,7 @@
             text-align: center; padding: 100px 0; color: white; 
         }
         .hero-title { 
-            font-size: clamp(4rem, 9vw, 9rem); 
+            font-size: clamp(3rem, 8vw, 9rem); 
             line-height: 0.9; margin-bottom: 2rem; font-weight: 900; letter-spacing: -3px; 
             text-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
@@ -125,19 +125,6 @@
         /* --- 1ST BODY --- */
         .philosophy-section { padding: 10rem 0; text-align: center; color: white; }
         
-        .courses-grid {
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 2rem; margin: 4rem 0; text-align: left;
-        }
-        .course-card {
-            border: 1px solid rgba(255,255,255,0.2); padding: 2rem;
-            transition: 0.3s; background: rgba(0,0,0,0.3);
-        }
-        .course-card:hover { border-color: var(--gold); background: rgba(0,0,0,0.6); }
-        .course-vol { color: var(--gold); font-size: 0.8rem; letter-spacing: 2px; font-weight: 700; margin-bottom: 0.5rem; display: block;}
-        .course-title { font-family: 'Montserrat'; font-weight: 700; font-size: 1.2rem; line-height: 1.4; }
-
         /* --- ATLAS --- */
         .atlas-section { padding: 12rem 0; text-align: center; position: relative; color: black; }
         
@@ -156,19 +143,58 @@
             color: rgba(0,0,0,0.05); letter-spacing: 20px;
         }
 
-        /* --- JOSE'S PATH --- */
+        /* --- JOSE'S PATH (REFACTORED) --- */
         .split-section { padding: 5rem 0; position: relative; z-index: 10; color: black; }
-        .split-grid { display: grid; grid-template-columns: 3.5fr 6.5fr; gap: 6rem; position: relative; }
         
-        .sticky-col { position: sticky; top: 15vh; height: 600px; }
-        .sticky-name { font-size: 4rem; line-height: 1; margin-bottom: 2rem; color: black; text-shadow: none; width: 100%; word-wrap: break-word;}
+        .split-grid { 
+            display: grid; 
+            grid-template-columns: minmax(0, 3.5fr) minmax(0, 6.5fr); 
+            gap: 6rem; 
+            position: relative; 
+        }
         
-        .img-frame { width: 100%; height: 450px; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); background: #eee; }
-        .img-frame img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; transition: opacity 0.8s ease, transform 1s ease; opacity: 0; transform: scale(1.1); }
+        .sticky-col { 
+            position: sticky; 
+            top: 15vh; 
+            /* REMOVED fixed height (600px) so it adapts to content */
+            height: auto; 
+            align-self: start;
+        }
+        
+        .sticky-name { 
+            font-size: clamp(2.5rem, 5vw, 4rem); 
+            line-height: 1; margin-bottom: 2rem; 
+            color: black; text-shadow: none; 
+            width: 100%;
+        }
+        
+        .img-frame { 
+            width: 100%; 
+            /* FIXED: Replaced fixed 450px with responsive sizing */
+            height: auto;
+            aspect-ratio: 3/4; /* Maintains a nice portrait rectangle */
+            max-height: 55vh;  /* CRITICAL: Never taller than 55% of the viewport height */
+            
+            position: relative; overflow: hidden; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); background: #eee; 
+        }
+        .img-frame img { 
+            width: 100%; height: 100%; 
+            object-fit: cover; 
+            position: absolute; top: 0; left: 0; 
+            transition: opacity 0.8s ease, transform 1s ease; 
+            opacity: 0; transform: scale(1.1); 
+        }
         .img-frame img.active { opacity: 1; transform: scale(1); }
 
         .scroll-col { padding-top: 2rem; padding-bottom: 5rem; }
-        .story-block { min-height: 70vh; display: flex; flex-direction: column; justify-content: center; opacity: 0.2; transition: opacity 0.5s; transform: translateY(20px); }
+        
+        .story-block { 
+            min-height: 70vh; 
+            display: flex; flex-direction: column; justify-content: center; 
+            opacity: 0.2; transition: opacity 0.5s; 
+            transform: translateY(20px); 
+        }
         .story-block.active { opacity: 1; transform: translateY(0); }
         .story-head { font-size: 2.5rem; color: #000; font-weight: 800; margin-bottom: 1.5rem; }
         .story-text { font-size: 1.3rem; line-height: 1.8; margin-bottom: 2rem; font-family: 'Lato'; font-weight: 400; color: #444; }
@@ -191,16 +217,27 @@
         .footer-copy { color: #666; font-size: 0.8rem; }
 
         /* Media Queries */
+        
         @media (max-width: 1300px) {
             .split-grid { gap: 3rem; }
             .sticky-col { height: auto; }
-            .img-frame { height: 350px; }
+            /* Removing the fixed 350px override here to let aspect-ratio logic handle it */
         }
 
-        @media (max-width: 1100px) {
-            .split-grid { grid-template-columns: 1fr; }
-            .sticky-col { position: relative; top: 0; height: auto; margin-bottom: 3rem; }
-            .story-block { min-height: auto; margin-bottom: 5rem; opacity: 1; }
+        @media (max-width: 1024px) {
+            .split-grid { 
+                grid-template-columns: 1fr; 
+            }
+            .sticky-col { 
+                position: relative; 
+                top: 0; height: auto; 
+                margin-bottom: 3rem; 
+            }
+            .story-block { 
+                min-height: auto; 
+                margin-bottom: 5rem; 
+                opacity: 1; 
+            }
             .hero-title { font-size: 3.5rem; }
             .btn-group { flex-direction: column; gap: 1rem; }
             .btn-outline { margin-left: 0; }
@@ -256,26 +293,6 @@
             <p style="font-size: 1.8rem; line-height: 1.8; color: #ddd; max-width: 800px; margin: 0 auto; font-family: 'Playfair Display';">
                 We believe the universal energy wants the best for you. Absolute clarity is just the beginning; it's <strong><u>HOW</u></strong> and <strong><u>WHEN</u></strong> to take strategic actions for a trasnformed life.
             </p>
-            <!-- Volumes For Later Implementation -->
-            <!--
-            <div class="courses-grid">
-                <div class="course-card">
-                    <span class="course-vol">VOLUME 1</span>
-                    <h3 class="course-title">《轨道觉醒启动》<br>The Path Unlocker</h3>
-                </div>
-                <div class="course-card">
-                    <span class="course-vol">VOLUME 2</span>
-                    <h3 class="course-title">《财富成功觉醒》<br>The Art of Wealth & Success</h3>
-                </div>
-                <div class="course-card">
-                    <span class="course-vol">VOLUME 3</span>
-                    <h3 class="course-title">《领导觉醒》<br>Leadership Awakening</h3>
-                </div>
-            </div>
-
-
-            <a href="services.html" class="btn btn-outline">Explore Courses</a>
-             -->
         </div>
     </section>
 
@@ -421,7 +438,7 @@
                     if(activeImg) activeImg.classList.add('active');
                 }
             });
-        }, { threshold: 0.5 }); 
+        }, { threshold: 0.2 });
 
         storyBlocks.forEach(block => storyObserver.observe(block));
 
@@ -439,7 +456,6 @@
             el.style.opacity = 0; el.style.transform = 'translateY(30px)'; el.style.transition = 'all 0.8s ease';
             revealObserver.observe(el);
         });
-        //testing if there's any mistakes...
     </script>
 </body>
 </html>
