@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact | THE FULL PICTURE</title>
+    <title data-lang="page_title">Contact | THE FULL PICTURE</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="The Full Picture connects ancient metaphysical wisdom with modern business strategy. Discover our mission, our lead trainer Jose He, and our transformative approach.">
+    <meta name="keywords" content="Jose He, Metaphysics, Business Strategy, Consultancy, Singapore, Mindfulness, Success">
     <style>
         :root {
             --burgundy: #800020;
@@ -17,25 +19,14 @@
             --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
             --container-width: 1400px;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: var(--white); color: var(--black); font-family: 'Lato', sans-serif; overflow-x: hidden; }
 
         .grid-lines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; display: flex; justify-content: space-between; padding: 0 5vw; }
         .line-v { width: 1px; height: 100%; background: rgba(0,0,0,0.05); }
 
-        .loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--burgundy); z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: transform 1s var(--ease-smooth); }
-        .loader h1 { color: white; font-size: 4vw; opacity: 0; animation: fadeUp 0.8s forwards 0.2s; letter-spacing: -1px; font-family: 'Montserrat'; }
-        .loader-line { width: 0%; height: 2px; background: var(--wood); margin-top: 1rem; animation: loadLine 1.2s forwards; }
-        .loader.hide { transform: translateY(-100%); }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes loadLine { to { width: 150px; } }
-
-        @media (hover: hover) and (pointer: fine) {
-            .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; mix-blend-mode: difference; }
-            .cursor-dot { width: 6px; height: 6px; background-color: white; }
-            .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(255, 255, 255, 0.5); transition: width 0.2s, height 0.2s, background-color 0.2s; }
-            body.hovering .cursor-outline { width: 80px; height: 80px; background-color: rgba(255, 255, 255, 0.1); border-color: white; }
-        }
 
         nav { position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 0; z-index: 9600; background: transparent; mix-blend-mode: difference; color: white; }
         .nav-inner { display: flex; justify-content: space-between; align-items: center; max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; }
@@ -51,7 +42,16 @@
 
         .contact-hero { height: 60vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: #000; }
         .hero-content { text-align: center; z-index: 2; color: white; }
-        .hero-title { font-size: 4.5rem; margin-bottom: 1rem; opacity: 0; animation: fadeUp 1s forwards 0.3s; font-family: 'Montserrat'; font-weight: 900; }
+        
+        .hero-title { 
+            font-size: 4.5rem; margin-bottom: 1rem; opacity: 0; 
+            transform: translateY(100%); animation: slideText 1.2s var(--ease-smooth) forwards 0.3s; 
+            font-family: 'Montserrat'; font-weight: 900; 
+        }
+        @keyframes slideText { 
+            to { transform: translateY(0); opacity: 1; } 
+        }
+
         .hero-sub { font-family: 'Playfair Display'; font-size: 1.5rem; color: var(--wood); opacity: 0; animation: fadeUp 1s forwards 0.5s; font-style: italic; }
 
         .contact-section { padding: 6rem 0 10rem; background: var(--white); border-top: 1px solid rgba(0,0,0,0.05); }
@@ -65,10 +65,25 @@
 
         .form-container { background: white; padding: 0; }
         .form-group { position: relative; margin-bottom: 3rem; }
-        .form-input { width: 100%; padding: 15px 0; background: transparent; border: none; border-bottom: 1px solid #ddd; color: var(--black); font-family: 'Lato'; font-size: 1.2rem; outline: none; transition: 0.3s; border-radius: 0; }
-        .form-label { position: absolute; top: 15px; left: 0; color: #999; pointer-events: none; transition: 0.3s ease; font-size: 1rem; }
-        .form-input:focus { border-bottom-color: var(--burgundy); }
-        .form-input:focus ~ .form-label, .form-input:valid ~ .form-label { top: -12px; font-size: 0.75rem; color: var(--burgundy); letter-spacing: 1px; font-weight: 700; }
+        
+        .form-input, .form-select { 
+            width: 100%; padding: 15px 0; background: transparent; 
+            border: none; border-bottom: 1px solid #ddd; 
+            color: var(--black); font-family: 'Lato'; font-size: 1.2rem; 
+            outline: none; transition: 0.3s; border-radius: 0; appearance: none;
+        }
+        .form-label { 
+            position: absolute; top: 15px; left: 0; color: #999; 
+            pointer-events: none; transition: 0.3s ease; font-size: 1rem; 
+        }
+        
+        .form-input:focus, .form-select:focus { border-bottom-color: var(--burgundy); }
+        .form-input:focus ~ .form-label, 
+        .form-input:valid ~ .form-label,
+        .form-select:valid ~ .form-label { 
+            top: -12px; font-size: 0.75rem; color: var(--burgundy); 
+            letter-spacing: 1px; font-weight: 700; 
+        }
         
         .btn-submit { background: var(--black); color: white; border: none; padding: 1.5rem 3rem; font-family: 'Montserrat'; font-weight: 700; letter-spacing: 2px; cursor: pointer; transition: 0.3s; margin-top: 2rem; text-transform: uppercase; }
         .btn-submit:hover { background: var(--burgundy); }
@@ -79,48 +94,245 @@
         .footer-col a { color: #888; display: block; margin-bottom: 0.8rem; text-decoration: none; transition: 0.3s; }
         .footer-col a:hover { color: white; }
 
-        @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; gap: 4rem; } .grid-lines, .cursor-dot, .cursor-outline { display: none; } }
+        @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; gap: 4rem; } .grid-lines { display: none; } }
+
+        /* --- MENU & ANIMATIONS --- */
+        .menu-trigger { cursor: pointer; display: flex; align-items: center; gap: 10px; font-family: 'Montserrat'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; color: white; }
+        .burger { width: 30px; height: 10px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+        .burger span { display: block; width: 100%; height: 2px; background: white; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+        .menu-trigger.active .burger span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-trigger.active .burger span:nth-child(2) { opacity: 0; }
+        .menu-trigger.active .burger span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        body.lang-fading [data-lang] { opacity: 0; transform: translateY(5px); }
+        [data-lang] { transition: opacity 0.4s ease, transform 0.4s ease; }
+
+        .menu-link { opacity: 0; transform: translateY(40px); transition: opacity 0.5s ease, transform 0.5s ease, color 0.3s; }
+        .menu-overlay.active .menu-link { opacity: 1; transform: translateY(0); }
+        .menu-overlay.active .menu-link:nth-child(1) { transition-delay: 0.1s; }
+        .menu-overlay.active .menu-link:nth-child(2) { transition-delay: 0.2s; }
+        .menu-overlay.active .menu-link:nth-child(3) { transition-delay: 0.3s; }
+        .menu-overlay.active .menu-link:nth-child(4) { transition-delay: 0.4s; }
+        .menu-overlay.active .menu-link:nth-child(5) { transition-delay: 0.5s; }
+        .menu-overlay.active .menu-link:nth-child(6) { transition-delay: 0.6s; }
+        .menu-overlay.active .menu-link:nth-child(7) { transition-delay: 0.7s; }
     </style>
 </head>
 <body class="hover-target">
-    <div class="cursor-dot"></div><div class="cursor-outline"></div>
     <div class="grid-lines"><div class="line-v"></div><div class="line-v"></div><div class="line-v"></div></div>
-    <div class="loader"><h1>THE FULL PICTURE</h1><div class="loader-line"></div></div>
+    
     <div class="menu-overlay" id="menuOverlay">
-        <a href="index.html" class="menu-link hover-target" data-text="HOME">HOME</a>
-        <a href="about.html" class="menu-link hover-target" data-text="ABOUT">ABOUT</a>
-        <a href="services.html" class="menu-link hover-target" data-text="SERVICES">SERVICES</a>
-        <a href="contact.html" class="menu-link hover-target" data-text="CONTACT">CONTACT</a>
+        <a href="index.html" class="menu-link hover-target" data-lang="menu_home">HOME</a>
+        <a href="about.html" class="menu-link hover-target" data-lang="menu_about">ABOUT</a>
+        <a href="services.html" class="menu-link hover-target" data-lang="menu_services">SERVICES</a>
+        <a href="mission.html" class="menu-link hover-target" data-lang="menu_mission">MISSION</a>
+        <a href="portfolio.html" class="menu-link hover-target" data-lang="menu_portfolio">PORTFOLIO</a>
+        <a href="trainer.html" class="menu-link hover-target" data-lang="menu_trainer">TRAINER</a>
+        <a href="contact.html" class="menu-link hover-target" data-lang="menu_contact">CONTACT</a>
     </div>
-    <nav><div class="nav-inner"><a href="index.html" class="logo hover-target">THE FULL PICTURE</a><div class="menu-trigger hover-target" onclick="toggleMenu()">MENU</div></div></nav>
-    <section class="contact-hero"><img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=2070" style="position:absolute; width:100%; height:100%; object-fit:cover; opacity:0.6;"><div class="hero-content"><h1 class="hero-title">CONTACT<br>US</h1><div class="hero-sub">Start Your Transformation</div></div></section>
+
+    <nav>
+        <div class="container"> 
+            <div class="nav-inner">
+                <a href="index.html" class="logo hover-target" data-lang="logo_text">THE FULL PICTURE</a>
+                <div style="display: flex; align-items: center; gap: 2.5rem;">
+                    <div class="lang-switch" onclick="toggleLanguage()" style="cursor: pointer; font-weight: 700; font-family: 'Montserrat'; font-size: 0.8rem; letter-spacing: 1px; color: white;">
+                        <span id="lang-btn-text">EN / 中文</span>
+                    </div>
+                    <div class="menu-trigger hover-target" onclick="toggleMenu()">
+                        <span class="menu-text" data-lang="menu_trigger">MENU</span>
+                        <div class="burger"><span></span><span></span><span></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <section class="contact-hero">
+        <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=2070" style="position:absolute; width:100%; height:100%; object-fit:cover; opacity:0.6;">
+        <div class="hero-content">
+            <h1 class="hero-title" data-lang="contact_hero_title">CONTACT<br>US</h1>
+            <div class="hero-sub" data-lang="contact_hero_subtitle">Start Your Transformation</div>
+        </div>
+    </section>
+
     <section class="contact-section">
         <div class="container"><div class="contact-grid">
             <div class="contact-left fade-in">
-                <div class="info-card"><span class="info-label">EMAIL</span><a href="mailto:info@thefullpicture.com" class="info-value">info@thefullpicture.com</a></div>
-                <div class="info-card"><span class="info-label">PHONE</span><a href="tel:+65XXXXXX" class="info-value">+65 XXXX XXXX</a></div>
+                <div class="info-card"><span class="info-label" data-lang="contact_info_email_label">EMAIL</span><a href="mailto:info@thefullpicture.com" class="info-value" data-lang="contact_info_email_value">info@thefullpicture.com</a></div>
+                <div class="info-card"><span class="info-label" data-lang="contact_info_phone_label">PHONE</span><a href="tel:+65XXXXXX" class="info-value" data-lang="contact_info_phone_value">+65 XXXX XXXX</a></div>
                 <div class="socials"><a href="#" class="hover-target"><i class="fab fa-instagram"></i></a><a href="#" class="hover-target"><i class="fab fa-linkedin"></i></a></div>
             </div>
             <div class="contact-right fade-in">
                 <div class="form-container">
-                    <h3 style="font-size: 2rem; margin-bottom: 3rem; font-family: 'Playfair Display'; font-style: italic;">Send us a Message</h3>
-                    <form>
-                        <div class="form-group"><input type="text" class="form-input" required placeholder=" "><label class="form-label">Your Name</label></div>
-                        <div class="form-group"><input type="email" class="form-input" required placeholder=" "><label class="form-label">Email Address</label></div>
-                        <div class="form-group"><textarea class="form-input" rows="3" required placeholder=" "></textarea><label class="form-label">Message</label></div>
-                        <button type="submit" class="btn-submit hover-target">SEND REQUEST</button>
+                    <h3 style="font-size: 2rem; margin-bottom: 3rem; font-family: 'Playfair Display'; font-style: italic;" data-lang="form_send_message_title">Send us a Message</h3>
+                    
+                    <form action="https://api.web3forms.com/submit" method="POST">
+                        <input type="hidden" name="access_key" value="5809e29b-fb1a-42c1-97dc-7bcc49f8d5eb">
+
+                        <div class="form-group">
+                            <input type="text" name="name" class="form-input" required placeholder=" ">
+                            <label class="form-label" data-lang="form_label_name">Your Name</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="email" name="email" class="form-input" required placeholder=" ">
+                            <label class="form-label" data-lang="form_label_email">Email Address</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="tel" name="phone" class="form-input" required placeholder=" ">
+                            <label class="form-label" data-lang="form_label_phone">Phone Number</label>
+                        </div>
+
+                        <div class="form-group">
+                            <select name="inquiry_type" class="form-select" required>
+                                <option value="" disabled selected></option>
+                                <option value="training" data-lang="opt_training">Training & Masterclasses</option>
+                                <option value="geomancy" data-lang="opt_geomancy">Geomancy (Feng Shui/Bazi)</option>
+                                <option value="wealth" data-lang="opt_wealth">Wealth Items (Crystals)</option>
+                                <option value="other" data-lang="opt_other">Other Enquiries</option>
+                            </select>
+                            <label class="form-label" data-lang="form_label_inquiry">Inquiry Type</label>
+                        </div>
+
+                        <div class="form-group">
+                            <textarea name="message" class="form-input" rows="3" required placeholder=" "></textarea>
+                            <label class="form-label" data-lang="form_label_message">Message</label>
+                        </div>
+
+                        <button type="submit" class="btn-submit hover-target" data-lang="form_submit_button">SEND REQUEST</button>
                     </form>
                 </div>
             </div>
         </div></div>
     </section>
-    <footer><div class="container"><div class="footer-grid"><div class="footer-col"><h4>THE FULL PICTURE</h4><p>&copy; 2025.</p></div><div class="footer-col"><h4>LINKS</h4><a href="about.html">About</a><a href="contact.html">Contact</a></div></div></div></footer>
+    
+    <footer><div class="container"><div class="footer-grid"><div class="footer-col"><h4 data-lang="footer_company_name">THE FULL PICTURE</h4><p data-lang="footer_copyright">© 2025.</p></div><div class="footer-col"><h4 data-lang="footer_links_title">LINKS</h4><a href="about.html" data-lang="footer_links_about">About</a><a href="contact.html" data-lang="footer_links_contact">Contact</a></div></div></div></footer>
+    
     <script>
-        window.addEventListener('load', () => { setTimeout(() => { document.querySelector('.loader').classList.add('hide'); }, 1000); });
+        // MENU TOGGLE
         let menuOpen = false;
-        function toggleMenu() { const overlay = document.getElementById('menuOverlay'); const trigger = document.querySelector('.menu-trigger'); menuOpen = !menuOpen; if(menuOpen) { overlay.classList.add('active'); trigger.textContent = "CLOSE"; } else { overlay.classList.remove('active'); trigger.textContent = "MENU"; } }
-        const dot = document.querySelector('.cursor-dot'); const outline = document.querySelector('.cursor-outline');
-        if(window.matchMedia("(pointer: fine)").matches) { window.addEventListener('mousemove', (e) => { dot.style.left = e.clientX + "px"; dot.style.top = e.clientY + "px"; outline.animate({ left: e.clientX + "px", top: e.clientY + "px" }, { duration: 500, fill: "forwards" }); }); document.querySelectorAll('.hover-target').forEach(el => { el.addEventListener('mouseenter', () => document.body.classList.add('hovering')); el.addEventListener('mouseleave', () => document.body.classList.remove('hovering')); }); }
+        function toggleMenu() {
+            const overlay = document.getElementById('menuOverlay');
+            const trigger = document.querySelector('.menu-trigger');
+            const menuText = document.querySelector('.menu-text');
+            menuOpen = !menuOpen;
+            if(menuOpen) {
+                overlay.classList.add('active');
+                trigger.classList.add('active');
+                if(menuText) menuText.textContent = "CLOSE";
+            } else {
+                overlay.classList.remove('active');
+                trigger.classList.remove('active');
+                if(menuText) menuText.textContent = "MENU";
+            }
+        }
+
+        // LANGUAGE LOGIC
+        const translations = {
+            "en": {
+                "page_title": "Contact | THE FULL PICTURE",
+                "menu_home": "HOME",
+                "menu_about": "ABOUT",
+                "menu_services": "SERVICES",
+                "menu_mission": "MISSION",
+                "menu_portfolio": "PORTFOLIO",
+                "menu_trainer": "TRAINER",
+                "menu_contact": "CONTACT",
+                "menu_trigger": "MENU",
+                "logo_text": "THE FULL PICTURE",
+                "contact_hero_title": "CONTACT<br>US",
+                "contact_hero_subtitle": "Start Your Transformation",
+                "contact_info_email_label": "EMAIL",
+                "contact_info_email_value": "info@thefullpicture.com",
+                "contact_info_phone_label": "PHONE",
+                "contact_info_phone_value": "+65 XXXX XXXX",
+                "form_send_message_title": "Send us a Message",
+                "form_label_name": "Your Name",
+                "form_label_email": "Email Address",
+                "form_label_phone": "Phone Number",
+                "form_label_inquiry": "Inquiry Type",
+                "form_label_message": "Message",
+                "form_submit_button": "SEND REQUEST",
+                "opt_training": "Training & Masterclasses",
+                "opt_geomancy": "Geomancy (Feng Shui/Bazi)",
+                "opt_wealth": "Wealth Items (Crystals)",
+                "opt_other": "Other Enquiries",
+                "footer_company_name": "THE FULL PICTURE",
+                "footer_copyright": "© 2025.",
+                "footer_links_title": "LINKS",
+                "footer_links_about": "About",
+                "footer_links_contact": "Contact"
+            },
+            "cn": {
+                "page_title": "联系 | 全景",
+                "menu_home": "首页",
+                "menu_about": "关于",
+                "menu_services": "服务",
+                "menu_mission": "使命",
+                "menu_portfolio": "案例",
+                "menu_trainer": "导师",
+                "menu_contact": "联系",
+                "menu_trigger": "菜单",
+                "logo_text": "全景",
+                "contact_hero_title": "联系我们",
+                "contact_hero_subtitle": "开启您的蜕变",
+                "contact_info_email_label": "电子邮件",
+                "contact_info_email_value": "info@thefullpicture.com",
+                "contact_info_phone_label": "电话",
+                "contact_info_phone_value": "+65 XXXX XXXX",
+                "form_send_message_title": "发送消息",
+                "form_label_name": "姓名",
+                "form_label_email": "邮箱地址",
+                "form_label_phone": "电话号码",
+                "form_label_inquiry": "咨询类型",
+                "form_label_message": "消息",
+                "form_submit_button": "发送请求",
+                "opt_training": "培训课程",
+                "opt_geomancy": "风水玄学",
+                "opt_wealth": "招财吉祥物",
+                "opt_other": "其他咨询",
+                "footer_company_name": "全景",
+                "footer_copyright": "© 2025.",
+                "footer_links_title": "链接",
+                "footer_links_about": "关于",
+                "footer_links_contact": "联系"
+            }
+        };
+
+        let currentLang = localStorage.getItem('tfp_lang') || 'en';
+
+        function updateContent() {
+            const elements = document.querySelectorAll('[data-lang]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+            const btnText = document.getElementById('lang-btn-text');
+            if(btnText) btnText.innerText = currentLang === 'en' ? 'EN / 中文' : 'English / CN';
+            
+            const menuTextElement = document.querySelector('.menu-text');
+            if (menuTextElement) {
+                menuTextElement.textContent = currentLang === 'en' ? (menuOpen ? 'CLOSE' : 'MENU') : (menuOpen ? '关闭' : '菜单');
+            }
+        }
+
+        function toggleLanguage() {
+            document.body.classList.add('lang-fading');
+            setTimeout(() => {
+                currentLang = currentLang === 'en' ? 'cn' : 'en';
+                localStorage.setItem('tfp_lang', currentLang);
+                updateContent();
+                document.body.classList.remove('lang-fading');
+            }, 300);
+        }
+
+        document.addEventListener('DOMContentLoaded', updateContent);
+
+        // FADE IN
         const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.style.opacity = 1; entry.target.style.transform = 'translateY(0)'; } }); }, { threshold: 0.1 }); document.querySelectorAll('.fade-in').forEach(el => { el.style.opacity = 0; el.style.transform = 'translateY(30px)'; el.style.transition = 'all 0.8s ease'; observer.observe(el); });
     </script>
 </body>

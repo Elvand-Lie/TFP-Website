@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us | THE FULL PICTURE</title>
-    
+    <meta name="description" content="The Full Picture connects ancient metaphysical wisdom with modern business strategy. Discover our mission, our lead trainer Jose He, and our transformative approach.">
+    <meta name="keywords" content="Jose He, Metaphysics, Business Strategy, Consultancy, Singapore, Mindfulness, Success">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -19,6 +20,7 @@
             --off-white: #f9f9f9;
             --black: #1a1a1a;
             --gray: #666666;
+            --gold: #D4AF37;
             
             --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
             --ease-out: cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -84,17 +86,30 @@
             z-index: 9500;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             transform: translateY(-100%);
-            transition: transform 0.8s var(--ease-smooth);
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
         }
         .menu-overlay.active { transform: translateY(0); }
+        
         .menu-link {
             font-family: 'Montserrat'; font-size: 3.5rem; color: rgba(255,255,255,0.3);
             text-decoration: none; margin: 0.5rem 0; transition: 0.3s;
             position: relative; font-weight: 900; letter-spacing: -1px;
+            /* Stagger Animation Setup */
+            opacity: 0; transform: translateY(40px); transition: opacity 0.5s ease, transform 0.5s ease, color 0.3s;
         }
         .menu-link:hover { color: white; letter-spacing: 0px; }
 
-        /* --- NAV --- */
+        /* Stagger Delays when Active */
+        .menu-overlay.active .menu-link { opacity: 1; transform: translateY(0); }
+        .menu-overlay.active .menu-link:nth-child(1) { transition-delay: 0.3s; }
+        .menu-overlay.active .menu-link:nth-child(2) { transition-delay: 0.4s; }
+        .menu-overlay.active .menu-link:nth-child(3) { transition-delay: 0.5s; }
+        .menu-overlay.active .menu-link:nth-child(4) { transition-delay: 0.6s; }
+        .menu-overlay.active .menu-link:nth-child(5) { transition-delay: 0.7s; }
+        .menu-overlay.active .menu-link:nth-child(6) { transition-delay: 0.8s; }
+        .menu-overlay.active .menu-link:nth-child(7) { transition-delay: 0.9s; }
+
+        /* --- NAV & HAMBURGER --- */
         nav {
             position: fixed; top: 0; left: 0; width: 100%;
             padding: 2rem 0;
@@ -105,9 +120,43 @@
         }
         .nav-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         .logo { font-weight: 900; font-size: 1.4rem; letter-spacing: -0.5px; color: white; text-decoration: none; }
-        .menu-trigger { font-weight: 700; cursor: pointer; font-size: 0.9rem; position: relative; letter-spacing: 1px; color: white; }
-        .menu-trigger::after { content: ''; display: block; width: 100%; height: 2px; background: white; margin-top: 4px; transition: 0.3s; }
-        .menu-trigger:hover::after { width: 50%; }
+        
+        /* Menu Trigger Animation */
+        .menu-trigger {
+            cursor: pointer;
+            display: flex; align-items: center; gap: 10px;
+            font-family: 'Montserrat'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px;
+            color: white;
+        }
+        .burger {
+            width: 30px; height: 10px;
+            position: relative;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .burger span {
+            display: block; width: 100%; height: 2px; background: white;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        /* Active State for Burger */
+        .menu-trigger.active .burger span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-trigger.active .burger span:nth-child(2) { opacity: 0; }
+        .menu-trigger.active .burger span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* Language Switcher */
+        .lang-switch {
+            cursor: pointer; font-weight: 700; font-family: 'Montserrat'; 
+            font-size: 0.8rem; letter-spacing: 1px; color: white; 
+            transition: opacity 0.3s;
+        }
+
+        /* --- LANGUAGE FADE ANIMATION --- */
+        body.lang-fading [data-lang] {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+        [data-lang] {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
 
         /* --- HEADER (Static Image Background) --- */
         .page-header {
@@ -307,20 +356,34 @@
     </div>
 
     <div class="menu-overlay" id="menuOverlay">
-        <a href="index.html" class="menu-link" onclick="toggleMenu()">HOME</a>
-        <a href="about.html" class="menu-link" onclick="toggleMenu()">ABOUT</a>
-        <a href="services.html" class="menu-link" onclick="toggleMenu()">SERVICES</a>
-        <a href="mission.html" class="menu-link" onclick="toggleMenu()">MISSION</a>
-        <a href="portfolio.html" class="menu-link" onclick="toggleMenu()">PORTFOLIO</a>
-        <a href="trainer.html" class="menu-link" onclick="toggleMenu()">TRAINER</a>
-        <a href="contact.html" class="menu-link" onclick="toggleMenu()">CONTACT</a>
+        <a href="index.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_home">HOME</a>
+        <a href="about.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_about">ABOUT</a>
+        <a href="services.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_services">SERVICES</a>
+        <a href="mission.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_mission">MISSION</a>
+        <a href="portfolio.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_portfolio">PORTFOLIO</a>
+        <a href="trainer.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_trainer">TRAINER</a>
+        <a href="contact.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_contact">CONTACT</a>
     </div>
 
     <nav>
         <div class="container">
             <div class="nav-inner">
                 <a href="index.html" class="logo">THE FULL PICTURE</a>
-                <div class="menu-trigger" onclick="toggleMenu()">MENU</div>
+                
+                <div style="display: flex; align-items: center; gap: 2.5rem;">
+                    <div class="lang-switch" onclick="toggleLanguage()" style="cursor: pointer; font-weight: 700; font-family: 'Montserrat'; font-size: 0.8rem; letter-spacing: 1px; color: white;">
+                        <span id="lang-btn-text">EN / 中文</span>
+                    </div>
+
+                    <div class="menu-trigger" onclick="toggleMenu()">
+                        <span class="menu-text" data-lang="menu_trigger">MENU</span>
+                        <div class="burger">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -329,12 +392,12 @@
         <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=2070" class="header-bg-img" alt="Background">
         
         <div class="container header-content">
-            <div class="header-label">OUR PHILOSOPHY</div>
+            <div class="header-label" data-lang="header_label">OUR PHILOSOPHY</div>
             <div class="header-title-wrap">
-                <h1 class="header-title">ABOUT</h1>
+                <h1 class="header-title" data-lang="header_title_1">ABOUT</h1>
             </div>
             <div class="header-title-wrap">
-                <h1 class="header-title">US & THEM</h1>
+                <h1 class="header-title" data-lang="header_title_2">US & THEM</h1>
             </div>
         </div>
     </header>
@@ -346,9 +409,9 @@
                 <div class="sidebar-inner">
                     <div class="title-mask">
                         <div class="sidebar-titles" id="sidebarTitles">
-                            <div class="sidebar-title">WHO WE ARE</div>
-                            <div class="sidebar-title">CORE VALUES</div>
-                            <div class="sidebar-title">LEAD TRAINER</div>
+                            <div class="sidebar-title" data-lang="sidebar_1">WHO WE ARE</div>
+                            <div class="sidebar-title" data-lang="sidebar_2">CORE VALUES</div>
+                            <div class="sidebar-title" data-lang="sidebar_3">LEAD TRAINER</div>
                         </div>
                     </div>
                     <div class="sidebar-decoration"></div>
@@ -358,10 +421,10 @@
             <main class="content-area">
                 
                 <div class="content-block" id="block-who">
-                    <p class="lead-text scroll-reveal">
+                    <p class="lead-text scroll-reveal" data-lang="who_lead">
                         We blend <span class="highlight">ancient wisdom</span> with modern business strategies to create holistic success.
                     </p>
-                    <p class="body-text scroll-reveal">
+                    <p class="body-text scroll-reveal" data-lang="who_body">
                         THE FULL PICTURE is a premier training consultancy based in Singapore. Our approach isn't just about theory; it's about actionable alignment. We help individuals and organizations unlock their true potential by harmonizing leadership development with metaphysical practices.
                     </p>
                     
@@ -374,12 +437,12 @@
 
                 <div class="marquee">
                     <div class="marquee-inner">
-                        <span>TRANSFORMATION • STRATEGY • WISDOM • SUCCESS • TRANSFORMATION • STRATEGY • WISDOM • SUCCESS •</span>
+                        <span data-lang="marquee">TRANSFORMATION • STRATEGY • WISDOM • SUCCESS • TRANSFORMATION • STRATEGY • WISDOM • SUCCESS •</span>
                     </div>
                 </div>
 
                 <div class="content-block" id="block-values">
-                    <p class="lead-text scroll-reveal">
+                    <p class="lead-text scroll-reveal" data-lang="values_lead">
                         Principles that guide our <span class="highlight">Transformation.</span>
                     </p>
                     
@@ -387,29 +450,29 @@
                         <div class="value-row scroll-reveal">
                             <div class="v-num">01</div>
                             <div class="v-content">
-                                <h3>HOLISTIC</h3>
-                                <p>We believe in aligning mind, body, and spirit. Success is structural and spiritual.</p>
+                                <h3 data-lang="val_1_title">HOLISTIC</h3>
+                                <p data-lang="val_1_desc">We believe in aligning mind, body, and spirit. Success is structural and spiritual.</p>
                             </div>
                         </div>
                         <div class="value-row scroll-reveal" style="transition-delay: 0.1s;">
                             <div class="v-num">02</div>
                             <div class="v-content">
-                                <h3>PRACTICAL</h3>
-                                <p>Ancient wisdom isn't just theoretical. We make metaphysics actionable for modern ROI.</p>
+                                <h3 data-lang="val_2_title">PRACTICAL</h3>
+                                <p data-lang="val_2_desc">Ancient wisdom isn't just theoretical. We make metaphysics actionable for modern ROI.</p>
                             </div>
                         </div>
                         <div class="value-row scroll-reveal" style="transition-delay: 0.2s;">
                             <div class="v-num">03</div>
                             <div class="v-content">
-                                <h3>TRANSFORMATIVE</h3>
-                                <p>Empowering leaders to reach "Awakening" moments that shift their entire trajectory.</p>
+                                <h3 data-lang="val_3_title">TRANSFORMATIVE</h3>
+                                <p data-lang="val_3_desc">Empowering leaders to reach "Awakening" moments that shift their entire trajectory.</p>
                             </div>
                         </div>
                         <div class="value-row scroll-reveal" style="transition-delay: 0.3s;">
                             <div class="v-num">04</div>
                             <div class="v-content">
-                                <h3>SUCCESS</h3>
-                                <p>Committed to helping our clients achieve Wealth and Harmonious Leadership.</p>
+                                <h3 data-lang="val_4_title">SUCCESS</h3>
+                                <p data-lang="val_4_desc">Committed to helping our clients achieve Wealth and Harmonious Leadership.</p>
                             </div>
                         </div>
                     </div>
@@ -424,18 +487,18 @@
                     </div>
 
                     <p class="lead-text scroll-reveal">
-                        <span class="highlight">Jose He (何德伟)</span>
+                        <span class="highlight" data-lang="trainer_name">Jose He (何德伟)</span>
                     </p>
                     
-                    <p class="body-text scroll-reveal">
+                    <p class="body-text scroll-reveal" data-lang="trainer_quote">
                         "My true path is to continue my family's legacy and bring it to new heights — 发扬光大."
                     </p>
                     
-                    <p class="body-text scroll-reveal">
+                    <p class="body-text scroll-reveal" data-lang="trainer_body">
                         Coming from a family with deep expertise in geomancy, Jose experienced a profound "Destiny Awakening" that led him to bridge the gap between Bazi/Feng Shui and Corporate Strategy.
                     </p>
 
-                    <a href="trainer.html" class="btn scroll-reveal">READ FULL BIO</a>
+                    <a href="trainer.html" class="btn scroll-reveal" data-lang="btn_bio">READ FULL BIO</a>
                 </div>
 
             </main>
@@ -447,12 +510,12 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <h4>THE FULL PICTURE</h4>
-                    <p>Combining Ancient Wisdom and Modern Business Strategy.</p>
+                    <p data-lang="footer_tag">Combining Ancient Wisdom and Modern Business Strategy.</p>
                     <br>
                     <p>&copy; 2025 THE FULL PICTURE LLP.</p>
                 </div>
                 <div class="footer-col">
-                    <h4>CONTACT</h4>
+                    <h4 data-lang="menu_contact">CONTACT</h4>
                     <p>info@thefullpicture.com</p>
                     <p>+65 XXXX XXXX</p>
                     <p>Singapore</p>
@@ -468,24 +531,96 @@
     </footer>
 
     <script>
-        // 1. MENU TOGGLE
+        // 1. MENU TOGGLE & ANIMATION
         let menuOpen = false;
         function toggleMenu() {
             const overlay = document.getElementById('menuOverlay');
             const trigger = document.querySelector('.menu-trigger');
+            const menuText = document.querySelector('.menu-text');
+            
             menuOpen = !menuOpen;
+            
             if(menuOpen) {
                 overlay.classList.add('active');
-                trigger.textContent = "CLOSE";
-                trigger.style.color = "white";
+                trigger.classList.add('active'); // Triggers burger X animation
+                if(menuText) menuText.textContent = "CLOSE";
             } else {
                 overlay.classList.remove('active');
-                trigger.textContent = "MENU";
-                trigger.style.color = "white"; 
+                trigger.classList.remove('active');
+                if(menuText) menuText.textContent = "MENU";
             }
         }
 
-        // 2. ANIMATION OBSERVER (Wipes & Reveals)
+        // 2. LANGUAGE SWITCHER LOGIC
+        const translations = {
+            "en": {
+                "menu_home": "HOME", "menu_about": "ABOUT", "menu_services": "SERVICES", "menu_mission": "MISSION", "menu_portfolio": "PORTFOLIO", "menu_trainer": "TRAINER", "menu_contact": "CONTACT", "menu_trigger": "MENU",
+                "header_label": "OUR PHILOSOPHY", "header_title_1": "ABOUT", "header_title_2": "US & THEM",
+                "sidebar_1": "WHO WE ARE", "sidebar_2": "CORE VALUES", "sidebar_3": "LEAD TRAINER",
+                "who_lead": "We blend <span class='highlight'>ancient wisdom</span> with modern business strategies to create holistic success.",
+                "who_body": "THE FULL PICTURE is a premier training consultancy based in Singapore. Our approach isn't just about theory; it's about actionable alignment. We help individuals and organizations unlock their true potential by harmonizing leadership development with metaphysical practices.",
+                "marquee": "TRANSFORMATION • STRATEGY • WISDOM • SUCCESS • TRANSFORMATION • STRATEGY • WISDOM • SUCCESS •",
+                "values_lead": "Principles that guide our <span class='highlight'>Transformation.</span>",
+                "val_1_title": "HOLISTIC", "val_1_desc": "We believe in aligning mind, body, and spirit. Success is structural and spiritual.",
+                "val_2_title": "PRACTICAL", "val_2_desc": "Ancient wisdom isn't just theoretical. We make metaphysics actionable for modern ROI.",
+                "val_3_title": "TRANSFORMATIVE", "val_3_desc": "Empowering leaders to reach 'Awakening' moments that shift their entire trajectory.",
+                "val_4_title": "SUCCESS", "val_4_desc": "Committed to helping our clients achieve Wealth and Harmonious Leadership.",
+                "trainer_name": "Jose He (何德伟)",
+                "trainer_quote": "\"My true path is to continue my family's legacy and bring it to new heights — 发扬光大.\"",
+                "trainer_body": "Coming from a family with deep expertise in geomancy, Jose experienced a profound \"Destiny Awakening\" that led him to bridge the gap between Bazi/Feng Shui and Corporate Strategy.",
+                "btn_bio": "READ FULL BIO",
+                "footer_tag": "Combining Ancient Wisdom and Modern Business Strategy."
+            },
+            "cn": {
+                "menu_home": "首页", "menu_about": "关于我们", "menu_services": "服务项目", "menu_mission": "使命愿景", "menu_portfolio": "过往案例", "menu_trainer": "导师介绍", "menu_contact": "联系我们", "menu_trigger": "菜单",
+                "header_label": "我们的哲学", "header_title_1": "关于", "header_title_2": "我们",
+                "sidebar_1": "我们是谁", "sidebar_2": "核心价值", "sidebar_3": "首席导师",
+                "who_lead": "我们将<span class='highlight'>古老智慧</span>与现代商业策略融合，创造全方位的成功。",
+                "who_body": "THE FULL PICTURE 是新加坡首屈一指的培训咨询机构。我们的方法不仅是理论，更是可行的协调。我们通过协调领导力发展与玄学实践，帮助个人和组织释放真正的潜力。",
+                "marquee": "蜕变 • 策略 • 智慧 • 成功 • 蜕变 • 策略 • 智慧 • 成功 •",
+                "values_lead": "指导我们转型的<span class='highlight'>原则。</span>",
+                "val_1_title": "整体性 (HOLISTIC)", "val_1_desc": "我们相信身心灵的统一。成功既是结构性的，也是精神性的。",
+                "val_2_title": "实用性 (PRACTICAL)", "val_2_desc": "古老智慧不仅仅是理论。我们将玄学转化为现代投资回报率的可行方案。",
+                "val_3_title": "变革性 (TRANSFORMATIVE)", "val_3_desc": "赋能领导者达到“觉醒”时刻，从而改变整个人生轨迹。",
+                "val_4_title": "成功 (SUCCESS)", "val_4_desc": "致力于帮助客户实现财富与和谐的领导力。",
+                "trainer_name": "何德伟 (Jose He)",
+                "trainer_quote": "“我的真正道路是延续家族的传承，并将其发扬光大。”",
+                "trainer_body": "出生于风水世家，Jose 经历了一次深刻的“命运觉醒”，促使他架起了八字/风水与企业战略之间的桥梁。",
+                "btn_bio": "阅读完整简介",
+                "footer_tag": "融合古代智慧与现代商业策略。"
+            }
+        };
+
+        let currentLang = localStorage.getItem('tfp_lang') || 'en';
+
+        function updateContent() {
+            const elements = document.querySelectorAll('[data-lang]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+            document.getElementById('lang-btn-text').innerText = currentLang === 'en' ? 'EN / 中文' : 'English / CN';
+        }
+
+        function toggleLanguage() {
+            // 1. Fade Out
+            document.body.classList.add('lang-fading');
+
+            // 2. Swap and Fade In
+            setTimeout(() => {
+                currentLang = currentLang === 'en' ? 'cn' : 'en';
+                localStorage.setItem('tfp_lang', currentLang);
+                updateContent();
+                document.body.classList.remove('lang-fading');
+            }, 300);
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', updateContent);
+
+        // 3. ANIMATION OBSERVER
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -496,7 +631,7 @@
 
         document.querySelectorAll('.scroll-reveal, .image-frame, .value-row').forEach(el => observer.observe(el));
 
-        // 3. STICKY TITLE MECHANIC (The "Elevator")
+        // 4. STICKY TITLE MECHANIC
         const titlesContainer = document.getElementById('sidebarTitles');
         const blockWho = document.getElementById('block-who');
         const blockValues = document.getElementById('block-values');
@@ -509,21 +644,16 @@
             const trainerRect = blockTrainer.getBoundingClientRect();
             const triggerPoint = window.innerHeight / 2;
 
-            // Logic: Move container UP to show items below
-            // Item height = 60px
             if (trainerRect.top < triggerPoint) {
-                // Show Index 2 (Trainer) -> Translate -120px
                 titlesContainer.style.transform = 'translateY(-120px)';
             } else if (valuesRect.top < triggerPoint) {
-                // Show Index 1 (Values) -> Translate -60px
                 titlesContainer.style.transform = 'translateY(-60px)';
             } else {
-                // Show Index 0 (Who) -> Translate 0
                 titlesContainer.style.transform = 'translateY(0px)';
             }
         });
 
-        // 4. HEADER PARALLAX
+        // 5. HEADER PARALLAX
         window.addEventListener('scroll', () => {
             const scrolled = window.scrollY;
             const bgImg = document.querySelector('.header-bg-img');

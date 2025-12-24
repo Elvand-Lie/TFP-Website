@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Trainer | THE FULL PICTURE</title>
+    <title data-lang="page_title">The Trainer | THE FULL PICTURE</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <meta name="description" content="The Full Picture connects ancient metaphysical wisdom with modern business strategy. Discover our mission, our lead trainer Jose He, and our transformative approach.">
+    <meta name="keywords" content="Jose He, Metaphysics, Business Strategy, Consultancy, Singapore, Mindfulness, Success">
     <style>
         /* --- DESIGN TOKENS --- */
         :root {
@@ -153,6 +154,29 @@
             .profile-name { font-size: 3rem; }
             .grid-lines { display: none; }
         }
+
+        /* --- MENU & ANIMATIONS --- */
+        .menu-trigger { cursor: pointer; display: flex; align-items: center; gap: 10px; font-family: 'Montserrat'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; color: white; }
+        .burger { width: 30px; height: 10px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+        .burger span { display: block; width: 100%; height: 2px; background: white; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+        .menu-trigger.active .burger span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-trigger.active .burger span:nth-child(2) { opacity: 0; }
+        .menu-trigger.active .burger span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* Language Fade */
+        body.lang-fading [data-lang] { opacity: 0; transform: translateY(5px); }
+        [data-lang] { transition: opacity 0.4s ease, transform 0.4s ease; }
+
+        /* Menu Stagger */
+        .menu-link { opacity: 0; transform: translateY(40px); transition: opacity 0.5s ease, transform 0.5s ease, color 0.3s; }
+        .menu-overlay.active .menu-link { opacity: 1; transform: translateY(0); }
+        .menu-overlay.active .menu-link:nth-child(1) { transition-delay: 0.1s; }
+        .menu-overlay.active .menu-link:nth-child(2) { transition-delay: 0.2s; }
+        .menu-overlay.active .menu-link:nth-child(3) { transition-delay: 0.3s; }
+        .menu-overlay.active .menu-link:nth-child(4) { transition-delay: 0.4s; }
+        .menu-overlay.active .menu-link:nth-child(5) { transition-delay: 0.5s; }
+        .menu-overlay.active .menu-link:nth-child(6) { transition-delay: 0.6s; }
+        .menu-overlay.active .menu-link:nth-child(7) { transition-delay: 0.7s; }
     </style>
 </head>
 <body>
@@ -166,30 +190,37 @@
     </div>
 
     <div class="menu-overlay" id="menuOverlay">
-        <a href="index.html" class="menu-link" onclick="toggleMenu()">HOME</a>
-        <a href="about.html" class="menu-link" onclick="toggleMenu()">ABOUT</a>
-        <a href="services.html" class="menu-link" onclick="toggleMenu()">SERVICES</a>
-        <a href="mission.html" class="menu-link" onclick="toggleMenu()">MISSION</a>
-        <a href="portfolio.html" class="menu-link" onclick="toggleMenu()">PORTFOLIO</a>
-        <a href="trainer.html" class="menu-link" onclick="toggleMenu()">TRAINER</a>
-        <a href="contact.html" class="menu-link" onclick="toggleMenu()">CONTACT</a>
+        <a href="index.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_home">HOME</a>
+        <a href="about.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_about">ABOUT</a>
+        <a href="services.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_services">SERVICES</a>
+        <a href="mission.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_mission">MISSION</a>
+        <a href="portfolio.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_portfolio">PORTFOLIO</a>
+        <a href="trainer.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_trainer">TRAINER</a>
+        <a href="contact.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_contact">CONTACT</a>
     </div>
 
-    <nav>
-        <div class="container">
-            <div class="nav-inner">
-                <a href="index.html" class="logo">THE FULL PICTURE</a>
-                <div class="menu-trigger" onclick="toggleMenu()">MENU</div>
+<nav>
+    <div class="container"> <div class="nav-inner">
+            <a href="index.html" class="logo" data-lang="logo_text">THE FULL PICTURE</a>
+            <div style="display: flex; align-items: center; gap: 2.5rem;">
+                <div class="lang-switch" onclick="toggleLanguage()" style="cursor: pointer; font-weight: 700; font-family: 'Montserrat'; font-size: 0.8rem; letter-spacing: 1px; color: white;">
+                    <span id="lang-btn-text">EN / 中文</span>
+                </div>
+                <div class="menu-trigger" onclick="toggleMenu()">
+                    <span class="menu-text" data-lang="menu_trigger">MENU</span>
+                    <div class="burger"><span></span><span></span><span></span></div>
+                </div>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <header class="page-header">
         <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2032" class="header-bg-img" alt="Trainer Background">
         <div class="container header-content">
-            <div class="header-label">LEAD TRAINER & COACH</div>
-            <div class="header-title-wrap"><h1 class="header-title">THE</h1></div>
-            <div class="header-title-wrap"><h1 class="header-title">TRAINER</h1></div>
+            <div class="header-label" data-lang="header_label">LEAD TRAINER & COACH</div>
+            <div class="header-title-wrap"><h1 class="header-title" data-lang="header_title_the">THE</h1></div>
+            <div class="header-title-wrap"><h1 class="header-title" data-lang="header_title_trainer">TRAINER</h1></div>
         </div>
     </header>
 
@@ -200,9 +231,9 @@
                 <div class="sidebar-inner">
                     <div class="title-mask">
                         <div class="sidebar-titles" id="sidebarTitles">
-                            <div class="sidebar-title" onclick="scrollToBlock('block-profile')">PROFILE</div>
-                            <div class="sidebar-title" onclick="scrollToBlock('block-journey')">JOURNEY</div>
-                            <div class="sidebar-title" onclick="scrollToBlock('block-reach')">REACH</div>
+                            <div class="sidebar-title" onclick="scrollToBlock('block-profile')" data-lang="sidebar_profile">PROFILE</div>
+                            <div class="sidebar-title" onclick="scrollToBlock('block-journey')" data-lang="sidebar_journey">JOURNEY</div>
+                            <div class="sidebar-title" onclick="scrollToBlock('block-reach')" data-lang="sidebar_reach">REACH</div>
                         </div>
                     </div>
                     <div class="sidebar-decoration"></div>
@@ -212,7 +243,7 @@
             <main class="content-area">
                 
                 <div class="content-block" id="block-profile">
-                    <h1 class="profile-name scroll-reveal">JOSE <span>HE</span></h1>
+                    <h1 class="profile-name scroll-reveal"><span data-lang="profile_name_first">JOSE</span> <span><span data-lang="profile_name_last">HE</span></span></h1>
                     <p class="lead-text scroll-reveal" style="font-size: 1.5rem; color: var(--wood);">
                         (何德伟)
                     </p>
@@ -223,34 +254,34 @@
                         </div>
                     </div>
 
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Signature_sample.svg" class="signature scroll-reveal" alt="Signature">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Signature_sample.svg" class="signature scroll-reveal" alt="Signature" data-lang="signature_alt">
 
-                    <p class="body-text scroll-reveal">
+                    <p class="body-text scroll-reveal" data-lang="profile_desc_p1">
                         <strong>Growing up in a family of geomancy practitioners</strong>, Jose was exposed to ancient metaphysical wisdom from a young age. Despite this early exposure, he was initially reluctant to practise the discipline, believing it to be largely psychological in nature rather than a practical tool for real-world decision-making.
                     </p>
                 </div>
 
                 <div class="content-block" id="block-journey">
-                    <p class="lead-text scroll-reveal">
+                    <p class="lead-text scroll-reveal" data-lang="journey_lead_text">
                         From <span class="highlight">Crisis</span> to Clarity.
                     </p>
                     
                     <div class="awakening-box scroll-reveal">
-                        <h3>The Turning Point (At 35)</h3>
-                        <p>Jose experienced the most challenging period of his life—facing over <strong>half a million dollars in debt</strong>, the breakdown of a long-term relationship, and the loss of his home. During this time, his family guided him through the structured application of Chinese metaphysical principles to reassess his direction.</p>
+                        <h3 data-lang="turning_point_title">The Turning Point (At 35)</h3>
+                        <p data-lang="turning_point_desc">Jose experienced the most challenging period of his life—facing over <strong>half a million dollars in debt</strong>, the breakdown of a long-term relationship, and the loss of his home. During this time, his family guided him through the structured application of Chinese metaphysical principles to reassess his direction.</p>
                     </div>
 
-                    <p class="body-text scroll-reveal">
+                    <p class="body-text scroll-reveal" data-lang="journey_body_p1">
                         Within two years, he successfully cleared his debts and rebuilt stability in his life. This firsthand experience shifted his perspective entirely—from scepticism to conviction. Recognising the tangible impact of these time-tested systems when applied correctly, Jose spent the following decade studying, refining, and practising Chinese Metaphysics.
                     </p>
 
-                    <p class="body-text scroll-reveal">
+                    <p class="body-text scroll-reveal" data-lang="journey_body_p2">
                         Today, Jose founded <strong>The Full Picture</strong> with a clear mission: to provide clarity, alignment, and actionable strategies that empower individuals and businesses to make informed decisions and create meaningful, sustainable transformation in their lives.
                     </p>
                 </div>
 
                 <div class="content-block" id="block-reach" style="border-bottom: none;">
-                    <p class="lead-text scroll-reveal">
+                    <p class="lead-text scroll-reveal" data-lang="reach_lead_text">
                         <span class="highlight">Regional Impact</span>
                     </p>
                     
@@ -258,33 +289,33 @@
                         <a href="portfolio.html" class="country-card hover-target scroll-reveal">
                             <div class="country-img"><img src="image_7994fa.jpg" alt="Singapore"></div>
                             <div class="country-info">
-                                <h4>SINGAPORE</h4>
-                                <p>Corporate workshops and high-net-worth individual consultations.</p>
-                                <span class="view-btn">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
+                                <h4 data-lang="country_singapore_title">SINGAPORE</h4>
+                                <p data-lang="country_singapore_desc">Corporate workshops and high-net-worth individual consultations.</p>
+                                <span class="view-btn" data-lang="view_portfolio">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
                             </div>
                         </a>
                         <a href="portfolio.html" class="country-card hover-target scroll-reveal" style="transition-delay: 0.1s;">
                             <div class="country-img"><img src="image_7994fc.jpg" alt="Malaysia"></div>
                             <div class="country-info">
-                                <h4>MALAYSIA</h4>
-                                <p>Large-scale seminars and SME business strategy alignment.</p>
-                                <span class="view-btn">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
+                                <h4 data-lang="country_malaysia_title">MALAYSIA</h4>
+                                <p data-lang="country_malaysia_desc">Large-scale seminars and SME business strategy alignment.</p>
+                                <span class="view-btn" data-lang="view_portfolio">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
                             </div>
                         </a>
                         <a href="portfolio.html" class="country-card hover-target scroll-reveal" style="transition-delay: 0.2s;">
                             <div class="country-img"><img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=2039" alt="Thailand"></div>
                             <div class="country-info">
-                                <h4>THAILAND</h4>
-                                <p>Spiritual wellness and leadership retreat programs.</p>
-                                <span class="view-btn">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
+                                <h4 data-lang="country_thailand_title">THAILAND</h4>
+                                <p data-lang="country_thailand_desc">Spiritual wellness and leadership retreat programs.</p>
+                                <span class="view-btn" data-lang="view_portfolio">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
                             </div>
                         </a>
                         <a href="portfolio.html" class="country-card hover-target scroll-reveal" style="transition-delay: 0.3s;">
                             <div class="country-img"><img src="https://images.unsplash.com/photo-1504457047772-27faf1c00561?q=80&w=2147" alt="Vietnam"></div>
                             <div class="country-info">
-                                <h4>VIETNAM</h4>
-                                <p>Expanding presence with localized strategies for emerging leaders.</p>
-                                <span class="view-btn">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
+                                <h4 data-lang="country_vietnam_title">VIETNAM</h4>
+                                <p data-lang="country_vietnam_desc">Expanding presence with localized strategies for emerging leaders.</p>
+                                <span class="view-btn" data-lang="view_portfolio">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></span>
                             </div>
                         </a>
                     </div>
@@ -298,45 +329,190 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h4>THE FULL PICTURE</h4>
-                    <p>Combining Ancient Wisdom and Modern Business Strategy.</p>
+                    <h4 data-lang="footer_company_name">THE FULL PICTURE</h4>
+                    <p data-lang="footer_company_tagline">Combining Ancient Wisdom and Modern Business Strategy.</p>
                     <br>
-                    <p>&copy; 2025 THE FULL PICTURE LLP.</p>
+                    <p data-lang="footer_copyright">© 2025 THE FULL PICTURE LLP.</p>
                 </div>
                 <div class="footer-col">
-                    <h4>CONTACT</h4>
-                    <p>info@thefullpicture.com</p>
-                    <p>+65 XXXX XXXX</p>
-                    <p>Singapore</p>
+                    <h4 data-lang="footer_contact_title">CONTACT</h4>
+                    <p data-lang="footer_contact_email">info@thefullpicture.com</p>
+                    <p data-lang="footer_contact_phone">+65 XXXX XXXX</p>
+                    <p data-lang="footer_contact_location">Singapore</p>
                 </div>
                 <div class="footer-col">
-                    <h4>SOCIAL</h4>
-                    <a href="#">Instagram</a>
-                    <a href="#">LinkedIn</a>
-                    <a href="#">Facebook</a>
+                    <h4 data-lang="footer_social_title">SOCIAL</h4>
+                    <a href="#" data-lang="footer_social_instagram">Instagram</a>
+                    <a href="#" data-lang="footer_social_linkedin">LinkedIn</a>
+                    <a href="#" data-lang="footer_social_facebook">Facebook</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // 1. MENU
+        const translations = {
+            "en": {
+                "page_title": "The Trainer | THE FULL PICTURE",
+                "menu_home": "HOME",
+                "menu_about": "ABOUT",
+                "menu_services": "SERVICES",
+                "menu_mission": "MISSION",
+                "menu_portfolio": "PORTFOLIO",
+                "menu_trainer": "TRAINER",
+                "menu_contact": "CONTACT",
+                "menu_trigger": "MENU",
+                "logo_text": "THE FULL PICTURE",
+                "header_label": "LEAD TRAINER & COACH",
+                "header_title_the": "THE",
+                "header_title_trainer": "TRAINER",
+                "sidebar_profile": "PROFILE",
+                "sidebar_journey": "JOURNEY",
+                "sidebar_reach": "REACH",
+                "profile_name_first": "JOSE",
+                "profile_name_last": "HE",
+                "profile_desc_p1": "Growing up in a family of geomancy practitioners, Jose was exposed to ancient metaphysical wisdom from a young age. Despite this early exposure, he was initially reluctant to practise the discipline, believing it to be largely psychological in nature rather than a practical tool for real-world decision-making.",
+                "signature_alt": "Signature",
+                "journey_lead_text": "From Crisis to Clarity.",
+                "turning_point_title": "The Turning Point (At 35)",
+                "turning_point_desc": "Jose experienced the most challenging period of his life—facing over half a million dollars in debt, the breakdown of a long-term relationship, and the loss of his home. During this time, his family guided him through the structured application of Chinese metaphysical principles to reassess his direction.",
+                "journey_body_p1": "Within two years, he successfully cleared his debts and rebuilt stability in his life. This firsthand experience shifted his perspective entirely—from scepticism to conviction. Recognising the tangible impact of these time-tested systems when applied correctly, Jose spent the following decade studying, refining, and practising Chinese Metaphysics.",
+                "journey_body_p2": "Today, Jose founded The Full Picture with a clear mission: to provide clarity, alignment, and actionable strategies that empower individuals and businesses to make informed decisions and create meaningful, sustainable transformation in their lives.",
+                "reach_lead_text": "Regional Impact",
+                "country_singapore_title": "SINGAPORE",
+                "country_singapore_desc": "Corporate workshops and high-net-worth individual consultations.",
+                "view_portfolio": "VIEW PORTFOLIO <i class=\"fas fa-arrow-right\"></i>",
+                "country_malaysia_title": "MALAYSIA",
+                "country_malaysia_desc": "Large-scale seminars and SME business strategy alignment.",
+                "country_thailand_title": "THAILAND",
+                "country_thailand_desc": "Spiritual wellness and leadership retreat programs.",
+                "country_vietnam_title": "VIETNAM",
+                "country_vietnam_desc": "Expanding presence with localized strategies for emerging leaders.",
+                "footer_company_name": "THE FULL PICTURE",
+                "footer_company_tagline": "Combining Ancient Wisdom and Modern Business Strategy.",
+                "footer_copyright": "© 2025 THE FULL PICTURE LLP.",
+                "footer_contact_title": "CONTACT",
+                "footer_contact_email": "info@thefullpicture.com",
+                "footer_contact_phone": "+65 XXXX XXXX",
+                "footer_contact_location": "Singapore",
+                "footer_social_title": "SOCIAL",
+                "footer_social_instagram": "Instagram",
+                "footer_social_linkedin": "LinkedIn",
+                "footer_social_facebook": "Facebook"
+            },
+            "cn": {
+                "page_title": "培训师 | 全景",
+                "menu_home": "首页",
+                "menu_about": "关于我们",
+                "menu_services": "服务",
+                "menu_mission": "使命",
+                "menu_portfolio": "案例",
+                "menu_trainer": "培训师",
+                "menu_contact": "联系我们",
+                "menu_trigger": "菜单",
+                "logo_text": "全景",
+                "header_label": "首席培训师与教练",
+                "header_title_the": "的",
+                "header_title_trainer": "培训师",
+                "sidebar_profile": "个人简介",
+                "sidebar_journey": "历程",
+                "sidebar_reach": "联络",
+                "profile_name_first": "约瑟",
+                "profile_name_last": "何",
+                "profile_desc_p1": "Jose 出生于风水世家，从小接触古老的玄学智慧。尽管早有耳闻，他最初并不愿从事这一行，认为它更多是心理层面的影响，而非解决实际问题的实用工具。",
+                "signature_alt": "标志性",
+                "journey_lead_text": "从危机到清晰。",
+                "turning_point_title": "转折点 (35岁时)",
+                "turning_point_desc": "Jose 经历了人生中最具挑战的时期——背负五十多万美元的债务，长期关系破裂，并失去了家园。在此期间，他的家人引导他系统地运用中国玄学原理，重新审视自己的人生方向。",
+                "journey_body_p1": "两年内，他成功还清债务，重建了生活的稳定。这次亲身经历彻底改变了他的看法——从怀疑到坚信。Jose 认识到这些久经考验的系统在正确应用时所产生的实际影响，于是他在接下来的十年里，全身心投入到中国玄学的学习、精进和实践中。",
+                "journey_body_p2": "如今，Jose 创立了 The Full Picture，其明确使命是：提供清晰的洞察、校准和可操作的策略，赋能个人和企业做出明智决策，并在生活中实现有意义、可持续的转变。",
+                "reach_lead_text": "区域影响力",
+                "country_singapore_title": "新加坡",
+                "country_singapore_desc": "企业工作坊及高净值人士咨询。",
+                "view_portfolio": "查看案例",
+                "country_malaysia_title": "马来西亚",
+                "country_malaysia_desc": "大型研讨会及中小企业战略校准。",
+                "country_thailand_title": "泰国",
+                "country_thailand_desc": "精神健康与领导力静修项目。",
+                "country_vietnam_title": "越南",
+                "country_vietnam_desc": "通过本地化策略拓展新兴领导者市场。",
+                "footer_company_name": "全景",
+                "footer_company_tagline": "融合古老智慧与现代商业策略",
+                "footer_copyright": "© 2025 THE FULL PICTURE 有限责任合伙",
+                "footer_contact_title": "联系",
+                "footer_contact_email": "info@thefullpicture.com",
+                "footer_contact_phone": "+65 XXXX XXXX",
+                "footer_contact_location": "新加坡",
+                "footer_social_title": "社交媒体",
+                "footer_social_instagram": "Instagram",
+                "footer_social_linkedin": "LinkedIn",
+                "footer_social_facebook": "Facebook"
+            }
+        };
+
+        // MENU TOGGLE
         let menuOpen = false;
         function toggleMenu() {
             const overlay = document.getElementById('menuOverlay');
             const trigger = document.querySelector('.menu-trigger');
+            const menuText = document.querySelector('.menu-text');
             menuOpen = !menuOpen;
-            if(menuOpen) { overlay.classList.add('active'); trigger.textContent = "CLOSE"; trigger.style.color = "white"; } 
-            else { overlay.classList.remove('active'); trigger.textContent = "MENU"; trigger.style.color = "white"; }
+            if(menuOpen) {
+                overlay.classList.add('active');
+                trigger.classList.add('active');
+                if(menuText) menuText.textContent = "CLOSE";
+            } else {
+                overlay.classList.remove('active');
+                trigger.classList.remove('active');
+                if(menuText) menuText.textContent = "MENU";
+            }
         }
 
-        // 2. ANIMATION OBSERVER
+        // LANGUAGE LOGIC
+        let currentLang = localStorage.getItem('tfp_lang') || 'en';
+
+        function updateContent() {
+            const elements = document.querySelectorAll('[data-lang]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+            const btnText = document.getElementById('lang-btn-text');
+            if(btnText) btnText.innerText = currentLang === 'en' ? 'EN / 中文' : 'English / CN';
+            
+            // Handle the dynamic "CLOSE" / "MENU" text for the menu trigger
+            const menuTextElement = document.querySelector('.menu-text');
+            if (menuTextElement) {
+                // Ensure the menuText is also translated if the menu is open/closed
+                if (currentLang === 'en') {
+                    menuTextElement.textContent = menuOpen ? 'CLOSE' : 'MENU';
+                } else {
+                    menuTextElement.textContent = menuOpen ? '关闭' : '菜单';
+                }
+            }
+        }
+
+        function toggleLanguage() {
+            document.body.classList.add('lang-fading');
+            setTimeout(() => {
+                currentLang = currentLang === 'en' ? 'cn' : 'en';
+                localStorage.setItem('tfp_lang', currentLang);
+                updateContent();
+                document.body.classList.remove('lang-fading');
+            }, 300);
+        }
+
+        document.addEventListener('DOMContentLoaded', updateContent);
+
+        // 2. ANIMATION OBSERVER (Original from trainer.html)
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } });
         }, { threshold: 0.1 });
         document.querySelectorAll('.scroll-reveal, .image-frame, .country-card').forEach(el => observer.observe(el));
 
-        // 3. STICKY TITLE MECHANIC
+        // 3. STICKY TITLE MECHANIC (Original from trainer.html)
         const titlesContainer = document.getElementById('sidebarTitles');
         const blockProfile = document.getElementById('block-profile');
         const blockJourney = document.getElementById('block-journey');

@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mission & Vision | THE FULL PICTURE</title>
+    <title data-lang="page_title">Mission & Vision | THE FULL PICTURE</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="The Full Picture connects ancient metaphysical wisdom with modern business strategy. Discover our mission, our lead trainer Jose He, and our transformative approach.">
+    <meta name="keywords" content="Jose He, Metaphysics, Business Strategy, Consultancy, Singapore, Mindfulness, Success">
 
     <style>
         /* --- DESIGN SYSTEM --- */
@@ -26,19 +28,13 @@
             --container-width: 1400px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: var(--paper); color: #222; font-family: 'Lato', sans-serif; overflow-x: hidden; }
 
         /* --- UTILS --- */
         .container { max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
         
-        /* --- CURSOR --- */
-        @media (hover: hover) and (pointer: fine) {
-            .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; mix-blend-mode: difference; }
-            .cursor-dot { width: 6px; height: 6px; background-color: white; }
-            .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(255, 255, 255, 0.5); transition: width 0.2s, height 0.2s, background-color 0.2s; }
-            body.hovering .cursor-outline { width: 80px; height: 80px; background-color: rgba(255, 255, 255, 0.1); border-color: white; }
-        }
+
 
         /* --- TYPOGRAPHY --- */
         h1, h2, h3 { font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: -1px; }
@@ -146,17 +142,38 @@
         .footer-col a { color: #888; display: block; margin-bottom: 0.8rem; text-decoration: none; transition: 0.3s; }
         .footer-col a:hover { color: white; }
 
-        /* --- MOBILE --- */
-        @media (max-width: 900px) {
-            .header-title { font-size: 3rem; }
-            .cursor-dot, .cursor-outline { display: none; }
-        }
-    </style>
-</head>
+                    /* --- MOBILE --- */
+                    @media (max-width: 900px) {
+                        .header-title { font-size: 3rem; }
+                        .cursor-dot, .cursor-outline { display: none; }
+                    }
+        
+                    /* --- MENU & ANIMATIONS --- */
+                    .menu-trigger { cursor: pointer; display: flex; align-items: center; gap: 10px; font-family: 'Montserrat'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; color: white; }
+                    .burger { width: 30px; height: 10px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+                    .burger span { display: block; width: 100%; height: 2px; background: white; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+                    .menu-trigger.active .burger span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+                    .menu-trigger.active .burger span:nth-child(2) { opacity: 0; }
+                    .menu-trigger.active .burger span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+        
+                    /* Language Fade */
+                    body.lang-fading [data-lang] { opacity: 0; transform: translateY(5px); }
+                    [data-lang] { transition: opacity 0.4s ease, transform 0.4s ease; }
+        
+                    /* Menu Stagger */
+                    .menu-link { opacity: 0; transform: translateY(40px); transition: opacity 0.5s ease, transform 0.5s ease, color 0.3s; }
+                    .menu-overlay.active .menu-link { opacity: 1; transform: translateY(0); }
+                    .menu-overlay.active .menu-link:nth-child(1) { transition-delay: 0.1s; }
+                    .menu-overlay.active .menu-link:nth-child(2) { transition-delay: 0.2s; }
+                    .menu-overlay.active .menu-link:nth-child(3) { transition-delay: 0.3s; }
+                    .menu-overlay.active .menu-link:nth-child(4) { transition-delay: 0.4s; }
+                    .menu-overlay.active .menu-link:nth-child(5) { transition-delay: 0.5s; }
+                    .menu-overlay.active .menu-link:nth-child(6) { transition-delay: 0.6s; }
+                    .menu-overlay.active .menu-link:nth-child(7) { transition-delay: 0.7s; }
+            </style></head>
 <body class="hover-target">
 
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
+
     <div class="grid-lines">
         <div class="line-v"></div>
         <div class="line-v"></div>
@@ -164,34 +181,41 @@
     </div>
 
     <div class="menu-overlay" id="menuOverlay">
-        <a href="index.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="HOME">HOME</a>
-        <a href="about.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="ABOUT US">ABOUT</a>
-        <a href="services.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="SERVICES">SERVICES</a>
-        <a href="mission.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="MISSION">MISSION</a>
-        <a href="portfolio.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="PORTFOLIO">PORTFOLIO</a>
-        <a href="trainer.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="TRAINER">TRAINER</a>
-        <a href="contact.html" class="menu-link hover-target" onclick="toggleMenu()" data-text="CONTACT">CONTACT</a>
+        <a href="index.html" class="menu-link hover-target" onclick="toggleMenu()" data-lang="menu_home">HOME</a>
+        <a href="about.html" class="menu-link hover-target" onclick="toggleMenu()" data-lang="menu_about">ABOUT</a>
+        <a href="services.html" class="menu-link hover-target" onclick="toggleMenu()" data-lang="menu_services">SERVICES</a>
+        <a href="mission.html" class="menu-link hover-target" onclick="toggleMenu()" data-lang="menu_mission">MISSION</a>
+        <a href="portfolio.html" class="menu-link hover-target" onclick="toggleMenu()" data-lang="menu_portfolio">PORTFOLIO</a>
+        <a href="trainer.html" class="menu-link hover-target" onclick="toggleMenu()" data-lang="menu_trainer">TRAINER</a>
+        <a href="contact.html" class="menu-link hover-target" onclick="toggleMenu()" data-lang="menu_contact">CONTACT</a>
     </div>
 
-    <nav>
-        <div class="container">
-            <div class="nav-inner">
-                <a href="index.html" class="logo hover-target">THE FULL PICTURE</a>
-                <div class="menu-trigger hover-target" onclick="toggleMenu()">MENU</div>
+<nav>
+    <div class="container"> <div class="nav-inner">
+            <a href="index.html" class="logo" data-lang="logo_text">THE FULL PICTURE</a>
+            <div style="display: flex; align-items: center; gap: 2.5rem;">
+                <div class="lang-switch" onclick="toggleLanguage()" style="cursor: pointer; font-weight: 700; font-family: 'Montserrat'; font-size: 0.8rem; letter-spacing: 1px; color: white;">
+                    <span id="lang-btn-text">EN / 中文</span>
+                </div>
+                <div class="menu-trigger" onclick="toggleMenu()">
+                    <span class="menu-text" data-lang="menu_trigger">MENU</span>
+                    <div class="burger"><span></span><span></span><span></span></div>
+                </div>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <header class="page-header">
         <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070" class="header-bg-img" alt="Background">
         
         <div class="container header-content">
-            <div class="header-label">THE WHY BEHIND THE WAY</div>
+            <div class="header-label" data-lang="header_label">THE WHY BEHIND THE WAY</div>
             <div class="header-title-wrap">
-                <h1 class="header-title">OUR</h1>
+                <h1 class="header-title" data-lang="header_title_our">OUR</h1>
             </div>
             <div class="header-title-wrap">
-                <h1 class="header-title">PURPOSE</h1>
+                <h1 class="header-title" data-lang="header_title_purpose">PURPOSE</h1>
             </div>
         </div>
     </header>
@@ -199,9 +223,9 @@
     <section class="mission-section">
         <div class="container">
             <div class="mission-grid fade-in">
-                <span class="section-label">OUR MISSION</span>
+                <span class="section-label" data-lang="mission_section_label">OUR MISSION</span>
                 <h2 class="statement-text">
-                    "To guide individuals and businesses in <span>aligning their true purpose</span> with their success, through the integration of ancient wisdom and modern strategies."
+                    "<span data-lang="mission_statement">To guide individuals and businesses in <span>aligning their true purpose</span> with their success, through the integration of ancient wisdom and modern strategies.</span>"
                 </h2>
             </div>
         </div>
@@ -214,9 +238,9 @@
     <section class="vision-section">
         <div class="container">
             <div class="vision-box fade-in">
-                <span class="section-label">OUR VISION</span>
+                <span class="section-label" data-lang="vision_section_label">OUR VISION</span>
                 <p class="vision-text">
-                    "To be the leading provider of transformational training and geomancy services in Southeast Asia, empowering people to unlock their full potential and <strong>lead balanced, successful lives.</strong>"
+                    "<span data-lang="vision_statement">To be the leading provider of transformational training and geomancy services in Southeast Asia, empowering people to unlock their full potential and <strong>lead balanced, successful lives.</strong></span>"
                 </p>
             </div>
         </div>
@@ -225,7 +249,7 @@
     <section class="tagline-section">
         <div class="pattern-overlay"></div>
         <div class="container fade-in">
-            <h2 class="big-tagline">Create Your Path.<br>Achieve Your Success.</h2>
+            <h2 class="big-tagline"><span data-lang="tagline_main">Create Your Path.</span><br><span data-lang="tagline_sub">Achieve Your Success.</span></h2>
         </div>
     </section>
 
@@ -233,63 +257,154 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h4>THE FULL PICTURE</h4>
-                    <p>Combining Ancient Wisdom and Modern Business Strategy.</p>
+                    <h4 data-lang="footer_company_name">THE FULL PICTURE</h4>
+                    <p data-lang="footer_company_tagline">Combining Ancient Wisdom and Modern Business Strategy.</p>
                     <br>
-                    <p>&copy; 2025 THE FULL PICTURE LLP.</p>
+                    <p data-lang="footer_copyright">© 2025 THE FULL PICTURE LLP.</p>
                 </div>
                 <div class="footer-col">
-                    <h4>CONTACT</h4>
-                    <p>info@thefullpicture.com</p>
-                    <p>+65 XXXX XXXX</p>
-                    <p>Singapore</p>
+                    <h4 data-lang="footer_contact_title">CONTACT</h4>
+                    <p data-lang="footer_contact_email">info@thefullpicture.com</p>
+                    <p data-lang="footer_contact_phone">+65 XXXX XXXX</p>
+                    <p data-lang="footer_contact_location">Singapore</p>
                 </div>
                 <div class="footer-col">
-                    <h4>LINKS</h4>
-                    <a href="about.html">About Us</a>
-                    <a href="services.html">Services</a>
-                    <a href="contact.html">Contact</a>
+                    <h4 data-lang="footer_links_title">LINKS</h4>
+                    <a href="about.html" data-lang="footer_links_about">About Us</a>
+                    <a href="services.html" data-lang="footer_links_services">Services</a>
+                    <a href="contact.html" data-lang="footer_links_contact">Contact</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // MENU
+        const translations = {
+            "en": {
+                "page_title": "Mission & Vision | THE FULL PICTURE",
+                "menu_home": "HOME",
+                "menu_about": "ABOUT",
+                "menu_services": "SERVICES",
+                "menu_mission": "MISSION",
+                "menu_portfolio": "PORTFOLIO",
+                "menu_trainer": "TRAINER",
+                "menu_contact": "CONTACT",
+                "menu_trigger": "MENU",
+                "logo_text": "THE FULL PICTURE",
+                "header_label": "THE WHY BEHIND THE WAY",
+                "header_title_our": "OUR",
+                "header_title_purpose": "PURPOSE",
+                "mission_section_label": "OUR MISSION",
+                "mission_statement": "To guide individuals and businesses in aligning their true purpose with their success, through the integration of ancient wisdom and modern strategies.",
+                "vision_section_label": "OUR VISION",
+                "vision_statement": "To be the leading provider of transformational training and geomancy services in Southeast Asia, empowering people to unlock their full potential and lead balanced, successful lives.",
+                "tagline_main": "Create Your Path.",
+                "tagline_sub": "Achieve Your Success.",
+                "footer_company_name": "THE FULL PICTURE",
+                "footer_company_tagline": "Combining Ancient Wisdom and Modern Business Strategy.",
+                "footer_copyright": "© 2025 THE FULL PICTURE LLP.",
+                "footer_contact_title": "CONTACT",
+                "footer_contact_email": "info@thefullpicture.com",
+                "footer_contact_phone": "+65 XXXX XXXX",
+                "footer_contact_location": "Singapore",
+                "footer_links_title": "LINKS",
+                "footer_links_about": "About Us",
+                "footer_links_services": "Services",
+                "footer_links_contact": "Contact"
+            },
+            "cn": {
+                "page_title": "使命与愿景 | 全貌",
+                "menu_home": "首页",
+                "menu_about": "关于我们",
+                "menu_services": "服务",
+                "menu_mission": "使命",
+                "menu_portfolio": "案例",
+                "menu_trainer": "导师",
+                "menu_contact": "联系",
+                "menu_trigger": "菜单",
+                "logo_text": "全貌",
+                "header_label": "行事之道，其深意何在",
+                "header_title_our": "我们的",
+                "header_title_purpose": "宗旨",
+                "mission_section_label": "我们的使命",
+                "mission_statement": "通过整合古老智慧与现代策略，引导个人与企业实现其真正目的并取得成功。",
+                "vision_section_label": "我们的愿景",
+                "vision_statement": "成为东南亚转型培训与堪舆服务的领先提供者，赋能人们释放全部潜力，过上平衡而成功的生活。",
+                "tagline_main": "开创您的道路。",
+                "tagline_sub": "成就您的成功。",
+                "footer_company_name": "全貌",
+                "footer_company_tagline": "融合古老智慧与现代商业策略。",
+                "footer_copyright": "© 2025 全貌有限合伙",
+                "footer_contact_title": "联系",
+                "footer_contact_email": "info@thefullpicture.com",
+                "footer_contact_phone": "+65 XXXX XXXX",
+                "footer_contact_location": "新加坡",
+                "footer_links_title": "链接",
+                "footer_links_about": "关于我们",
+                "footer_links_services": "服务",
+                "footer_links_contact": "联系"
+            }
+        };
+
+        // MENU TOGGLE
         let menuOpen = false;
         function toggleMenu() {
             const overlay = document.getElementById('menuOverlay');
             const trigger = document.querySelector('.menu-trigger');
+            const menuText = document.querySelector('.menu-text');
             menuOpen = !menuOpen;
             if(menuOpen) {
                 overlay.classList.add('active');
-                trigger.textContent = "CLOSE";
-                trigger.style.color = "white";
+                trigger.classList.add('active');
+                if(menuText) menuText.textContent = "CLOSE";
             } else {
                 overlay.classList.remove('active');
-                trigger.textContent = "MENU";
-                trigger.style.color = "white";
+                trigger.classList.remove('active');
+                if(menuText) menuText.textContent = "MENU";
             }
         }
 
-        // CURSOR
-        const dot = document.querySelector('.cursor-dot');
-        const outline = document.querySelector('.cursor-outline');
-        const targets = document.querySelectorAll('.hover-target');
+        // LANGUAGE LOGIC
+        let currentLang = localStorage.getItem('tfp_lang') || 'en';
 
-        if(window.matchMedia("(pointer: fine)").matches) {
-            window.addEventListener('mousemove', (e) => {
-                dot.style.left = e.clientX + "px";
-                dot.style.top = e.clientY + "px";
-                outline.animate({ left: e.clientX + "px", top: e.clientY + "px" }, { duration: 500, fill: "forwards" });
+        function updateContent() {
+            const elements = document.querySelectorAll('[data-lang]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
             });
-            targets.forEach(el => {
-                el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-                el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-            });
+            const btnText = document.getElementById('lang-btn-text');
+            if(btnText) btnText.innerText = currentLang === 'en' ? 'EN / 中文' : 'English / CN';
+            
+            // Handle the dynamic "CLOSE" / "MENU" text for the menu trigger
+            const menuTextElement = document.querySelector('.menu-text');
+            if (menuTextElement) {
+                // Ensure the menuText is also translated if the menu is open/closed
+                if (currentLang === 'en') {
+                    menuTextElement.textContent = menuOpen ? 'CLOSE' : 'MENU';
+                } else {
+                    menuTextElement.textContent = menuOpen ? '关闭' : '菜单';
+                }
+            }
         }
 
-        // FADE IN
+        function toggleLanguage() {
+            document.body.classList.add('lang-fading');
+            setTimeout(() => {
+                currentLang = currentLang === 'en' ? 'cn' : 'en';
+                localStorage.setItem('tfp_lang', currentLang);
+                updateContent();
+                document.body.classList.remove('lang-fading');
+            }, 300);
+        }
+
+        document.addEventListener('DOMContentLoaded', updateContent);
+
+
+
+        // FADE IN (Original script from mission.html)
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -307,7 +422,7 @@
             observer.observe(el);
         });
 
-        // PARALLAX EFFECT
+        // PARALLAX EFFECT (Original script from mission.html)
         window.addEventListener('scroll', () => {
             const scrolled = window.scrollY;
             const bgImg = document.querySelector('.header-bg-img');

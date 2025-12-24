@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE FULL PICTURE | Ancient Wisdom, Modern Strategy</title>
+    <meta name="description" content="Unlock your potential with The Full Picture. We combine Feng Shui, Leadership Training, and Ikigai to help you create your path and achieve success. Singapore's premier consultancy.">
+    <meta name="keywords" content="Feng Shui, Leadership Training, Ikigai, Corporate Strategy, Bazi Analysis, Jose He, Singapore">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +20,7 @@
             --gold: #D4AF37;
             --white: #ffffff;
             --black: #020408;
-            --container-width: 1300px;
+            --container-width: 1400px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,7 +41,7 @@
         }
         .hero-video-bg video {
             width: 100%; height: 100%; object-fit: cover;
-            opacity: 0.2; /* Dimmed atmosphere */
+            opacity: 0.1; /* Dimmed atmosphere */
             filter: grayscale(100%) contrast(1.2);
         }
 
@@ -54,7 +56,6 @@
             position: absolute;
             top: 50%; left: 50%;
             width: 100vw; height: 100vw;
-            /* The Beam Gradient: White Center -> Dark Edges */
             background: radial-gradient(circle, #ffffff 0%, #f0f0f0 25%, rgba(255,255,255,0.9) 35%, rgba(0,0,0,0) 55%);
             border-radius: 50%;
             transform: translate(-50%, -50%) scale(0.2);
@@ -85,22 +86,65 @@
             mix-blend-mode: difference; color: white;
         }
         .nav-inner { display: flex; justify-content: space-between; align-items: center; max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; }
-        .logo, .menu-trigger { font-weight: 900; font-family: 'Montserrat'; color: white; cursor: pointer; }
+        .logo { font-weight: 900; font-family: 'Montserrat'; color: white; cursor: pointer; text-decoration: none; }
+
+        /* --- MENU TRIGGER ANIMATION --- */
+        .menu-trigger {
+            cursor: pointer;
+            display: flex; align-items: center; gap: 10px;
+            font-family: 'Montserrat'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px;
+        }
+        .burger {
+            width: 30px; height: 10px;
+            position: relative;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .burger span {
+            display: block; width: 100%; height: 2px; background: white;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        /* Active State for Burger */
+        .menu-trigger.active .burger span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-trigger.active .burger span:nth-child(2) { opacity: 0; }
+        .menu-trigger.active .burger span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
         /* --- MENU OVERLAY --- */
         .menu-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #080808; z-index: 9500;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transform: translateY(-100%); transition: transform 0.8s var(--ease-smooth);
+            transform: translateY(-100%); transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
         }
         .menu-overlay.active { transform: translateY(0); }
+        
         .menu-link {
             font-family: 'Montserrat'; font-size: 3.5rem; color: rgba(255,255,255,0.3);
             text-decoration: none; margin: 0.5rem 0; transition: 0.3s; 
             font-weight: 900; letter-spacing: -1px; position: relative;
+            /* Stagger Animation Setup */
+            opacity: 0; transform: translateY(40px); transition: opacity 0.5s ease, transform 0.5s ease, color 0.3s;
         }
         .menu-link:hover { color: white; letter-spacing: 0px; }
+        
+        /* Stagger Delays when Active */
+        .menu-overlay.active .menu-link { opacity: 1; transform: translateY(0); }
+        .menu-overlay.active .menu-link:nth-child(1) { transition-delay: 0.3s; }
+        .menu-overlay.active .menu-link:nth-child(2) { transition-delay: 0.4s; }
+        .menu-overlay.active .menu-link:nth-child(3) { transition-delay: 0.5s; }
+        .menu-overlay.active .menu-link:nth-child(4) { transition-delay: 0.6s; }
+        .menu-overlay.active .menu-link:nth-child(5) { transition-delay: 0.7s; }
+        .menu-overlay.active .menu-link:nth-child(6) { transition-delay: 0.8s; }
+        .menu-overlay.active .menu-link:nth-child(7) { transition-delay: 0.9s; }
+
+        /* --- LANGUAGE FADE ANIMATION --- */
+        /* This class is added to body during switch */
+        body.lang-fading [data-lang] {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+        [data-lang] {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
 
         /* --- HERO --- */
         .hero {
@@ -116,7 +160,7 @@
             font-size: 1.5rem; line-height: 1.5; margin-bottom: 3rem; color: #ddd; 
             text-shadow: 0 5px 15px rgba(0,0,0,0.8);
         }
-        .btn { padding: 1.2rem 3rem; font-weight: 700; font-size: 0.8rem; letter-spacing: 2px; transition: 0.3s; text-decoration: none; border-radius: 2px; }
+        .btn { padding: 1.2rem 3rem; font-weight: 700; font-size: 0.8rem; letter-spacing: 2px; transition: 0.3s; text-decoration: none; border-radius: 2px; display: inline-block;}
         .btn-primary { background: white; color: black; border: 1px solid white; }
         .btn-primary:hover { background: transparent; color: white; }
         .btn-outline { border: 1px solid rgba(255,255,255,0.4); color: white; margin-left: 20px; }
@@ -127,7 +171,6 @@
         
         /* --- ATLAS --- */
         .atlas-section { padding: 12rem 0; text-align: center; position: relative; color: black; }
-        
         .light-mode-heading { color: black; font-weight: 900; letter-spacing: -1px; font-size: 4rem; }
         .light-mode-tag { color: var(--burgundy); font-weight: 700; letter-spacing: 2px; display: block; margin-bottom: 1rem; }
         .light-mode-p { color: #222; font-size: 1.4rem; line-height: 1.6; max-width: 700px; margin: 0 auto; font-weight: 500; }
@@ -143,58 +186,18 @@
             color: rgba(0,0,0,0.05); letter-spacing: 20px;
         }
 
-        /* --- JOSE'S PATH (REFACTORED) --- */
+        /* --- JOSE'S PATH --- */
         .split-section { padding: 5rem 0; position: relative; z-index: 10; color: black; }
+        .split-grid { display: grid; grid-template-columns: minmax(0, 3.5fr) minmax(0, 6.5fr); gap: 6rem; position: relative; }
+        .sticky-col { position: sticky; top: 15vh; height: auto; align-self: start; }
+        .sticky-name { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1; margin-bottom: 2rem; color: black; text-shadow: none; width: 100%; }
         
-        .split-grid { 
-            display: grid; 
-            grid-template-columns: minmax(0, 3.5fr) minmax(0, 6.5fr); 
-            gap: 6rem; 
-            position: relative; 
-        }
-        
-        .sticky-col { 
-            position: sticky; 
-            top: 15vh; 
-            /* REMOVED fixed height (600px) so it adapts to content */
-            height: auto; 
-            align-self: start;
-        }
-        
-        .sticky-name { 
-            font-size: clamp(2.5rem, 5vw, 4rem); 
-            line-height: 1; margin-bottom: 2rem; 
-            color: black; text-shadow: none; 
-            width: 100%;
-        }
-        
-        .img-frame { 
-            width: 100%; 
-            /* FIXED: Replaced fixed 450px with responsive sizing */
-            height: auto;
-            aspect-ratio: 3/4; /* Maintains a nice portrait rectangle */
-            max-height: 55vh;  /* CRITICAL: Never taller than 55% of the viewport height */
-            
-            position: relative; overflow: hidden; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1); background: #eee; 
-        }
-        .img-frame img { 
-            width: 100%; height: 100%; 
-            object-fit: cover; 
-            position: absolute; top: 0; left: 0; 
-            transition: opacity 0.8s ease, transform 1s ease; 
-            opacity: 0; transform: scale(1.1); 
-        }
+        .img-frame { width: 100%; height: auto; aspect-ratio: 3/4; max-height: 55vh; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); background: #eee; }
+        .img-frame img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; transition: opacity 0.8s ease, transform 1s ease; opacity: 0; transform: scale(1.1); }
         .img-frame img.active { opacity: 1; transform: scale(1); }
 
         .scroll-col { padding-top: 2rem; padding-bottom: 5rem; }
-        
-        .story-block { 
-            min-height: 70vh; 
-            display: flex; flex-direction: column; justify-content: center; 
-            opacity: 0.2; transition: opacity 0.5s; 
-            transform: translateY(20px); 
-        }
+        .story-block { min-height: 70vh; display: flex; flex-direction: column; justify-content: center; opacity: 0.2; transition: opacity 0.5s; transform: translateY(20px); }
         .story-block.active { opacity: 1; transform: translateY(0); }
         .story-head { font-size: 2.5rem; color: #000; font-weight: 800; margin-bottom: 1.5rem; }
         .story-text { font-size: 1.3rem; line-height: 1.8; margin-bottom: 2rem; font-family: 'Lato'; font-weight: 400; color: #444; }
@@ -217,27 +220,14 @@
         .footer-copy { color: #666; font-size: 0.8rem; }
 
         /* Media Queries */
-        
         @media (max-width: 1300px) {
             .split-grid { gap: 3rem; }
             .sticky-col { height: auto; }
-            /* Removing the fixed 350px override here to let aspect-ratio logic handle it */
         }
-
         @media (max-width: 1024px) {
-            .split-grid { 
-                grid-template-columns: 1fr; 
-            }
-            .sticky-col { 
-                position: relative; 
-                top: 0; height: auto; 
-                margin-bottom: 3rem; 
-            }
-            .story-block { 
-                min-height: auto; 
-                margin-bottom: 5rem; 
-                opacity: 1; 
-            }
+            .split-grid { grid-template-columns: 1fr; }
+            .sticky-col { position: relative; top: 0; height: auto; margin-bottom: 3rem; }
+            .story-block { min-height: auto; margin-bottom: 5rem; opacity: 1; }
             .hero-title { font-size: 3.5rem; }
             .btn-group { flex-direction: column; gap: 1rem; }
             .btn-outline { margin-left: 0; }
@@ -258,56 +248,70 @@
     <div class="noise"></div>
 
     <div class="menu-overlay" id="menuOverlay">
-        <a href="index.html" class="menu-link hover-target" onclick="toggleMenu()">HOME</a>
-        <a href="about.html" class="menu-link hover-target" onclick="toggleMenu()">ABOUT</a>
-        <a href="services.html" class="menu-link hover-target" onclick="toggleMenu()">SERVICES</a>
-        <a href="mission.html" class="menu-link hover-target" onclick="toggleMenu()">MISSION</a>
-        <a href="portfolio.html" class="menu-link hover-target" onclick="toggleMenu()">PORTFOLIO</a>
-        <a href="trainer.html" class="menu-link hover-target" onclick="toggleMenu()">TRAINER</a>
-        <a href="contact.html" class="menu-link hover-target" onclick="toggleMenu()">CONTACT</a>
+        <a href="index.html" class="menu-link hover-target" onclick="toggleMenu()" data-lang="menu_home">HOME</a>
+        <a href="about.html" class="menu-link hover-target" onclick="toggleMenu()" data-lang="menu_about">ABOUT</a>
+        <a href="services.html" class="menu-link hover-target" onclick="toggleMenu()" data-lang="menu_services">SERVICES</a>
+        <a href="mission.html" class="menu-link hover-target" onclick="toggleMenu()" data-lang="menu_mission">MISSION</a>
+        <a href="portfolio.html" class="menu-link hover-target" onclick="toggleMenu()" data-lang="menu_portfolio">PORTFOLIO</a>
+        <a href="trainer.html" class="menu-link hover-target" onclick="toggleMenu()" data-lang="menu_trainer">TRAINER</a>
+        <a href="contact.html" class="menu-link hover-target" onclick="toggleMenu()" data-lang="menu_contact">CONTACT</a>
     </div>
 
     <nav>
         <div class="nav-inner">
             <a href="index.html" class="logo">THE FULL PICTURE</a>
-            <div class="menu-trigger" onclick="toggleMenu()">MENU</div>
+            
+            <div style="display: flex; align-items: center; gap: 2.5rem;">
+                <div class="lang-switch" onclick="toggleLanguage()" style="cursor: pointer; font-weight: 700; font-family: 'Montserrat'; font-size: 0.8rem; letter-spacing: 1px; color: white; display: flex; align-items: center; transition: opacity 0.3s;">
+                    <span id="lang-btn-text">EN / 中文</span>
+                </div>
+
+                <div class="menu-trigger" onclick="toggleMenu()">
+                    <span class="menu-text" data-lang="menu_trigger">MENU</span>
+                    <div class="burger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
     <section class="hero">
         <div class="container">
-            <h1 class="hero-title" style="color: var(--gold);">GAIN ABSOLUTE<br>CLARITY</h1>
-            <p class="hero-desc">
+            <h1 class="hero-title" style="color: var(--gold);" data-lang="hero_title">ANCIENT WISDOM<br>MODERN STRATEGY</h1>
+            <p class="hero-desc" data-lang="hero_desc">
                 Gain absolute clarity and master your decision with a proven Ancient Chinese Metaphysics System.
             </p>
             <div class="btn-group">
-                <a href="#contact" class="btn btn-primary">Get Clarity</a>
-                <a href="about.html" class="btn btn-outline">About TFP</a>
+                <a href="#contact" class="btn btn-primary" data-lang="btn_clarity">Get Clarity</a>
+                <a href="about.html" class="btn btn-outline" data-lang="btn_about">About TFP</a>
             </div>
         </div>
     </section>
 
     <section class="philosophy-section">
         <div class="container scroll-reveal">
-            <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem; font-weight: 800;">Absolute Clarity + Actionable Strategy = <br><span style="color: var(--gold);">A Transformed Life</span></h2>
-            <p style="font-size: 1.8rem; line-height: 1.8; color: #ddd; max-width: 800px; margin: 0 auto; font-family: 'Playfair Display';">
-                We believe the universal energy wants the best for you. Absolute clarity is just the beginning; it's <strong><u>HOW</u></strong> and <strong><u>WHEN</u></strong> to take strategic actions for a trasnformed life.
+            <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem; font-weight: 800;" data-lang="philo_title">Absolute Clarity + Actionable Strategy = <br><span style="color: var(--gold);">A Transformed Life</span></h2>
+            <p style="font-size: 1.8rem; line-height: 1.8; color: #ddd; max-width: 800px; margin: 0 auto; font-family: 'Playfair Display';" data-lang="philo_desc">
+                We believe the universal energy wants the best for you. Absolute clarity is just the beginning; it's <strong><u>HOW</u></strong> and <strong><u>WHEN</u></strong> to take strategic actions for a transformed life.
             </p>
         </div>
     </section>
 
     <section class="atlas-section">
         <div class="container scroll-reveal">
-            <span class="light-mode-tag">YOUR MAP</span>
-            <h2 class="light-mode-heading" style="font-size: 4rem; margin-bottom: 1rem; color: var(--gold); text-shadow: 0 10px 30px rgba(0,0,0,0.8);">Crafting Your Life's Atlas</h2>
+            <span class="light-mode-tag" data-lang="atlas_tag">YOUR MAP</span>
+            <h2 class="light-mode-heading" style="font-size: 4rem; margin-bottom: 1rem; color: var(--gold); text-shadow: 0 10px 30px rgba(0,0,0,0.8);" data-lang="atlas_title">Crafting Your Life's Atlas</h2>
             
             <div class="atlas-visual"></div>
 
-            <p class="light-mode-p">
+            <p class="light-mode-p" data-lang="atlas_desc">
                 Cutting the fluff, you’ll gain a personalised life’s map. Life’s already not easy, let us help you to achieve that important, <span style="border-bottom: 3px solid var(--burgundy); color: black; font-weight: 700;">transformative shift!</span>
             </p>
             <br><br>
-            <a href="#contact" class="btn btn-primary" style="background: var(--burgundy); border-color: var(--burgundy); color: white;">Book a Call</a>
+            <a href="#contact" class="btn btn-primary" style="background: var(--burgundy); border-color: var(--burgundy); color: white;" data-lang="btn_book">Book a Call</a>
         </div>
     </section>
 
@@ -315,7 +319,7 @@
         <div class="split-grid">
             
             <div class="sticky-col">
-                <span class="light-mode-tag">PRINCIPAL CONSULTANT</span>
+                <span class="light-mode-tag" data-lang="role_tag">PRINCIPAL CONSULTANT</span>
                 <h2 class="sticky-name">JOSE HE<br><span style="color: var(--burgundy);">(何德伟)</span></h2>
                 <div class="img-frame">
                     <img src="https://images.unsplash.com/photo-1599827845838-344449d01247?q=80&w=2000" id="img-1" class="active" alt="Origins">
@@ -327,29 +331,29 @@
             <div class="scroll-col">
                 
                 <div class="story-block" data-img="img-1">
-                    <span class="light-mode-tag">THE ORIGINS</span>
-                    <h3 class="story-head">A Reluctant Beginning</h3>
-                    <p class="story-text">
+                    <span class="light-mode-tag" data-lang="story1_tag">THE ORIGINS</span>
+                    <h3 class="story-head" data-lang="story1_title">A Reluctant Beginning</h3>
+                    <p class="story-text" data-lang="story1_desc">
                         Growing up in a family of geomancy practitioners, Jose was exposed to ancient metaphysical wisdom from a young age. Despite this early exposure, he was initially reluctant to practise the discipline, believing it to be largely psychological in nature rather than a practical tool.
                     </p>
                 </div>
 
                 <div class="story-block" data-img="img-2">
-                    <span class="light-mode-tag">THE TURNING POINT</span>
-                    <h3 class="story-head">At Age 26</h3>
-                    <p class="story-text">
+                    <span class="light-mode-tag" data-lang="story2_tag">THE TURNING POINT</span>
+                    <h3 class="story-head" data-lang="story2_title">At Age 26</h3>
+                    <p class="story-text" data-lang="story2_desc">
                         Jose experienced the most challenging period of his life—facing over <strong>half a million dollars in debt</strong>, the breakdown of a long-term relationship, and the loss of his home. During this time, his family guided him through the structured application of Chinese metaphysical principles to reassess his direction.
                     </p>
                 </div>
 
                 <div class="story-block" data-img="img-3">
-                    <span class="light-mode-tag">THE MISSION</span>
-                    <h3 class="story-head">The Full Picture</h3>
-                    <p class="story-text">
+                    <span class="light-mode-tag" data-lang="story3_tag">THE MISSION</span>
+                    <h3 class="story-head" data-lang="story3_title">The Full Picture</h3>
+                    <p class="story-text" data-lang="story3_desc">
                         Within two years, he successfully cleared his debts and rebuilt stability. Recognising the tangible impact of these time-tested systems, Jose founded <strong>The Full Picture</strong> with a clear mission: to provide clarity, alignment, and actionable strategies that empower individuals to create meaningful, sustainable transformation.
                     </p>
                     <br>
-                    <a href="trainer.html" class="btn btn-light-mode">Jose's Full Path</a>
+                    <a href="trainer.html" class="btn btn-light-mode" data-lang="btn_full_path">Jose's Full Path</a>
                 </div>
 
             </div>
@@ -358,28 +362,28 @@
 
     <section class="help-section">
         <div class="container scroll-reveal">
-            <span class="light-mode-tag">WE'RE HERE TO HELP</span>
-            <h2 class="help-title">Confused? Don't be.</h2>
-            <p style="font-size: 1.5rem; max-width: 800px; margin: 0 auto 3rem; color: #222; line-height: 1.5;">
+            <span class="light-mode-tag" data-lang="help_tag">WE'RE HERE TO HELP</span>
+            <h2 class="help-title" data-lang="help_title">Confused? Don't be.</h2>
+            <p style="font-size: 1.5rem; max-width: 800px; margin: 0 auto 3rem; color: #222; line-height: 1.5;" data-lang="help_desc">
                 Reach out to us and let us help you gain absolute clarity in your next transformative step in life or your business!
             </p>
-            <a href="contact.html" class="btn btn-light-mode" style="padding: 1.5rem 4rem;">Message Us</a>
+            <a href="contact.html" class="btn btn-light-mode" style="padding: 1.5rem 4rem;" data-lang="btn_msg">Message Us</a>
         </div>
     </section>
 
     <div class="container reviews-section">
         <div class="reviews-grid">
             <div class="review-card">
-                <p class="review-text">"Jose provided the clarity I needed to pivot my business during a crisis. The strategy was spot on."</p>
-                <span class="review-author">— CEO, Fintech SG</span>
+                <p class="review-text" data-lang="review1">"Jose provided the clarity I needed to pivot my business during a crisis. The strategy was spot on."</p>
+                <span class="review-author" data-lang="review1_author">— CEO, Fintech SG</span>
             </div>
             <div class="review-card">
-                <p class="review-text">"I was skeptical at first, but the Bazi reading explained patterns in my life I couldn't see myself."</p>
-                <span class="review-author">— Sarah L., Entrepreneur</span>
+                <p class="review-text" data-lang="review2">"I was skeptical at first, but the Bazi reading explained patterns in my life I couldn't see myself."</p>
+                <span class="review-author" data-lang="review2_author">— Sarah L., Entrepreneur</span>
             </div>
             <div class="review-card">
-                <p class="review-text">"Truly the 'Full Picture'. Practical advice backed by deep wisdom."</p>
-                <span class="review-author">— Director, MNC</span>
+                <p class="review-text" data-lang="review3">"Truly the 'Full Picture'. Practical advice backed by deep wisdom."</p>
+                <span class="review-author" data-lang="review3_author">— Director, MNC</span>
             </div>
         </div>
     </div>
@@ -397,9 +401,19 @@
         function toggleMenu() {
             const overlay = document.getElementById('menuOverlay');
             const trigger = document.querySelector('.menu-trigger');
+            const menuText = document.querySelector('.menu-text');
+            
             menuOpen = !menuOpen;
-            if(menuOpen) { overlay.classList.add('active'); trigger.textContent = "CLOSE"; } 
-            else { overlay.classList.remove('active'); trigger.textContent = "MENU"; }
+            
+            if(menuOpen) { 
+                overlay.classList.add('active'); 
+                trigger.classList.add('active');
+                if(menuText) menuText.textContent = "CLOSE"; 
+            } else { 
+                overlay.classList.remove('active'); 
+                trigger.classList.remove('active');
+                if(menuText) menuText.textContent = "MENU"; 
+            }
         }
 
         // --- TUNNEL ZOOM LOGIC (BEAM EFFECT) ---
@@ -411,7 +425,6 @@
             const fraction = scrolled / height;
             
             // ZOOM: Starts at 0.2 (Distant) -> Grows to 8.0 (Screen Filled)
-            // Slower multiplier (12) ensures edges stay dark during the Atlas section
             const scale = 0.2 + (fraction * 3); 
             
             // OPACITY: Starts dim (0.2)
@@ -438,7 +451,7 @@
                     if(activeImg) activeImg.classList.add('active');
                 }
             });
-        }, { threshold: 0.2 });
+        }, { threshold: 0.2 }); 
 
         storyBlocks.forEach(block => storyObserver.observe(block));
 
@@ -456,6 +469,97 @@
             el.style.opacity = 0; el.style.transform = 'translateY(30px)'; el.style.transition = 'all 0.8s ease';
             revealObserver.observe(el);
         });
+
+        // --- TRANSLATION DICTIONARY ---
+        const translations = {
+            "en": {
+                "menu_home": "HOME", "menu_about": "ABOUT", "menu_services": "SERVICES",
+                "menu_mission": "MISSION", "menu_portfolio": "PORTFOLIO", "menu_trainer": "TRAINER", "menu_contact": "CONTACT", "menu_trigger": "MENU",
+                "hero_title": "ANCIENT WISDOM<br>MODERN STRATEGY",
+                "hero_desc": "Gain absolute clarity and master your decision with a proven Ancient Chinese Metaphysics System.",
+                "btn_clarity": "Get Clarity", "btn_about": "About TFP",
+                "philo_title": "Absolute Clarity + Actionable Strategy = <br><span style='color: var(--gold);'>A Transformed Life</span>",
+                "philo_desc": "We believe the universal energy wants the best for you. Absolute clarity is just the beginning; it's <strong><u>HOW</u></strong> and <strong><u>WHEN</u></strong> to take strategic actions for a transformed life.",
+                "atlas_tag": "YOUR MAP", "atlas_title": "Crafting Your Life's Atlas",
+                "atlas_desc": "Cutting the fluff, you’ll gain a personalised life’s map. Life’s already not easy, let us help you to achieve that important, <span style='border-bottom: 3px solid var(--burgundy); color: black; font-weight: 700;'>transformative shift!</span>",
+                "btn_book": "Book a Call", "role_tag": "PRINCIPAL CONSULTANT",
+                "story1_tag": "THE ORIGINS", "story1_title": "A Reluctant Beginning",
+                "story1_desc": "Growing up in a family of geomancy practitioners, Jose was exposed to ancient metaphysical wisdom from a young age. Despite this early exposure, he was initially reluctant to practise the discipline, believing it to be largely psychological in nature rather than a practical tool.",
+                "story2_tag": "THE TURNING POINT", "story2_title": "At Age 26",
+                "story2_desc": "Jose experienced the most challenging period of his life—facing over <strong>half a million dollars in debt</strong>, the breakdown of a long-term relationship, and the loss of his home. During this time, his family guided him through the structured application of Chinese metaphysical principles to reassess his direction.",
+                "story3_tag": "THE MISSION", "story3_title": "The Full Picture",
+                "story3_desc": "Within two years, he successfully cleared his debts and rebuilt stability. Recognising the tangible impact of these time-tested systems, Jose founded <strong>The Full Picture</strong> with a clear mission: to provide clarity, alignment, and actionable strategies that empower individuals to create meaningful, sustainable transformation.",
+                "btn_full_path": "Jose's Full Path",
+                "help_tag": "WE'RE HERE TO HELP", "help_title": "Confused? Don't be.",
+                "help_desc": "Reach out to us and let us help you gain absolute clarity in your next transformative step in life or your business!",
+                "btn_msg": "Message Us",
+                "review1": "\"Jose provided the clarity I needed to pivot my business during a crisis. The strategy was spot on.\"",
+                "review1_author": "— CEO, Fintech SG",
+                "review2": "\"I was skeptical at first, but the Bazi reading explained patterns in my life I couldn't see myself.\"",
+                "review2_author": "— Sarah L., Entrepreneur",
+                "review3": "\"Truly the 'Full Picture'. Practical advice backed by deep wisdom.\"",
+                "review3_author": "— Director, MNC"
+            },
+            "cn": {
+                "menu_home": "首页", "menu_about": "关于我们", "menu_services": "服务项目",
+                "menu_mission": "使命愿景", "menu_portfolio": "过往案例", "menu_trainer": "导师介绍", "menu_contact": "联系我们", "menu_trigger": "菜单",
+                "hero_title": "古老智慧<br>现代策略",
+                "hero_desc": "通过经过验证的中国古代玄学系统，获得绝对的清晰度并掌控您的决策。",
+                "btn_clarity": "获得清晰", "btn_about": "关于 TFP",
+                "philo_title": "绝对清晰 + 可行策略 = <br><span style='color: var(--gold);'>焕然一新的人生</span>",
+                "philo_desc": "我们相信宇宙能量希望给您最好的。绝对清晰只是开始；关键在于<strong><u>如何</u></strong>以及<strong><u>何时</u></strong>采取战略行动来实现人生的蜕变。",
+                "atlas_tag": "您的人生蓝图", "atlas_title": "打造您的人生版图",
+                "atlas_desc": "去繁就简，您将获得一份个性化的人生蓝图。生活本不易，让我们助您实现那至关重要的<span style='border-bottom: 3px solid var(--burgundy); color: black; font-weight: 700;'>蜕变！</span>",
+                "btn_book": "预约咨询", "role_tag": "首席顾问",
+                "story1_tag": "缘起", "story1_title": "不情愿的开始",
+                "story1_desc": "成长于风水世家，Jose 从小就接触古代玄学智慧。尽管耳濡目染，但他最初并不愿从事这一学科，认为这主要是心理作用，而非实用的工具。",
+                "story2_tag": "转折点", "story2_title": "26岁时",
+                "story2_desc": "Jose 经历了人生中最艰难的时期——背负<strong>超过50万的债务</strong>，长期感情破裂，失去住所。在这段时间里，家人引导他运用中国玄学原理重新评估人生方向。",
+                "story3_tag": "使命", "story3_title": "全景图 (The Full Picture)",
+                "story3_desc": "两年内，他成功还清债务并重建了生活的稳定。认识到这些经得起时间考验的系统的切实影响，Jose 创立了 <strong>The Full Picture</strong>，使命明确：提供清晰、协调和可行的策略，赋能个人创造有意义且可持续的转变。",
+                "btn_full_path": "Jose的完整历程",
+                "help_tag": "我们要来协助您", "help_title": "感到困惑？别担心。",
+                "help_desc": "联系我们，让我们帮助您在生活或事业的下一个变革步骤中获得绝对的清晰！",
+                "btn_msg": "发消息给我们",
+                "review1": "“Jose 提供了我在危机期间转型业务所需的清晰度。策略非常精准。”",
+                "review1_author": "— CEO, 金融科技 (新加坡)",
+                "review2": "“起初我很怀疑，但八字解读解释了我自己看不见的生活模式。”",
+                "review2_author": "— Sarah L., 企业家",
+                "review3": "“名副其实的‘全景图’。深厚智慧支持的实用建议。”",
+                "review3_author": "— 跨国公司总监"
+            }
+        };
+
+        let currentLang = localStorage.getItem('tfp_lang') || 'en';
+
+        function updateContent() {
+            const elements = document.querySelectorAll('[data-lang]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+            document.getElementById('lang-btn-text').innerText = currentLang === 'en' ? 'EN / 中文' : 'English / CN';
+        }
+
+        function toggleLanguage() {
+            // 1. Fade Out
+            document.body.classList.add('lang-fading');
+
+            // 2. Wait for Fade, then Swap
+            setTimeout(() => {
+                currentLang = currentLang === 'en' ? 'cn' : 'en';
+                localStorage.setItem('tfp_lang', currentLang);
+                updateContent();
+                
+                // 3. Fade In
+                document.body.classList.remove('lang-fading');
+            }, 300); // 300ms matches the CSS transition time
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', updateContent);
     </script>
 </body>
 </html>

@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services | THE FULL PICTURE</title>
-    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title data-lang="page_title">Services | THE FULL PICTURE</title>
+
+    <meta name="description" content="Explore our transformative services: Corporate Leadership Training, Feng Shui Audits, Bazi Analysis, and Wealth Activation. Bridge ancient wisdom with modern strategy.">
+    <meta name="keywords" content="Feng Shui Audit, Leadership Masterclass, Wealth Activation, Bazi Reading, Geomancy, Training Courses, Singapore">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
 
     <style>
         /* --- DESIGN TOKENS --- */
@@ -19,7 +23,7 @@
             --off-white: #f9f9f9;
             --black: #1a1a1a;
             --gray: #666666;
-            
+
             --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
             --ease-out: cubic-bezier(0.165, 0.84, 0.44, 1);
             --container-width: 1400px;
@@ -27,13 +31,36 @@
 
         /* --- BASE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body {
             background-color: var(--white);
             color: var(--black);
             font-family: 'Lato', sans-serif;
             overflow-x: hidden;
             width: 100%;
+        }
+
+        /* --- SNIPCART OVERRIDES --- */
+
+        /* 1. Ensure Cart sits on top */
+        .snipcart-layout {
+            z-index: 9999999 !important;
+        }
+
+        /* 2. Solid Background */
+        .snipcart-modal__container, .snipcart-layout__content {
+            background-color: #ffffff !important;
+        }
+
+        /* 3. Hide Brand Name (Prevents clipping) */
+        .snipcart-toolbar__brand {
+            display: none !important;
+        }
+
+        /* 4. Clean Header */
+        .snipcart-modal__header {
+            background-color: #f9f9f9 !important;
+            border-bottom: 1px solid #eee;
         }
 
         /* --- BACKGROUND GRID --- */
@@ -53,7 +80,6 @@
             position: relative; z-index: 2;
         }
 
-        /* --- TYPOGRAPHY --- */
         h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; text-transform: uppercase; }
         .serif { font-family: 'Playfair Display', serif; font-style: italic; }
 
@@ -71,23 +97,45 @@
             font-family: 'Montserrat'; font-size: 3.5rem; color: rgba(255,255,255,0.3);
             text-decoration: none; margin: 0.5rem 0; transition: 0.3s;
             position: relative; font-weight: 900; letter-spacing: -1px;
+            opacity: 0; transform: translateY(40px); transition: opacity 0.5s ease, transform 0.5s ease, color 0.3s;
         }
         .menu-link:hover { color: white; letter-spacing: 0px; }
 
-        /* --- NAV --- */
+        /* Stagger Delays */
+        .menu-overlay.active .menu-link { opacity: 1; transform: translateY(0); }
+        .menu-overlay.active .menu-link:nth-child(1) { transition-delay: 0.1s; }
+        .menu-overlay.active .menu-link:nth-child(2) { transition-delay: 0.2s; }
+        .menu-overlay.active .menu-link:nth-child(3) { transition-delay: 0.3s; }
+        .menu-overlay.active .menu-link:nth-child(4) { transition-delay: 0.4s; }
+        .menu-overlay.active .menu-link:nth-child(5) { transition-delay: 0.5s; }
+        .menu-overlay.active .menu-link:nth-child(6) { transition-delay: 0.6s; }
+        .menu-overlay.active .menu-link:nth-child(7) { transition-delay: 0.7s; }
+
+        /* --- NAV & ANIMATIONS --- */
         nav {
             position: fixed; top: 0; left: 0; width: 100%;
             padding: 2rem 0;
-            z-index: 9600; 
+            z-index: 9600;
             background: transparent;
             mix-blend-mode: difference;
             color: white;
+            /* Transition for the hide script */
+            transition: opacity 240ms var(--ease-out), visibility 240ms var(--ease-out);
         }
         .nav-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         .logo { font-weight: 900; font-size: 1.4rem; letter-spacing: -0.5px; color: white; text-decoration: none; }
-        .menu-trigger { font-weight: 700; cursor: pointer; font-size: 0.9rem; position: relative; letter-spacing: 1px; color: white; }
-        .menu-trigger::after { content: ''; display: block; width: 100%; height: 2px; background: white; margin-top: 4px; transition: 0.3s; }
-        .menu-trigger:hover::after { width: 50%; }
+
+        .menu-trigger { cursor: pointer; display: flex; align-items: center; gap: 10px; font-family: 'Montserrat'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; color: white; }
+        .burger { width: 30px; height: 10px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+        .burger span { display: block; width: 100%; height: 2px; background: white; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+
+        .menu-trigger.active .burger span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-trigger.active .burger span:nth-child(2) { opacity: 0; }
+        .menu-trigger.active .burger span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* Language Fade */
+        body.lang-fading [data-lang] { opacity: 0; transform: translateY(5px); }
+        [data-lang] { transition: opacity 0.4s ease, transform 0.4s ease; }
 
         /* --- HEADER --- */
         .page-header {
@@ -97,7 +145,7 @@
             overflow: hidden;
             background: #000;
         }
-        
+
         .header-bg-img {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
@@ -109,24 +157,24 @@
             position: relative; z-index: 2; padding: 0 5vw;
             color: white;
         }
-        
+
         .header-label {
             font-family: 'Montserrat'; font-size: 0.8rem; letter-spacing: 2px; color: var(--wood); font-weight: 700;
             margin-bottom: 1rem; opacity: 0; animation: fadeUp 1s forwards 0.5s;
         }
-        
+
         .header-title-wrap { overflow: hidden; margin-bottom: 0.5rem; }
         .header-title {
-            font-size: clamp(3.5rem, 9vw, 9rem); line-height: 0.85; font-weight: 900; 
+            font-size: clamp(3.5rem, 9vw, 9rem); line-height: 0.85; font-weight: 900;
             letter-spacing: -3px; color: white; text-transform: uppercase;
             transform: translateY(100%); animation: slideText 1.2s var(--ease-out) forwards 0.6s;
         }
-        
+
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideText { to { transform: translateY(0); } }
 
         /* --- SERVICES SPECIFIC STYLES --- */
-        
+
         /* CATEGORY NAV */
         .category-nav {
             background: var(--white);
@@ -137,33 +185,45 @@
             display: flex; justify-content: center;
             gap: 4rem; padding: 1.5rem 0;
         }
-        .cat-link { 
-            text-decoration: none; color: #999; font-family: 'Montserrat'; font-weight: 700; font-size: 0.9rem; 
-            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; position: relative;
+        .cat-link {
+            text-decoration: none; color: #999; font-family: 'Montserrat'; font-weight: 700; font-size: 0.9rem;
+            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; position: relative; cursor: pointer;
         }
         .cat-link:hover, .cat-link.active { color: var(--burgundy); }
-        .cat-link.active::after { 
-            content: ''; position: absolute; bottom: -24px; left: 0; width: 100%; height: 3px; background: var(--burgundy); 
+        .cat-link.active::after {
+            content: ''; position: absolute; bottom: -24px; left: 0; width: 100%; height: 3px; background: var(--burgundy);
         }
+
+        /* SHOPPING CART FLOAT */
+        .cart-float {
+            position: fixed; bottom: 30px; right: 30px; z-index: 9000;
+            background: var(--burgundy); color: white;
+            padding: 15px 25px; border-radius: 50px;
+            font-family: 'Montserrat'; font-weight: 700; font-size: 0.9rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .cart-float:hover { transform: translateY(-5px); background: black; }
 
         /* SECTIONS & GRID */
         .service-section { padding: 8rem 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        
+
         .section-head { margin-bottom: 5rem; text-align: center; }
         .section-head h2 { font-size: 3rem; color: var(--black); margin-bottom: 1rem; font-weight: 800; }
         .section-head p { font-family: 'Playfair Display'; font-size: 1.2rem; color: var(--wood); font-style: italic; }
 
         .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 3rem; }
-        
-        .service-card { 
-            background: var(--white); padding: 3rem; border: 1px solid #eee; transition: 0.3s; 
+
+        .service-card {
+            background: var(--white); padding: 3rem; border: 1px solid #eee; transition: 0.3s;
             position: relative; overflow: hidden;
             opacity: 0; transform: translateY(30px); /* For Scroll Reveal */
         }
         .service-card.active { opacity: 1; transform: translateY(0); transition: all 0.8s ease; }
 
-        .service-card:hover { 
-            transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); border-color: var(--wood); 
+        .service-card:hover {
+            transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); border-color: var(--wood);
         }
         .service-card::before {
             content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 0%; background: var(--burgundy); transition: 0.3s;
@@ -173,22 +233,22 @@
         .service-icon { font-size: 2rem; color: var(--wood); margin-bottom: 1.5rem; }
         .service-card h3 { font-size: 1.4rem; margin-bottom: 1rem; color: var(--black); font-weight: 700; }
         .service-card p { font-size: 0.95rem; color: var(--gray); line-height: 1.6; margin-bottom: 1.5rem; }
-        
-        .card-link { 
-            color: var(--burgundy); font-weight: 700; font-size: 0.8rem; text-decoration: none; 
-            text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 5px;
-        }
-        .card-link i { transition: 0.3s; }
-        .service-card:hover .card-link i { transform: translateX(5px); }
 
-        /* FEATURED SECTION */
-        .featured-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
-        .featured-img { height: 500px; background: #eee; position: relative; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.05); opacity: 0; transform: translateY(30px); }
-        .featured-img.active { opacity: 1; transform: translateY(0); transition: 1s ease; }
-        .featured-img img { width: 100%; height: 100%; object-fit: cover; transition: 1s; }
-        .featured-img:hover img { transform: scale(1.05); }
-        .text-col { opacity: 0; transform: translateY(30px); }
-        .text-col.active { opacity: 1; transform: translateY(0); transition: 1s ease; }
+        .card-link, .snipcart-add-item {
+            color: var(--burgundy); font-weight: 700; font-size: 0.8rem; text-decoration: none;
+            text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 5px;
+            background: none; border: none; cursor: pointer; padding: 0;
+        }
+        .card-link i, .snipcart-add-item i { transition: 0.3s; }
+        .service-card:hover .card-link i, .service-card:hover .snipcart-add-item i { transform: translateX(5px); }
+
+        /* PRODUCT IMAGE STYLE */
+        .prod-img-wrap {
+            height: 250px; overflow: hidden; margin-bottom: 1.5rem; background: #f4f4f4;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .prod-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .service-card:hover .prod-img-wrap img { transform: scale(1.1); }
 
         /* --- FOOTER --- */
         footer { background: #111; color: white; padding: 6rem 0; position: relative; z-index: 10; }
@@ -200,79 +260,89 @@
         /* --- MOBILE --- */
         @media (max-width: 1024px) {
             .header-title { font-size: 4rem; }
-            .services-grid, .featured-grid { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: 1fr; }
             .cat-nav-inner { overflow-x: auto; padding: 1.5rem 1rem; justify-content: flex-start; }
             .cat-link { white-space: nowrap; }
             .grid-lines { display: none; }
+            .cart-float { bottom: 20px; right: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="grid-lines">
-        <div class="line-v"></div>
-        <div class="line-v"></div>
-        <div class="line-v"></div>
+    <div hidden id="snipcart" data-api-key="NmZjMjIzMjAtNmFkNC00N2I0LWI2NjMtODM3YjJhYWRjYjEyNjM5MDIxNjc1NTUxMDY5Mzgx"></div>
+
+    <div class="grid-lines"><div class="line-v"></div><div class="line-v"></div><div class="line-v"></div></div>
+
+    <div class="cart-float snipcart-checkout">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="snipcart-items-count">0</span>
+        <span data-lang="cart_label">CART</span>
     </div>
 
     <div class="menu-overlay" id="menuOverlay">
-        <a href="index.html" class="menu-link" onclick="toggleMenu()" data-text="HOME">HOME</a>
-        <a href="about.html" class="menu-link" onclick="toggleMenu()" data-text="ABOUT US">ABOUT</a>
-        <a href="services.html" class="menu-link" onclick="toggleMenu()" data-text="SERVICES">SERVICES</a>
-        <a href="mission.html" class="menu-link" onclick="toggleMenu()" data-text="MISSION">MISSION</a>
-        <a href="portfolio.html" class="menu-link" onclick="toggleMenu()" data-text="PORTFOLIO">PORTFOLIO</a>
-        <a href="trainer.html" class="menu-link" onclick="toggleMenu()" data-text="TRAINER">TRAINER</a>
-        <a href="contact.html" class="menu-link" onclick="toggleMenu()" data-text="CONTACT">CONTACT</a>
+        <a href="index.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_home">HOME</a>
+        <a href="about.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_about">ABOUT</a>
+        <a href="services.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_services">SERVICES</a>
+        <a href="mission.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_mission">MISSION</a>
+        <a href="portfolio.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_portfolio">PORTFOLIO</a>
+        <a href="trainer.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_trainer">TRAINER</a>
+        <a href="contact.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_contact">CONTACT</a>
     </div>
 
     <nav>
         <div class="container">
             <div class="nav-inner">
                 <a href="index.html" class="logo">THE FULL PICTURE</a>
-                <div class="menu-trigger" onclick="toggleMenu()">MENU</div>
+
+                <div style="display: flex; align-items: center; gap: 2.5rem;">
+                    <div class="lang-switch" onclick="toggleLanguage()" style="cursor: pointer; font-weight: 700; font-family: 'Montserrat'; font-size: 0.8rem; letter-spacing: 1px; color: white;">
+                        <span id="lang-btn-text">EN / 中文</span>
+                    </div>
+                    <div class="menu-trigger" onclick="toggleMenu()">
+                        <span class="menu-text" data-lang="menu_trigger">MENU</span>
+                        <div class="burger"><span></span><span></span><span></span></div>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
     <header class="page-header">
         <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070" class="header-bg-img" alt="Strategy Session">
-        
+
         <div class="container header-content">
-            <div class="header-label">HOLISTIC SOLUTIONS</div>
-            <div class="header-title-wrap">
-                <h1 class="header-title">OUR</h1>
-            </div>
-            <div class="header-title-wrap">
-                <h1 class="header-title">SERVICES</h1>
-            </div>
+            <div class="header-label" data-lang="header_label">HOLISTIC SOLUTIONS</div>
+            <div class="header-title-wrap"><h1 class="header-title" data-lang="header_title_1">OUR</h1></div>
+            <div class="header-title-wrap"><h1 class="header-title" data-lang="header_title_2">SERVICES</h1></div>
         </div>
     </header>
 
     <section id="training" class="service-section">
         <div class="container">
             <div class="section-head scroll-reveal">
-                <h2>TRAINING & MASTERCLASSES</h2>
-                <p>Unlock your true potential through structured learning.</p>
+                <h2 data-lang="training_title">TRAINING & MASTERCLASSES</h2>
+                <p data-lang="training_subtitle">Unlock your true potential through structured learning.</p>
             </div>
 
             <div class="services-grid">
                 <div class="service-card scroll-reveal">
                     <div class="service-icon"><i class="fas fa-road"></i></div>
-                    <h3>The Path Unlocker</h3>
-                    <p><strong>Volume 1: 《轨道觉醒启动》</strong><br>Discover your life's true trajectory and align your actions with your destiny.</p>
-                    <a href="contact.html" class="card-link">Enquire Now <i class="fas fa-arrow-right"></i></a>
+                    <h3 data-lang="course1_title">The Path Unlocker</h3>
+                    <p data-lang="course1_desc"><strong>Volume 1: 《轨道觉醒启动》</strong><br>Discover your life's true trajectory and align your actions with your destiny.</p>
+                    <a href="https://calendly.com/" target="_blank" class="card-link"><span data-lang="btn_enquire">Book Consultation</span> <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="service-card scroll-reveal">
                     <div class="service-icon"><i class="fas fa-coins"></i></div>
-                    <h3>Art of Wealth & Success</h3>
-                    <p><strong>Volume 2: 《财富成功觉醒》</strong><br>Master the metaphysical principles of wealth attraction and retention.</p>
-                    <a href="contact.html" class="card-link">Enquire Now <i class="fas fa-arrow-right"></i></a>
+                    <h3 data-lang="course2_title">Art of Wealth & Success</h3>
+                    <p data-lang="course2_desc"><strong>Volume 2: 《财富成功觉醒》</strong><br>Master the metaphysical principles of wealth attraction and retention.</p>
+                    <a href="https://calendly.com/" target="_blank" class="card-link"><span data-lang="btn_enquire">Book Consultation</span> <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="service-card scroll-reveal">
                     <div class="service-icon"><i class="fas fa-crown"></i></div>
-                    <h3>Leadership Awakening</h3>
-                    <p><strong>Volume 3: 《领导觉醒》</strong><br>For the new era of leaders. Combine strategy with spiritual authority.</p>
-                    <a href="contact.html" class="card-link">Enquire Now <i class="fas fa-arrow-right"></i></a>
+                    <h3 data-lang="course3_title">Leadership Awakening</h3>
+                    <p data-lang="course3_desc"><strong>Volume 3: 《领导觉醒》</strong><br>For the new era of leaders. Combine strategy with spiritual authority.</p>
+                    <a href="https://calendly.com/" target="_blank" class="card-link"><span data-lang="btn_enquire">Book Consultation</span> <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
@@ -281,34 +351,34 @@
     <section id="geomancy" class="service-section" style="background: var(--off-white);">
         <div class="container">
             <div class="section-head scroll-reveal">
-                <h2>GEOMANCY SERVICES</h2>
-                <p>Align your environment with your ambition.</p>
+                <h2 data-lang="geomancy_title">GEOMANCY SERVICES</h2>
+                <p data-lang="geomancy_subtitle">Align your environment with your ambition.</p>
             </div>
 
             <div class="services-grid">
                 <div class="service-card scroll-reveal">
                     <div class="service-icon"><i class="fas fa-home"></i></div>
-                    <h3>Feng Shui Audit</h3>
-                    <p>Comprehensive analysis for Residential & Commercial properties to optimize Qi flow.</p>
-                    <a href="contact.html" class="card-link">Book Audit <i class="fas fa-arrow-right"></i></a>
+                    <h3 data-lang="geo1_title">Feng Shui Audit</h3>
+                    <p data-lang="geo1_desc">Comprehensive analysis for Residential & Commercial properties to optimize Qi flow.</p>
+                    <a href="https://calendly.com/" target="_blank" class="card-link"><span data-lang="btn_audit">Book Audit</span> <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="service-card scroll-reveal">
                     <div class="service-icon"><i class="fas fa-calendar-alt"></i></div>
-                    <h3>Bazi Analysis</h3>
-                    <p>Annual & 10-Year Cycle reading to foresee opportunities and mitigate risks.</p>
-                    <a href="contact.html" class="card-link">Book Reading <i class="fas fa-arrow-right"></i></a>
+                    <h3 data-lang="geo2_title">Bazi Analysis</h3>
+                    <p data-lang="geo2_desc">Annual & 10-Year Cycle reading to foresee opportunities and mitigate risks.</p>
+                    <a href="https://calendly.com/" target="_blank" class="card-link"><span data-lang="btn_reading">Book Reading</span> <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="service-card scroll-reveal">
                     <div class="service-icon"><i class="fas fa-star"></i></div>
-                    <h3>Qimen & Ziwei</h3>
-                    <p>Advanced divination techniques (Qimen Dujia & Ziwei Doushu) for strategic decision making.</p>
-                    <a href="contact.html" class="card-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                    <h3 data-lang="geo3_title">Qimen & Ziwei</h3>
+                    <p data-lang="geo3_desc">Advanced divination techniques (Qimen Dujia & Ziwei Doushu) for strategic decision making.</p>
+                    <a href="https://calendly.com/" target="_blank" class="card-link"><span data-lang="btn_learn">Book Consultation</span> <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="service-card scroll-reveal">
                     <div class="service-icon"><i class="fas fa-yin-yang"></i></div>
-                    <h3>I-Ching Energy</h3>
-                    <p>Number Energy Reading & Remedy Consultation based on ancient I-Ching wisdom.</p>
-                    <a href="contact.html" class="card-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                    <h3 data-lang="geo4_title">I-Ching Energy</h3>
+                    <p data-lang="geo4_desc">Number Energy Reading & Remedy Consultation based on ancient I-Ching wisdom.</p>
+                    <a href="https://calendly.com/" target="_blank" class="card-link"><span data-lang="btn_learn">Book Consultation</span> <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
@@ -316,27 +386,71 @@
 
     <section id="wealth" class="service-section">
         <div class="container">
-            
+
             <div class="section-head scroll-reveal">
-                <h2>AUSPICIOUS WEALTH ITEMS</h2>
-                <p>Ji Xiang Wu (祥物吉)</p>
+                <h2 data-lang="wealth_title">AUSPICIOUS WEALTH ITEMS</h2>
+                <p data-lang="wealth_subtitle">Ji Xiang Wu (祥物吉)</p>
             </div>
 
-            <div class="featured-grid">
-                <div class="text-col scroll-reveal">
-                    <p style="margin-bottom: 2rem; color: var(--gray); line-height: 1.8; font-size: 1.1rem;">
-                        Enhance your personal energy field with our curated selection of Energy Crystals and Prosperity Products. Each item is cleansed and energized to serve as a powerful anchor for your wealth goals.
-                    </p>
-                    <ul style="list-style: none; margin-bottom: 0; color: var(--black);">
-                        <li style="margin-bottom: 1.5rem; font-weight: 700;"><i class="fas fa-gem" style="color: var(--burgundy); margin-right: 15px; font-size: 1.2rem;"></i> High-Grade Energy Crystals</li>
-                        <li style="margin-bottom: 1.5rem; font-weight: 700;"><i class="fas fa-anchor" style="color: var(--burgundy); margin-right: 15px; font-size: 1.2rem;"></i> Wealth Activation Anchors</li>
-                        <li style="margin-bottom: 1rem; font-weight: 700;"><i class="fas fa-gift" style="color: var(--burgundy); margin-right: 15px; font-size: 1.2rem;"></i> Auspicious Gifts</li>
-                    </ul>
+            <div class="services-grid">
+
+                <div class="service-card scroll-reveal">
+                    <div class="prod-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1615485925763-46e7db971079?q=80&w=2072" alt="Crystals">
+                    </div>
+                    <h3 data-lang="prod1_title">High-Grade Energy Crystals</h3>
+                    <p data-lang="prod1_desc">Cleansed and energized crystals to serve as a powerful anchor for your personal energy field.</p>
+                    <p style="color: var(--burgundy); font-weight: 700; margin-bottom: 1rem;">$88.00</p>
+
+                    <button class="snipcart-add-item card-link"
+                        data-item-id="crystal-001"
+                        data-item-price="88.00"
+                        data-item-url="/services.html"
+                        data-item-description="High-Grade Energy Crystal"
+                        data-item-image="https://images.unsplash.com/photo-1615485925763-46e7db971079?q=80&w=2072"
+                        data-item-name="Energy Crystal">
+                        <span data-lang="btn_add_cart">Add to Cart</span> <i class="fas fa-shopping-cart"></i>
+                    </button>
                 </div>
-                
-                <div class="featured-img scroll-reveal">
-                    <img src="https://images.unsplash.com/photo-1615485925763-46e7db971079?q=80&w=2072&auto=format&fit=crop" alt="Crystals">
+
+                <div class="service-card scroll-reveal">
+                    <div class="prod-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1602052793312-b99c2a9ee797?q=80&w=2070" alt="Anchor">
+                    </div>
+                    <h3 data-lang="prod2_title">Wealth Activation Anchors</h3>
+                    <p data-lang="prod2_desc">Strategic placement items designed to activate the wealth sector of your home or office.</p>
+                    <p style="color: var(--burgundy); font-weight: 700; margin-bottom: 1rem;">$168.00</p>
+
+                    <button class="snipcart-add-item card-link"
+                        data-item-id="anchor-002"
+                        data-item-price="168.00"
+                        data-item-url="/services.html"
+                        data-item-description="Wealth Activation Anchor"
+                        data-item-image="https://images.unsplash.com/photo-1602052793312-b99c2a9ee797?q=80&w=2070"
+                        data-item-name="Wealth Anchor">
+                        <span data-lang="btn_add_cart">Add to Cart</span> <i class="fas fa-shopping-cart"></i>
+                    </button>
                 </div>
+
+                <div class="service-card scroll-reveal">
+                    <div class="prod-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1512140669299-974a742880d6?q=80&w=2070" alt="Gifts">
+                    </div>
+                    <h3 data-lang="prod3_title">Auspicious Gifts</h3>
+                    <p data-lang="prod3_desc">Perfect for corporate gifting or personal milestones. Blessings of prosperity and harmony.</p>
+                    <p style="color: var(--burgundy); font-weight: 700; margin-bottom: 1rem;">$128.00</p>
+
+                    <button class="snipcart-add-item card-link"
+                        data-item-id="gift-003"
+                        data-item-price="128.00"
+                        data-item-url="/services.html"
+                        data-item-description="Auspicious Corporate Gift Set"
+                        data-item-image="https://images.unsplash.com/photo-1512140669299-974a742880d6?q=80&w=2070"
+                        data-item-name="Auspicious Gift">
+                        <span data-lang="btn_add_cart">Add to Cart</span> <i class="fas fa-shopping-cart"></i>
+                    </button>
+                </div>
+
             </div>
         </div>
     </section>
@@ -345,13 +459,13 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h4>THE FULL PICTURE</h4>
-                    <p>Combining Ancient Wisdom and Modern Business Strategy.</p>
+                    <h4 data-lang="footer_company_name">THE FULL PICTURE</h4>
+                    <p data-lang="footer_tag">Combining Ancient Wisdom and Modern Business Strategy.</p>
                     <br>
-                    <p>&copy; 2025 THE FULL PICTURE LLP.</p>
+                    <p data-lang="footer_copy">&copy; 2025 THE FULL PICTURE LLP.</p>
                 </div>
                 <div class="footer-col">
-                    <h4>CONTACT</h4>
+                    <h4 data-lang="menu_contact">CONTACT</h4>
                     <p>info@thefullpicture.com</p>
                     <p>+65 XXXX XXXX</p>
                     <p>Singapore</p>
@@ -366,25 +480,107 @@
         </div>
     </footer>
 
+    <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
+
     <script>
         // 1. MENU TOGGLE
         let menuOpen = false;
         function toggleMenu() {
             const overlay = document.getElementById('menuOverlay');
             const trigger = document.querySelector('.menu-trigger');
+            const menuText = document.querySelector('.menu-text');
             menuOpen = !menuOpen;
             if(menuOpen) {
                 overlay.classList.add('active');
-                trigger.textContent = "CLOSE";
-                trigger.style.color = "white";
+                trigger.classList.add('active');
+                if(menuText) menuText.textContent = "CLOSE";
             } else {
                 overlay.classList.remove('active');
-                trigger.textContent = "MENU";
-                trigger.style.color = "white"; 
+                trigger.classList.remove('active');
+                if(menuText) menuText.textContent = "MENU";
             }
         }
 
-        // 2. ANIMATION OBSERVER
+        // 2. LANGUAGE LOGIC
+        const translations = {
+            "en": {
+                "page_title": "Services | THE FULL PICTURE",
+                "menu_home": "HOME", "menu_about": "ABOUT", "menu_services": "SERVICES", "menu_mission": "MISSION", "menu_portfolio": "PORTFOLIO", "menu_trainer": "TRAINER", "menu_contact": "CONTACT", "menu_trigger": "MENU", "logo_text": "THE FULL PICTURE",
+                "header_label": "HOLISTIC SOLUTIONS", "header_title_1": "OUR", "header_title_2": "SERVICES",
+                "cat_training": "TRAINING", "cat_geomancy": "GEOMANCY", "cat_wealth": "WEALTH ITEMS",
+                "training_title": "TRAINING & MASTERCLASSES", "training_subtitle": "Unlock your true potential through structured learning.",
+                "course1_title": "The Path Unlocker", "course1_desc": "<strong>Volume 1: 《轨道觉醒启动》</strong><br>Discover your life's true trajectory and align your actions with your destiny.",
+                "course2_title": "Art of Wealth & Success", "course2_desc": "<strong>Volume 2: 《财富成功觉醒》</strong><br>Master the metaphysical principles of wealth attraction and retention.",
+                "course3_title": "Leadership Awakening", "course3_desc": "<strong>Volume 3: 《领导觉醒》</strong><br>For the new era of leaders. Combine strategy with spiritual authority.",
+                "btn_enquire": "Book Consultation", "btn_audit": "Book Audit", "btn_reading": "Book Reading", "btn_learn": "Book Consultation",
+                "geomancy_title": "GEOMANCY SERVICES", "geomancy_subtitle": "Align your environment with your ambition.",
+                "geo1_title": "Feng Shui Audit", "geo1_desc": "Comprehensive analysis for Residential & Commercial properties to optimize Qi flow.",
+                "geo2_title": "Bazi Analysis", "geo2_desc": "Annual & 10-Year Cycle reading to foresee opportunities and mitigate risks.",
+                "geo3_title": "Qimen & Ziwei", "geo3_desc": "Advanced divination techniques (Qimen Dujia & Ziwei Doushu) for strategic decision making.",
+                "geo4_title": "I-Ching Energy", "geo4_desc": "Number Energy Reading & Remedy Consultation based on ancient I-Ching wisdom.",
+                "wealth_title": "AUSPICIOUS WEALTH ITEMS", "wealth_subtitle": "Ji Xiang Wu (祥物吉)",
+                "prod1_title": "High-Grade Energy Crystals", "prod1_desc": "Cleansed and energized crystals to serve as a powerful anchor for your personal energy field.",
+                "prod2_title": "Wealth Activation Anchors", "prod2_desc": "Strategic placement items designed to activate the wealth sector of your home or office.",
+                "prod3_title": "Auspicious Gifts", "prod3_desc": "Perfect for corporate gifting or personal milestones. Blessings of prosperity and harmony.",
+                "btn_add_cart": "Add to Cart", "cart_label": "CART",
+                "footer_company_name": "THE FULL PICTURE", "footer_tag": "Combining Ancient Wisdom and Modern Business Strategy.", "footer_copy": "&copy; 2025 THE FULL PICTURE LLP."
+            },
+            "cn": {
+                "page_title": "服务项目 | 全景",
+                "menu_home": "首页", "menu_about": "关于", "menu_services": "服务", "menu_mission": "使命", "menu_portfolio": "案例", "menu_trainer": "导师", "menu_contact": "联系", "menu_trigger": "菜单", "logo_text": "全景",
+                "header_label": "全方位解决方案", "header_title_1": "我们的", "header_title_2": "服务",
+                "cat_training": "培训课程", "cat_geomancy": "风水玄学", "cat_wealth": "招财吉祥物",
+                "training_title": "培训课程与大师班", "training_subtitle": "通过系统化学习释放您的真正潜能。",
+                "course1_title": "轨道觉醒启动", "course1_desc": "<strong>第一卷: 《轨道觉醒启动》</strong><br>发现您真正的人生轨迹，并将您的行动与命运对齐。",
+                "course2_title": "财富成功觉醒", "course2_desc": "<strong>第二卷: 《财富成功觉醒》</strong><br>掌握财富吸引与留存的玄学法则。",
+                "course3_title": "领导觉醒", "course3_desc": "<strong>第三卷: 《领导觉醒》</strong><br>为新时代领袖而设。将战略与精神权威相结合。",
+                "btn_enquire": "立即咨询", "btn_audit": "预约勘察", "btn_reading": "预约解读", "btn_learn": "了解更多",
+                "geomancy_title": "风水玄学服务", "geomancy_subtitle": "让您的环境与您的抱负相协调。",
+                "geo1_title": "风水勘察", "geo1_desc": "针对住宅及商业地产的全面分析，优化气场流动。",
+                "geo2_title": "八字分析", "geo2_desc": "流年及十年大运解读，预见机遇，规避风险。",
+                "geo3_title": "奇门与紫微", "geo3_desc": "运用奇门遁甲与紫微斗数的高阶占卜技术，辅助战略决策。",
+                "geo4_title": "易经能量", "geo4_desc": "基于古老易经智慧的数字能量解读与化解咨询。",
+                "wealth_title": "招财吉祥物", "wealth_subtitle": "吉祥物",
+                "prod1_title": "高品质能量水晶", "prod1_desc": "经过净化和加持的水晶，为您个人的能量场提供强大的锚点。",
+                "prod2_title": "财富激活摆件", "prod2_desc": "专为激活家庭或办公室财位而设计的战略性摆件。",
+                "prod3_title": "吉祥好礼", "prod3_desc": "企业送礼或个人里程碑的完美选择。繁荣与和谐的祝福。",
+                "btn_add_cart": "加入购物车", "cart_label": "购物车",
+                "footer_company_name": "全景", "footer_tag": "融合古代智慧与现代商业策略。", "footer_copy": "&copy; 2025 THE FULL PICTURE LLP."
+            }
+        };
+
+        let currentLang = localStorage.getItem('tfp_lang') || 'en';
+
+        function updateContent() {
+            const elements = document.querySelectorAll('[data-lang]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+            const btnText = document.getElementById('lang-btn-text');
+            if(btnText) btnText.innerText = currentLang === 'en' ? 'EN / 中文' : 'English / CN';
+            
+            const menuTextElement = document.querySelector('.menu-text');
+            if (menuTextElement) {
+                menuTextElement.textContent = currentLang === 'en' ? (menuOpen ? 'CLOSE' : 'MENU') : (menuOpen ? '关闭' : '菜单');
+            }
+        }
+
+        function toggleLanguage() {
+            document.body.classList.add('lang-fading');
+            setTimeout(() => {
+                currentLang = currentLang === 'en' ? 'cn' : 'en';
+                localStorage.setItem('tfp_lang', currentLang);
+                updateContent();
+                document.body.classList.remove('lang-fading');
+            }, 300);
+        }
+
+        document.addEventListener('DOMContentLoaded', updateContent);
+
+        // 3. ANIMATION OBSERVER
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -395,7 +591,7 @@
 
         document.querySelectorAll('.scroll-reveal, .service-card, .featured-img, .text-col').forEach(el => observer.observe(el));
 
-        // 3. HEADER PARALLAX
+        // 4. HEADER PARALLAX
         window.addEventListener('scroll', () => {
             const scrolled = window.scrollY;
             const bgImg = document.querySelector('.header-bg-img');
@@ -404,7 +600,7 @@
             }
         });
 
-        // 4. STICKY NAV HIGHLIGHTER
+        // 5. STICKY NAV HIGHLIGHTER
         const sections = document.querySelectorAll('section');
         const navLinks = document.querySelectorAll('.cat-link');
 
@@ -424,6 +620,141 @@
                 }
             });
         });
+
+        /* --- ROBUST NAV HIDE/SHOW FOR SNIPCART (drop-in replacement) --- */
+        (function () {
+            const nav = document.querySelector('nav');
+            if (!nav) return;
+
+            function setNavHidden(hidden) {
+                if (hidden) {
+                    nav.style.opacity = '0';
+                    nav.style.pointerEvents = 'none';
+                    nav.style.visibility = 'hidden';
+                } else {
+                    nav.style.opacity = '1';
+                    nav.style.pointerEvents = '';
+                    nav.style.visibility = 'visible';
+                }
+            }
+
+            // Multi-signal detector for whether the snipcart UI is visible
+            function isCartOpen() {
+                // 1) Snipcart layout element heuristics
+                const layout = document.querySelector('.snipcart-layout');
+                if (!layout) {
+                    // if layout not injected yet, assume closed
+                    return false;
+                }
+
+                // aria-hidden often used; 'false' => visible
+                const ariaHidden = layout.getAttribute && layout.getAttribute('aria-hidden');
+                if (ariaHidden === 'false') return true;
+
+                // computed style / bounding rect checks
+                const style = window.getComputedStyle(layout);
+                if (style.display !== 'none' && style.visibility !== 'hidden') {
+                    const rect = layout.getBoundingClientRect();
+                    if ((rect.width > 2 && rect.height > 2) || layout.offsetParent !== null) {
+                        return true;
+                    }
+                }
+
+                // 2) body/html class signals (many shops add snipcart-open or similar)
+                if (document.documentElement.classList.contains('snipcart-open') ||
+                    document.body.classList.contains('snipcart-open')) {
+                    return true;
+                }
+
+                // 3) check for presence of checkout route in hash or pathname (some themes)
+                if (location.hash && location.hash.includes('checkout')) return true;
+                if (location.pathname && location.pathname.includes('checkout')) return true;
+
+                // fallback: consider closed
+                return false;
+            }
+
+            // Wire Snipcart events where available (v3 + fallbacks)
+            function wireSnipcartEvents() {
+                try {
+                    if (window.Snipcart && window.Snipcart.events && typeof window.Snipcart.events.on === 'function') {
+                        // v3 routechanged (checkout opens with to === '/checkout')
+                        window.Snipcart.events.on('theme.routechanged', (r) => {
+                            if (r && r.to === '/checkout') setNavHidden(true);
+                            else setNavHidden(false);
+                        });
+
+                        // other helpful events (v3 or v2 style)
+                        try { window.Snipcart.events.on('summary.checkout_clicked', () => setNavHidden(true)); } catch (e) {}
+                        try { window.Snipcart.events.on('cart.opened', () => setNavHidden(true)); } catch (e) {}
+                        try { window.Snipcart.events.on('cart.closed', () => setNavHidden(false)); } catch (e) {}
+
+                        // when snipcart initializes ensure nav is visible
+                        try { window.Snipcart.events.on('snipcart.initialized', () => setNavHidden(false)); } catch (e) {}
+
+                        return true;
+                    }
+                } catch (e) {
+                    // ignore
+                }
+                return false;
+            }
+
+            // Try to wire events immediately; if not available, wait/ retry
+            if (!wireSnipcartEvents()) {
+                document.addEventListener('snipcart.ready', () => {
+                    wireSnipcartEvents();
+                    setTimeout(() => setNavHidden(isCartOpen()), 100);
+                });
+                // retry loop for the SDK if it loads later
+                const retry = setInterval(() => {
+                    if (wireSnipcartEvents()) clearInterval(retry);
+                }, 300);
+                setTimeout(() => clearInterval(retry), 5000);
+            }
+
+            // MutationObserver: watch class/attribute changes anywhere in document that may indicate open/close
+            const mutationObserver = new MutationObserver((mutations) => {
+                // conservative: recompute cart state on any attribute or child change
+                setNavHidden(isCartOpen());
+            });
+            mutationObserver.observe(document.documentElement || document.body, {
+                attributes: true,
+                childList: true,
+                subtree: true,
+            });
+
+            // Defensive: add click handlers to cart-open triggers and poll briefly to avoid race conditions
+            function shortPollCartState(duration = 3000, intervalMs = 150) {
+                const end = Date.now() + duration;
+                const poll = setInterval(() => {
+                    setNavHidden(isCartOpen());
+                    if (Date.now() > end) clearInterval(poll);
+                }, intervalMs);
+                // defensive stop in case something left it hidden; also ensure final state after poll
+                setTimeout(() => setNavHidden(isCartOpen()), duration + 50);
+            }
+
+            document.querySelectorAll('.snipcart-checkout, .cart-float, .snipcart-add-item').forEach(el => {
+                el.addEventListener('click', () => {
+                    // immediately hide for snappy UX; real state restored by events/observer/poll
+                    setNavHidden(true);
+                    shortPollCartState();
+                }, { passive: true });
+            });
+
+            // Also watch document for clicks that close the cart (close button inside snipcart layout)
+            document.addEventListener('click', (e) => {
+                // a simple heuristic: if click target is inside snipcart layout but is a close button or backdrop
+                const insideLayout = e.target.closest && e.target.closest('.snipcart-layout');
+                if (!insideLayout) return;
+                // run a short poll to detect state changes caused by internal clicks
+                shortPollCartState(1200, 120);
+            }, true);
+
+            // Make sure nav is visible on initial load unless the cart is actually open
+            setTimeout(() => setNavHidden(isCartOpen()), 100);
+        })();
     </script>
 </body>
 </html>

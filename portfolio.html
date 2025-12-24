@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | THE FULL PICTURE</title>
-    
+    <title data-lang="page_title">Portfolio | THE FULL PICTURE</title>
+    <meta name="description" content="The Full Picture connects ancient metaphysical wisdom with modern business strategy. Discover our mission, our lead trainer Jose He, and our transformative approach.">
+    <meta name="keywords" content="Jose He, Metaphysics, Business Strategy, Consultancy, Singapore, Mindfulness, Success">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -55,8 +56,6 @@
         .nav-inner { display: flex; justify-content: space-between; align-items: center; max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; }
         .logo { font-weight: 900; font-size: 1.4rem; letter-spacing: -0.5px; color: white; text-decoration: none; font-family: 'Montserrat'; }
         .menu-trigger { font-weight: 700; cursor: pointer; font-size: 0.9rem; position: relative; letter-spacing: 1px; color: white; font-family: 'Montserrat'; }
-        .menu-trigger::after { content: ''; display: block; width: 100%; height: 2px; background: white; margin-top: 4px; transition: 0.3s; }
-        .menu-trigger:hover::after { width: 50%; }
 
         /* --- MENU OVERLAY --- */
         .menu-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #111; z-index: 9500; display: flex; flex-direction: column; justify-content: center; align-items: center; transform: translateY(-100%); transition: transform 0.8s var(--ease-smooth); }
@@ -149,6 +148,29 @@
             .grid-lines { display: none; }
             .header-title { font-size: 4rem; }
         }
+
+        /* --- MENU & ANIMATIONS --- */
+        .menu-trigger { cursor: pointer; display: flex; align-items: center; gap: 10px; font-family: 'Montserrat'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; color: white; }
+        .burger { width: 30px; height: 10px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+        .burger span { display: block; width: 100%; height: 2px; background: white; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+        .menu-trigger.active .burger span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-trigger.active .burger span:nth-child(2) { opacity: 0; }
+        .menu-trigger.active .burger span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* Language Fade */
+        body.lang-fading [data-lang] { opacity: 0; transform: translateY(5px); }
+        [data-lang] { transition: opacity 0.4s ease, transform 0.4s ease; }
+
+        /* Menu Stagger */
+        .menu-link { opacity: 0; transform: translateY(40px); transition: opacity 0.5s ease, transform 0.5s ease, color 0.3s; }
+        .menu-overlay.active .menu-link { opacity: 1; transform: translateY(0); }
+        .menu-overlay.active .menu-link:nth-child(1) { transition-delay: 0.1s; }
+        .menu-overlay.active .menu-link:nth-child(2) { transition-delay: 0.2s; }
+        .menu-overlay.active .menu-link:nth-child(3) { transition-delay: 0.3s; }
+        .menu-overlay.active .menu-link:nth-child(4) { transition-delay: 0.4s; }
+        .menu-overlay.active .menu-link:nth-child(5) { transition-delay: 0.5s; }
+        .menu-overlay.active .menu-link:nth-child(6) { transition-delay: 0.6s; }
+        .menu-overlay.active .menu-link:nth-child(7) { transition-delay: 0.7s; }
     </style>
 </head>
 <body>
@@ -160,34 +182,41 @@
     </div>
 
     <div class="menu-overlay" id="menuOverlay">
-        <a href="index.html" class="menu-link" onclick="toggleMenu()" data-text="HOME">HOME</a>
-        <a href="about.html" class="menu-link" onclick="toggleMenu()" data-text="ABOUT">ABOUT</a>
-        <a href="mission.html" class="menu-link" onclick="toggleMenu()" data-text="MISSION">MISSION</a>
-        <a href="portfolio.html" class="menu-link" onclick="toggleMenu()" data-text="PORTFOLIO">PORTFOLIO</a>
-        <a href="services.html" class="menu-link" onclick="toggleMenu()" data-text="SERVICES">SERVICES</a>
-        <a href="trainer.html" class="menu-link" onclick="toggleMenu()" data-text="TRAINER">TRAINER</a>
-        <a href="contact.html" class="menu-link" onclick="toggleMenu()" data-text="CONTACT">CONTACT</a>
+        <a href="index.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_home">HOME</a>
+        <a href="about.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_about">ABOUT</a>
+        <a href="mission.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_mission">MISSION</a>
+        <a href="portfolio.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_portfolio">PORTFOLIO</a>
+        <a href="services.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_services">SERVICES</a>
+        <a href="trainer.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_trainer">TRAINER</a>
+        <a href="contact.html" class="menu-link" onclick="toggleMenu()" data-lang="menu_contact">CONTACT</a>
     </div>
 
-    <nav>
-        <div class="container">
-            <div class="nav-inner">
-                <a href="index.html" class="logo">THE FULL PICTURE</a>
-                <div class="menu-trigger" onclick="toggleMenu()">MENU</div>
+<nav>
+    <div class="container"> <div class="nav-inner">
+            <a href="index.html" class="logo" data-lang="logo_text">THE FULL PICTURE</a>
+            <div style="display: flex; align-items: center; gap: 2.5rem;">
+                <div class="lang-switch" onclick="toggleLanguage()" style="cursor: pointer; font-weight: 700; font-family: 'Montserrat'; font-size: 0.8rem; letter-spacing: 1px; color: white;">
+                    <span id="lang-btn-text">EN / 中文</span>
+                </div>
+                <div class="menu-trigger" onclick="toggleMenu()">
+                    <span class="menu-text" data-lang="menu_trigger">MENU</span>
+                    <div class="burger"><span></span><span></span><span></span></div>
+                </div>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <header class="page-header">
         <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069" class="header-bg-img" alt="Portfolio">
         
         <div class="container header-content">
-            <div class="header-label">TRANSFORMATIVE RESULTS</div>
+            <div class="header-label" data-lang="header_label">TRANSFORMATIVE RESULTS</div>
             <div class="header-title-wrap">
-                <h1 class="header-title">PAST</h1>
+                <h1 class="header-title" data-lang="header_title_past">PAST</h1>
             </div>
             <div class="header-title-wrap">
-                <h1 class="header-title">PORTFOLIOS</h1>
+                <h1 class="header-title" data-lang="header_title_portfolios">PORTFOLIOS</h1>
             </div>
         </div>
     </header>
@@ -195,19 +224,19 @@
     <div class="container">
         <div class="client-logos fade-in">
             <div class="logo-grid">
-                <img src="https://placehold.co/200x80/000000/FFF?text=UOB" class="client-logo-img" alt="UOB">
-                <img src="https://placehold.co/200x80/000000/FFF?text=AIA" class="client-logo-img" alt="AIA">
-                <img src="https://placehold.co/200x80/000000/FFF?text=PRUDENTIAL" class="client-logo-img" alt="Prudential">
-                <img src="https://placehold.co/200x80/000000/FFF?text=PROPERTYGURU" class="client-logo-img" alt="PropertyGuru">
-                <img src="https://placehold.co/200x80/000000/FFF?text=MBS" class="client-logo-img" alt="MBS">
+                <img src="https://placehold.co/200x80/000000/FFF?text=UOB" class="client-logo-img" alt="UOB" data-lang="client_logo_uob">
+                <img src="https://placehold.co/200x80/000000/FFF?text=AIA" class="client-logo-img" alt="AIA" data-lang="client_logo_aia">
+                <img src="https://placehold.co/200x80/000000/FFF?text=PRUDENTIAL" class="client-logo-img" alt="Prudential" data-lang="client_logo_prudential">
+                <img src="https://placehold.co/200x80/000000/FFF?text=PROPERTYGURU" class="client-logo-img" alt="PropertyGuru" data-lang="client_logo_propertyguru">
+                <img src="https://placehold.co/200x80/000000/FFF?text=MBS" class="client-logo-img" alt="MBS" data-lang="client_logo_mbs">
             </div>
         </div>
 
         <div class="filter-container fade-in">
-            <button class="filter-btn active" onclick="filterSelection('all', this)">ALL WORKS</button>
-            <button class="filter-btn" onclick="filterSelection('corporate', this)">CORPORATE</button>
-            <button class="filter-btn" onclick="filterSelection('residential', this)">RESIDENTIAL</button>
-            <button class="filter-btn" onclick="filterSelection('events', this)">EVENTS</button>
+            <button class="filter-btn active" onclick="filterSelection('all', this)" data-lang="filter_all_works">ALL WORKS</button>
+            <button class="filter-btn" onclick="filterSelection('corporate', this)" data-lang="filter_corporate">CORPORATE</button>
+            <button class="filter-btn" onclick="filterSelection('residential', this)" data-lang="filter_residential">RESIDENTIAL</button>
+            <button class="filter-btn" onclick="filterSelection('events', this)" data-lang="filter_events">EVENTS</button>
         </div>
 
         <div class="portfolio-grid">
@@ -217,9 +246,9 @@
                     <img class="item-img" src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070" alt="Leadership">
                 </div>
                 <div class="item-info">
-                    <h3>Leadership Masterclass</h3>
-                    <p>Strategic alignment for C-Suite Executives.</p>
-                    <span class="item-tag">CORPORATE</span>
+                    <h3 data-lang="portfolio_item_01_title">Leadership Masterclass</h3>
+                    <p data-lang="portfolio_item_01_desc">Strategic alignment for C-Suite Executives.</p>
+                    <span class="item-tag" data-lang="portfolio_item_01_tag">CORPORATE</span>
                 </div>
             </div>
 
@@ -229,9 +258,9 @@
                     <img class="item-img" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053" alt="Feng Shui">
                 </div>
                 <div class="item-info">
-                    <h3>Sentosa Cove Residence</h3>
-                    <p>Complete Feng Shui audit and wealth activation.</p>
-                    <span class="item-tag">RESIDENTIAL</span>
+                    <h3 data-lang="portfolio_item_02_title">Sentosa Cove Residence</h3>
+                    <p data-lang="portfolio_item_02_desc">Complete Feng Shui audit and wealth activation.</p>
+                    <span class="item-tag" data-lang="portfolio_item_02_tag">RESIDENTIAL</span>
                 </div>
             </div>
             
@@ -241,9 +270,9 @@
                     <img class="item-img" src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2070" alt="Seminar">
                 </div>
                 <div class="item-info">
-                    <h3>Wealth Activation Summit</h3>
-                    <p>Annual seminar with over 500 attendees.</p>
-                    <span class="item-tag">EVENTS</span>
+                    <h3 data-lang="portfolio_item_03_title">Wealth Activation Summit</h3>
+                    <p data-lang="portfolio_item_03_desc">Annual seminar with over 500 attendees.</p>
+                    <span class="item-tag" data-lang="portfolio_item_03_tag">EVENTS</span>
                 </div>
             </div>
         </div>
@@ -253,39 +282,178 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h4>THE FULL PICTURE</h4>
-                    <p>Combining Ancient Wisdom and Modern Business Strategy.</p>
+                    <h4 data-lang="footer_company_name">THE FULL PICTURE</h4>
+                    <p data-lang="footer_company_tagline">Combining Ancient Wisdom and Modern Business Strategy.</p>
                     <br>
-                    <p>&copy; 2025 THE FULL PICTURE LLP.</p>
+                    <p data-lang="footer_copyright">© 2025 THE FULL PICTURE LLP.</p>
                 </div>
                 <div class="footer-col">
-                    <h4>CONTACT</h4>
-                    <p>info@thefullpicture.com</p>
-                    <p>+65 XXXX XXXX</p>
-                    <p>Singapore</p>
+                    <h4 data-lang="footer_contact_title">CONTACT</h4>
+                    <p data-lang="footer_contact_email">info@thefullpicture.com</p>
+                    <p data-lang="footer_contact_phone">+65 XXXX XXXX</p>
+                    <p data-lang="footer_contact_location">Singapore</p>
                 </div>
                 <div class="footer-col">
-                    <h4>LINKS</h4>
-                    <a href="about.html">About Us</a>
-                    <a href="services.html">Services</a>
-                    <a href="contact.html">Contact</a>
+                    <h4 data-lang="footer_links_title">LINKS</h4>
+                    <a href="about.html" data-lang="footer_links_about">About Us</a>
+                    <a href="services.html" data-lang="footer_links_services">Services</a>
+                    <a href="contact.html" data-lang="footer_links_contact">Contact</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
+        const translations = {
+            "en": {
+                "page_title": "Portfolio | THE FULL PICTURE",
+                "loader_text": "THE FULL PICTURE",
+                "menu_home": "HOME",
+                "menu_about": "ABOUT",
+                "menu_mission": "MISSION",
+                "menu_portfolio": "PORTFOLIO",
+                "menu_services": "SERVICES",
+                "menu_trainer": "TRAINER",
+                "menu_contact": "CONTACT",
+                "menu_trigger": "MENU",
+                "logo_text": "THE FULL PICTURE",
+                "header_label": "TRANSFORMATIVE RESULTS",
+                "header_title_past": "PAST",
+                "header_title_portfolios": "PORTFOLIOS",
+                "client_logo_uob": "UOB",
+                "client_logo_aia": "AIA",
+                "client_logo_prudential": "PRUDENTIAL",
+                "client_logo_propertyguru": "PROPERTYGURU",
+                "client_logo_mbs": "MBS",
+                "filter_all_works": "ALL WORKS",
+                "filter_corporate": "CORPORATE",
+                "filter_residential": "RESIDENTIAL",
+                "filter_events": "EVENTS",
+                "portfolio_item_01_title": "Leadership Masterclass",
+                "portfolio_item_01_desc": "Strategic alignment for C-Suite Executives.",
+                "portfolio_item_01_tag": "CORPORATE",
+                "portfolio_item_02_title": "Sentosa Cove Residence",
+                "portfolio_item_02_desc": "Complete Feng Shui audit and wealth activation.",
+                "portfolio_item_02_tag": "RESIDENTIAL",
+                "portfolio_item_03_title": "Wealth Activation Summit",
+                "portfolio_item_03_desc": "Annual seminar with over 500 attendees.",
+                "portfolio_item_03_tag": "EVENTS",
+                "footer_company_name": "THE FULL PICTURE",
+                "footer_company_tagline": "Combining Ancient Wisdom and Modern Business Strategy.",
+                "footer_copyright": "© 2025 THE FULL PICTURE LLP.",
+                "footer_contact_title": "CONTACT",
+                "footer_contact_email": "info@thefullpicture.com",
+                "footer_contact_phone": "+65 XXXX XXXX",
+                "footer_contact_location": "Singapore",
+                "footer_links_title": "LINKS",
+                "footer_links_about": "About Us",
+                "footer_links_services": "Services",
+                "footer_links_contact": "Contact"
+            },
+            "cn": {
+                "page_title": "作品集 | 全貌",
+                "loader_text": "全貌",
+                "menu_home": "首页",
+                "menu_about": "关于",
+                "menu_mission": "使命",
+                "menu_portfolio": "案例",
+                "menu_services": "服务",
+                "menu_trainer": "培训师",
+                "menu_contact": "联系",
+                "menu_trigger": "菜单",
+                "logo_text": "全貌",
+                "header_label": "变革性成果",
+                "header_title_past": "过往",
+                "header_title_portfolios": "案例",
+                "client_logo_uob": "大华银行",
+                "client_logo_aia": "友邦保险",
+                "client_logo_prudential": "保诚",
+                "client_logo_propertyguru": "PropertyGuru", // Keeping as brand name
+                "client_logo_mbs": "滨海湾金沙",
+                "filter_all_works": "所有案例",
+                "filter_corporate": "企业",
+                "filter_residential": "住宅",
+                "filter_events": "活动",
+                "portfolio_item_01_title": "领导力大师班",
+                "portfolio_item_01_desc": "高管战略协同",
+                "portfolio_item_01_tag": "企业",
+                "portfolio_item_02_title": "圣淘沙湾豪宅",
+                "portfolio_item_02_desc": "全面风水勘测与财富激活",
+                "portfolio_item_02_tag": "住宅",
+                "portfolio_item_03_title": "财富激活峰会",
+                "portfolio_item_03_desc": "逾500人参加的年度研讨会",
+                "portfolio_item_03_tag": "活动",
+                "footer_company_name": "全貌",
+                "footer_company_tagline": "融汇古老智慧与现代商业策略",
+                "footer_copyright": "© 2025 全貌有限责任合伙",
+                "footer_contact_title": "联系",
+                "footer_contact_email": "info@thefullpicture.com",
+                "footer_contact_phone": "+65 XXXX XXXX",
+                "footer_contact_location": "新加坡",
+                "footer_links_title": "链接",
+                "footer_links_about": "关于我们",
+                "footer_links_services": "服务",
+                "footer_links_contact": "联系"
+            }
+        };
+
         // MENU TOGGLE
         let menuOpen = false;
         function toggleMenu() {
             const overlay = document.getElementById('menuOverlay');
             const trigger = document.querySelector('.menu-trigger');
+            const menuText = document.querySelector('.menu-text');
             menuOpen = !menuOpen;
-            if(menuOpen) { overlay.classList.add('active'); trigger.textContent = "CLOSE"; trigger.style.color = "white"; } 
-            else { overlay.classList.remove('active'); trigger.textContent = "MENU"; trigger.style.color = "white"; }
+            if(menuOpen) {
+                overlay.classList.add('active');
+                trigger.classList.add('active');
+                if(menuText) menuText.textContent = "CLOSE";
+            } else {
+                overlay.classList.remove('active');
+                trigger.classList.remove('active');
+                if(menuText) menuText.textContent = "MENU";
+            }
         }
 
-        // HEADER PARALLAX
+        // LANGUAGE LOGIC
+        let currentLang = localStorage.getItem('tfp_lang') || 'en';
+
+        function updateContent() {
+            const elements = document.querySelectorAll('[data-lang]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+            const btnText = document.getElementById('lang-btn-text');
+            if(btnText) btnText.innerText = currentLang === 'en' ? 'EN / 中文' : 'English / CN';
+            
+            // Handle the dynamic "CLOSE" / "MENU" text for the menu trigger
+            const menuTextElement = document.querySelector('.menu-text');
+            if (menuTextElement) {
+                // Ensure the menuText is also translated if the menu is open/closed
+                if (currentLang === 'en') {
+                    menuTextElement.textContent = menuOpen ? 'CLOSE' : 'MENU';
+                } else {
+                    menuTextElement.textContent = menuOpen ? '关闭' : '菜单';
+                }
+            }
+        }
+
+        function toggleLanguage() {
+            document.body.classList.add('lang-fading');
+            setTimeout(() => {
+                currentLang = currentLang === 'en' ? 'cn' : 'en';
+                localStorage.setItem('tfp_lang', currentLang);
+                updateContent();
+                document.body.classList.remove('lang-fading');
+            }, 300);
+        }
+
+        document.addEventListener('DOMContentLoaded', updateContent);
+
+        // HEADER PARALLAX (Original script from portfolio.html)
         window.addEventListener('scroll', () => {
             const scrolled = window.scrollY;
             const bgImg = document.querySelector('.header-bg-img');
@@ -294,7 +462,7 @@
             }
         });
 
-        // LOADER & SCROLL REVEAL
+        // LOADER & SCROLL REVEAL (Original script from portfolio.html)
         window.addEventListener('load', () => { 
             setTimeout(() => { 
                 document.querySelector('.loader').classList.add('hide'); 
@@ -316,7 +484,7 @@
         }
         window.addEventListener('scroll', checkScroll);
 
-        // FILTER
+        // FILTER (Original script from portfolio.html)
         function filterSelection(c, btn) {
             var buttons = document.getElementsByClassName("filter-btn");
             for (var i = 0; i < buttons.length; i++) { buttons[i].classList.remove("active"); }
