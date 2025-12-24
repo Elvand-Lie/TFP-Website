@@ -169,22 +169,90 @@
         /* --- 1ST BODY --- */
         .philosophy-section { padding: 10rem 0; text-align: center; color: white; }
         
-        /* --- ATLAS --- */
+        /* --- ATLAS SECTION --- */
         .atlas-section { padding: 12rem 0; text-align: center; position: relative; color: black; }
         .light-mode-heading { color: black; font-weight: 900; letter-spacing: -1px; font-size: 4rem; }
         .light-mode-tag { color: var(--burgundy); font-weight: 700; letter-spacing: 2px; display: block; margin-bottom: 1rem; }
         .light-mode-p { color: #222; font-size: 1.4rem; line-height: 1.6; max-width: 700px; margin: 0 auto; font-weight: 500; }
 
+        /* --- ATLAS TACTICAL MAP --- */
         .atlas-visual {
-            width: 100%; height: 400px; margin: 3rem 0;
-            background-image: linear-gradient(#ccc 1px, transparent 1px), linear-gradient(90deg, #ccc 1px, transparent 1px);
-            background-size: 50px 50px; border: 2px solid #ddd;
-            display: flex; align-items: center; justify-content: center;
+            width: 100%; height: 500px; margin: 3rem 0;
+            background-color: #f4f4f4;
+            background-image: 
+                linear-gradient(#ddd 1px, transparent 1px), 
+                linear-gradient(90deg, #ddd 1px, transparent 1px);
+            background-size: 50px 50px;
+            border: 1px solid #ccc;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.05);
         }
-        .atlas-visual::after {
-            content: 'LIFE ATLAS'; font-family: 'Montserrat'; font-weight: 900; font-size: 5rem;
-            color: rgba(0,0,0,0.05); letter-spacing: 20px;
+
+        .atlas-svg-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
         }
+        .atlas-path {
+            fill: none;
+            stroke: var(--burgundy);
+            stroke-width: 2px;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            transition: stroke-dashoffset 2s ease-out;
+        }
+
+        .atlas-node {
+            position: absolute;
+            width: 12px; height: 12px;
+            background: var(--black);
+            border: 2px solid white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2;
+        }
+        .atlas-node.active { transform: translate(-50%, -50%) scale(1); }
+        .atlas-node.pulse::after {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            width: 100%; height: 100%; border-radius: 50%;
+            background: var(--burgundy); opacity: 0.6;
+            transform: translate(-50%, -50%) scale(1);
+            animation: nodePulse 1.5s infinite;
+        }
+
+        .atlas-card {
+            position: absolute;
+            background: white;
+            padding: 1.5rem;
+            width: 280px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-left: 4px solid var(--gold);
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            pointer-events: none;
+            text-align: left;
+        }
+        .atlas-card.visible { opacity: 1; transform: translateY(0); }
+        .atlas-card h4 { font-size: 0.8rem; color: #999; margin-bottom: 0.5rem; letter-spacing: 1px; text-transform: uppercase; font-family: 'Montserrat'; }
+        .atlas-card h3 { font-size: 1.2rem; font-weight: 800; color: var(--black); margin-bottom: 0.5rem; line-height: 1.2; font-family: 'Montserrat'; }
+        .atlas-card p { font-size: 0.85rem; color: #555; font-family: 'Lato'; line-height: 1.4; }
+
+        .atlas-coords {
+            position: absolute; bottom: 10px; right: 15px;
+            font-family: 'Courier New', monospace; font-weight: 700;
+            color: var(--burgundy); font-size: 0.8rem;
+            background: rgba(255,255,255,0.8); padding: 2px 5px;
+            z-index: 5;
+        }
+
+        @keyframes nodePulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+            100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+        }
+
 
         /* --- JOSE'S PATH --- */
         .split-section { padding: 5rem 0; position: relative; z-index: 10; color: black; }
@@ -231,6 +299,8 @@
             .hero-title { font-size: 3.5rem; }
             .btn-group { flex-direction: column; gap: 1rem; }
             .btn-outline { margin-left: 0; }
+            .atlas-card { width: 80%; left: 50% !important; transform: translateX(-50%) translateY(20px) !important; top: 60% !important; }
+            .atlas-card.visible { transform: translateX(-50%) translateY(0) !important; }
         }
     </style>
 </head>
@@ -305,7 +375,12 @@
             <span class="light-mode-tag" data-lang="atlas_tag">YOUR MAP</span>
             <h2 class="light-mode-heading" style="font-size: 4rem; margin-bottom: 1rem; color: var(--gold); text-shadow: 0 10px 30px rgba(0,0,0,0.8);" data-lang="atlas_title">Crafting Your Life's Atlas</h2>
             
-            <div class="atlas-visual"></div>
+            <div class="atlas-visual" id="lifeAtlas">
+                <svg class="atlas-svg-layer">
+                    <path id="atlasPathLine" class="atlas-path" d="" />
+                </svg>
+                <div class="atlas-coords">COORD: WAITING...</div>
+            </div>
 
             <p class="light-mode-p" data-lang="atlas_desc">
                 Cutting the fluff, you’ll gain a personalised life’s map. Life’s already not easy, let us help you to achieve that important, <span style="border-bottom: 3px solid var(--burgundy); color: black; font-weight: 700;">transformative shift!</span>
@@ -324,7 +399,7 @@
                 <div class="img-frame">
                     <img src="https://images.unsplash.com/photo-1599827845838-344449d01247?q=80&w=2000" id="img-1" class="active" alt="Origins">
                     <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070" id="img-2" alt="Crisis">
-                    <img src="image_d1ef1a.jpg" id="img-3" alt="Jose He">
+                    <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2071" id="img-3" alt="Jose He">
                 </div>
             </div>
 
@@ -416,6 +491,147 @@
             }
         }
 
+        // --- LIFE ATLAS ANIMATION ENGINE ---
+        const atlasContainer = document.getElementById('lifeAtlas');
+        const atlasPathLine = document.getElementById('atlasPathLine');
+        const coordsDisplay = document.querySelector('.atlas-coords');
+
+        // Scenarios: Different paths for different people
+        const scenarios = [
+            {
+                name: "The Entrepreneur's Pivot",
+                points: [
+                    { x: 10, y: 80 }, // Start
+                    { x: 30, y: 60 }, 
+                    { x: 50, y: 70 }, // Dip
+                    { x: 70, y: 30 }, // Rise
+                    { x: 90, y: 20 }  // Success
+                ],
+                finalCard: {
+                    title: "Strategic Pivot",
+                    desc: "Realigned business model with Bazi favorable elements. Revenue tripled in Q3."
+                }
+            },
+            {
+                name: "The Executive's Climb",
+                points: [
+                    { x: 10, y: 50 }, 
+                    { x: 40, y: 50 }, 
+                    { x: 60, y: 30 }, 
+                    { x: 85, y: 15 }  
+                ],
+                finalCard: {
+                    title: "Authority Activation",
+                    desc: "Leveraged Qi Men Dun Jia for negotiation. Secured C-Suite position."
+                }
+            },
+            {
+                name: "The Harmony Seeker",
+                points: [
+                    { x: 20, y: 20 }, 
+                    { x: 40, y: 60 }, 
+                    { x: 60, y: 65 }, 
+                    { x: 80, y: 50 }  
+                ],
+                finalCard: {
+                    title: "Home & Harmony",
+                    desc: "Feng Shui audit cleared stagnant energy. Relationship and health restored."
+                }
+            }
+        ];
+
+        let currentScenarioIndex = 0;
+
+        function playAtlasAnimation() {
+            // 1. CLEAR
+            const oldElements = atlasContainer.querySelectorAll('.atlas-node, .atlas-card');
+            oldElements.forEach(el => el.remove());
+            
+            atlasPathLine.style.transition = 'none';
+            atlasPathLine.style.strokeDashoffset = '1000';
+            atlasPathLine.setAttribute('d', '');
+
+            // 2. GET CURRENT DATA
+            const scenario = scenarios[currentScenarioIndex];
+            const width = atlasContainer.offsetWidth;
+            const height = atlasContainer.offsetHeight;
+
+            // 3. BUILD PATH
+            let pathD = `M ${scenario.points[0].x / 100 * width} ${scenario.points[0].y / 100 * height}`;
+            scenario.points.forEach((p, i) => {
+                if (i === 0) return;
+                pathD += ` L ${p.x / 100 * width} ${p.y / 100 * height}`;
+            });
+            atlasPathLine.setAttribute('d', pathD);
+
+            // 4. ANIMATE NODES
+            let delay = 0;
+            scenario.points.forEach((p, i) => {
+                setTimeout(() => {
+                    const node = document.createElement('div');
+                    node.classList.add('atlas-node');
+                    node.style.left = `${p.x}%`;
+                    node.style.top = `${p.y}%`;
+                    if (i === scenario.points.length - 1) node.classList.add('pulse');
+                    atlasContainer.appendChild(node);
+                    
+                    requestAnimationFrame(() => node.classList.add('active'));
+                    coordsDisplay.innerText = `COORD: X${p.x.toFixed(2)} | Y${p.y.toFixed(2)}`;
+
+                }, delay);
+                delay += 600; 
+            });
+
+            // DRAW LINE
+            setTimeout(() => {
+                atlasPathLine.style.transition = `stroke-dashoffset ${scenario.points.length * 0.5}s linear`;
+                atlasPathLine.style.strokeDashoffset = '0';
+            }, 100);
+
+            // 5. SHOW CARD
+            setTimeout(() => {
+                const lastPoint = scenario.points[scenario.points.length - 1];
+                const card = document.createElement('div');
+                card.classList.add('atlas-card');
+                
+                // Reposition logic to keep card inside bounds
+                let leftPos = lastPoint.x;
+                if(leftPos > 60) leftPos -= 25; 
+                else leftPos += 2;
+
+                let topPos = lastPoint.y;
+                if(topPos > 60) topPos -= 25; 
+                
+                card.style.left = `${leftPos}%`;
+                card.style.top = `${topPos}%`;
+
+                card.innerHTML = `
+                    <h4>${scenario.name}</h4>
+                    <h3>${scenario.finalCard.title}</h3>
+                    <p>${scenario.finalCard.desc}</p>
+                `;
+                
+                atlasContainer.appendChild(card);
+                requestAnimationFrame(() => card.classList.add('visible'));
+
+            }, delay + 200);
+
+            // 6. LOOP
+            setTimeout(() => {
+                currentScenarioIndex = (currentScenarioIndex + 1) % scenarios.length;
+                playAtlasAnimation();
+            }, delay + 4000); 
+        }
+
+        const atlasObserver = new IntersectionObserver((entries) => {
+            if(entries[0].isIntersecting) {
+                playAtlasAnimation();
+                atlasObserver.disconnect();
+            }
+        }, { threshold: 0.5 });
+        atlasObserver.observe(atlasContainer);
+
+
         // --- TUNNEL ZOOM LOGIC (BEAM EFFECT) ---
         const light = document.getElementById('tunnelLight');
         
@@ -427,10 +643,9 @@
             // ZOOM: Starts at 0.2 (Distant) -> Grows to 8.0 (Screen Filled)
             const scale = 0.2 + (fraction * 3); 
             
-            // OPACITY: Starts dim (0.2)
-            // HITS 1.0 (Brightest) FASTER now (at 25% scroll) so Atlas is bright.
+            // OPACITY
             let opacity = 0.2 + (fraction * 1); 
-            opacity = Math.min(opacity, 1); // Cap at 1.0
+            opacity = Math.min(opacity, 1); 
 
             light.style.transform = `translate(-50%, -50%) scale(${scale})`;
             light.style.opacity = opacity;
