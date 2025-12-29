@@ -137,7 +137,6 @@
         .menu-overlay.active .menu-link:nth-child(7) { transition-delay: 0.9s; }
 
         /* --- LANGUAGE FADE ANIMATION --- */
-        /* This class is added to body during switch */
         body.lang-fading [data-lang] {
             opacity: 0;
             transform: translateY(5px);
@@ -175,20 +174,54 @@
         .light-mode-tag { color: var(--burgundy); font-weight: 700; letter-spacing: 2px; display: block; margin-bottom: 1rem; }
         .light-mode-p { color: #222; font-size: 1.4rem; line-height: 1.6; max-width: 700px; margin: 0 auto; font-weight: 500; }
 
-        /* --- ATLAS TACTICAL MAP --- */
+        /* --- ATLAS VISUAL MAP (UPDATED FOR CLIENT REQUEST) --- */
         .atlas-visual {
-            width: 100%; height: 500px; margin: 3rem 0;
-            background-color: #f4f4f4;
+            width: 100%; height: 550px; margin: 3rem 0;
+            background-color: #f0f0f0; 
+            /* Grid Pattern */
             background-image: 
-                linear-gradient(#ddd 1px, transparent 1px), 
-                linear-gradient(90deg, #ddd 1px, transparent 1px);
-            background-size: 50px 50px;
+                linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
             border: 1px solid #ccc;
             position: relative;
             overflow: hidden;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.05);
+            box-shadow: inset 0 0 80px rgba(0,0,0,0.1);
+            border-radius: 4px;
         }
 
+        /* 1. Radar Sweep Effect */
+        .atlas-radar {
+            position: absolute; top: 50%; left: 50%;
+            width: 150%; height: 150%;
+            background: conic-gradient(from 0deg, transparent 0deg, transparent 280deg, rgba(128, 0, 32, 0.05) 360deg);
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            animation: radarSpin 8s linear infinite;
+            pointer-events: none; z-index: 0;
+        }
+
+        /* 2. Topographic Lines (Background decoration) */
+        .atlas-topo {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.1; pointer-events: none; z-index: 0;
+        }
+        .topo-path {
+            fill: none; stroke: #000; stroke-width: 1px;
+        }
+
+        /* 3. Crosshairs */
+        .crosshair {
+            position: absolute; width: 20px; height: 20px;
+            border-color: var(--burgundy);
+            z-index: 5; opacity: 0.6; pointer-events: none;
+        }
+        .ch-tl { top: 20px; left: 20px; border-top: 2px solid; border-left: 2px solid; }
+        .ch-tr { top: 20px; right: 20px; border-top: 2px solid; border-right: 2px solid; }
+        .ch-bl { bottom: 20px; left: 20px; border-bottom: 2px solid; border-left: 2px solid; }
+        .ch-br { bottom: 20px; right: 20px; border-bottom: 2px solid; border-right: 2px solid; }
+
+        /* 4. Active Elements */
         .atlas-svg-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 1;
@@ -196,17 +229,17 @@
         .atlas-path {
             fill: none;
             stroke: var(--burgundy);
-            stroke-width: 2px;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            transition: stroke-dashoffset 2s ease-out;
+            stroke-width: 2.5px;
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
+            /* Transition set dynamically via JS */
         }
 
         .atlas-node {
             position: absolute;
-            width: 12px; height: 12px;
+            width: 10px; height: 10px;
             background: var(--black);
-            border: 2px solid white;
+            border: 2px solid var(--gold);
             border-radius: 50%;
             transform: translate(-50%, -50%) scale(0);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -223,7 +256,8 @@
 
         .atlas-card {
             position: absolute;
-            background: white;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(5px);
             padding: 1.5rem;
             width: 280px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
@@ -236,23 +270,28 @@
             text-align: left;
         }
         .atlas-card.visible { opacity: 1; transform: translateY(0); }
-        .atlas-card h4 { font-size: 0.8rem; color: #999; margin-bottom: 0.5rem; letter-spacing: 1px; text-transform: uppercase; font-family: 'Montserrat'; }
+        .atlas-card h4 { font-size: 0.75rem; color: #999; margin-bottom: 0.5rem; letter-spacing: 1px; text-transform: uppercase; font-family: 'Montserrat'; }
         .atlas-card h3 { font-size: 1.2rem; font-weight: 800; color: var(--black); margin-bottom: 0.5rem; line-height: 1.2; font-family: 'Montserrat'; }
         .atlas-card p { font-size: 0.85rem; color: #555; font-family: 'Lato'; line-height: 1.4; }
 
         .atlas-coords {
-            position: absolute; bottom: 10px; right: 15px;
+            position: absolute; bottom: 15px; right: 20px;
             font-family: 'Courier New', monospace; font-weight: 700;
-            color: var(--burgundy); font-size: 0.8rem;
-            background: rgba(255,255,255,0.8); padding: 2px 5px;
-            z-index: 5;
+            color: var(--gold); font-size: 0.75rem;
+            background: var(--black); padding: 5px 10px;
+            z-index: 5; border-radius: 2px;
+            letter-spacing: 1px;
         }
 
         @keyframes nodePulse {
             0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-            100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; }
         }
-
+        
+        @keyframes radarSpin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
 
         /* --- JOSE'S PATH --- */
         .split-section { padding: 5rem 0; position: relative; z-index: 10; color: black; }
@@ -376,17 +415,29 @@
             <h2 class="light-mode-heading" style="font-size: 4rem; margin-bottom: 1rem; color: var(--gold); text-shadow: 0 10px 30px rgba(0,0,0,0.8);" data-lang="atlas_title">Crafting Your Life's Atlas</h2>
             
             <div class="atlas-visual" id="lifeAtlas">
+                <div class="atlas-radar"></div>
+
+                <svg class="atlas-topo" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <path class="topo-path" d="M0,80 Q20,70 50,80 T100,70 M0,60 Q30,40 60,60 T100,50 M0,20 Q40,40 70,10 T100,20" />
+                </svg>
+
+                <div class="crosshair ch-tl"></div>
+                <div class="crosshair ch-tr"></div>
+                <div class="crosshair ch-bl"></div>
+                <div class="crosshair ch-br"></div>
+
                 <svg class="atlas-svg-layer">
                     <path id="atlasPathLine" class="atlas-path" d="" />
                 </svg>
-                <div class="atlas-coords">COORD: WAITING...</div>
+                
+                <div class="atlas-coords">SCANNING SECTOR...</div>
             </div>
 
             <p class="light-mode-p" data-lang="atlas_desc">
                 Cutting the fluff, you’ll gain a personalised life’s map. Life’s already not easy, let us help you to achieve that important, <span style="border-bottom: 3px solid var(--burgundy); color: black; font-weight: 700;">transformative shift!</span>
             </p>
             <br><br>
-            <a href="#contact" class="btn btn-primary" style="background: var(--burgundy); border-color: var(--burgundy); color: white;" data-lang="btn_book">Book a Call</a>
+            <a href="contact.html" class="btn btn-primary" style="background: var(--burgundy); border-color: var(--burgundy); color: white;" data-lang="btn_book">Book a Call</a>
         </div>
     </section>
 
@@ -470,7 +521,7 @@
         </div>
     </footer>
 
-    <script>
+<script>
         // MENU
         let menuOpen = false;
         function toggleMenu() {
@@ -491,81 +542,120 @@
             }
         }
 
-        // --- LIFE ATLAS ANIMATION ENGINE ---
+        // --- UPDATED ATLAS ANIMATION ENGINE (Client Requested Scenarios) ---
         const atlasContainer = document.getElementById('lifeAtlas');
         const atlasPathLine = document.getElementById('atlasPathLine');
         const coordsDisplay = document.querySelector('.atlas-coords');
 
-        // Scenarios: Different paths for different people
+        // SCENARIOS
         const scenarios = [
             {
-                name: "The Entrepreneur's Pivot",
+                // Concept 1: Strategic Pivot (Rise -> Plateau -> Slide -> Rise)
+                // Note: Y coordinates are inverted in SVG (0 is top, 100 is bottom)
+                name: "Strategic Pivot",
                 points: [
-                    { x: 10, y: 80 }, // Start
-                    { x: 30, y: 60 }, 
-                    { x: 50, y: 70 }, // Dip
-                    { x: 70, y: 30 }, // Rise
-                    { x: 90, y: 20 }  // Success
+                    { x: 5, y: 85 },   // Start Low
+                    { x: 25, y: 30 },  // 1. Rising Line (Fast growth)
+                    { x: 45, y: 30 },  // 2. Plateau (Stagnation)
+                    { x: 60, y: 70 },  // 3. Sliding Down (Crisis/Correction)
+                    { x: 95, y: 15 }   // 4. Rising Up Again (Success)
                 ],
                 finalCard: {
-                    title: "Strategic Pivot",
-                    desc: "Realigned business model with Bazi favorable elements. Revenue tripled in Q3."
-                }
+                    title: "The Pivot Point",
+                    desc: "Identified the plateau early. Applied 'Strategic Pivot' to reverse the slide and scale to new heights."
+                },
+                speed: 1.2 // Slower, more dramatic for this complex shape
             },
             {
-                name: "The Executive's Climb",
+                // Concept 2: Home and Harmony (Chaotic to Stable)
+                name: "Home and Harmony",
                 points: [
-                    { x: 10, y: 50 }, 
+                    { x: 10, y: 20 }, 
+                    { x: 25, y: 80 }, // High stress
+                    { x: 40, y: 30 }, // Low
+                    { x: 60, y: 50 }, // Stabilizing
+                    { x: 90, y: 50 }  // Perfect Flat line (Harmony)
+                ],
+                finalCard: {
+                    title: "Restoring Balance",
+                    desc: "From erratic energy to a stable sanctuary. Feng Shui adjustments created the foundation for peace."
+                },
+                speed: 0.8 // Faster
+            },
+            {
+                // Concept 3: Authority Activation (Steady Climb)
+                name: "Authority Activation",
+                points: [
+                    { x: 10, y: 70 }, 
                     { x: 40, y: 50 }, 
-                    { x: 60, y: 30 }, 
-                    { x: 85, y: 15 }  
+                    { x: 70, y: 30 }, 
+                    { x: 95, y: 10 }  // The Summit
                 ],
                 finalCard: {
-                    title: "Authority Activation",
-                    desc: "Leveraged Qi Men Dun Jia for negotiation. Secured C-Suite position."
-                }
-            },
-            {
-                name: "The Harmony Seeker",
-                points: [
-                    { x: 20, y: 20 }, 
-                    { x: 40, y: 60 }, 
-                    { x: 60, y: 65 }, 
-                    { x: 80, y: 50 }  
-                ],
-                finalCard: {
-                    title: "Home & Harmony",
-                    desc: "Feng Shui audit cleared stagnant energy. Relationship and health restored."
-                }
+                    title: "Commanding Power",
+                    desc: "Systematic elevation of status. Qi Men Dun Jia used to capture the right timing for promotion."
+                },
+                speed: 1.0 // Normal
             }
         ];
 
         let currentScenarioIndex = 0;
 
         function playAtlasAnimation() {
-            // 1. CLEAR
+            // 1. CLEAR OLD ELEMENTS
             const oldElements = atlasContainer.querySelectorAll('.atlas-node, .atlas-card');
             oldElements.forEach(el => el.remove());
             
+            // 2. STOP TRANSITION TO RESET
             atlasPathLine.style.transition = 'none';
-            atlasPathLine.style.strokeDashoffset = '1000';
-            atlasPathLine.setAttribute('d', '');
-
-            // 2. GET CURRENT DATA
-            const scenario = scenarios[currentScenarioIndex];
+            
+            // 3. GET DIMENSIONS
             const width = atlasContainer.offsetWidth;
             const height = atlasContainer.offsetHeight;
+            const scenario = scenarios[currentScenarioIndex];
 
-            // 3. BUILD PATH
+            // 4. BUILD PATH MANUALLY
             let pathD = `M ${scenario.points[0].x / 100 * width} ${scenario.points[0].y / 100 * height}`;
+            
+            let totalLength = 0;
+            let prevX = scenario.points[0].x / 100 * width;
+            let prevY = scenario.points[0].y / 100 * height;
+
             scenario.points.forEach((p, i) => {
                 if (i === 0) return;
-                pathD += ` L ${p.x / 100 * width} ${p.y / 100 * height}`;
+                
+                const currX = p.x / 100 * width;
+                const currY = p.y / 100 * height;
+                
+                // Add segment to SVG path
+                pathD += ` L ${currX} ${currY}`;
+                
+                // Calculate distance
+                const dist = Math.sqrt(Math.pow(currX - prevX, 2) + Math.pow(currY - prevY, 2));
+                totalLength += dist;
+                
+                prevX = currX;
+                prevY = currY;
             });
+
+            // Set the path
             atlasPathLine.setAttribute('d', pathD);
 
-            // 4. ANIMATE NODES
+            // 5. APPLY LENGTH
+            const finalLength = Math.ceil(totalLength + 50);
+            atlasPathLine.style.strokeDasharray = finalLength + 'px';
+            atlasPathLine.style.strokeDashoffset = finalLength + 'px';
+            
+            // Force browser to accept the reset
+            atlasPathLine.getBoundingClientRect(); 
+
+            // 6. ANIMATE NODES (Controlled Speed)
+            const baseSpeedPerNode = 800; 
+            // Control Speed based on scenario setting
+            const stepDuration = baseSpeedPerNode * (scenario.speed || 1); 
+
             let delay = 0;
+
             scenario.points.forEach((p, i) => {
                 setTimeout(() => {
                     const node = document.createElement('div');
@@ -576,19 +666,25 @@
                     atlasContainer.appendChild(node);
                     
                     requestAnimationFrame(() => node.classList.add('active'));
-                    coordsDisplay.innerText = `COORD: X${p.x.toFixed(2)} | Y${p.y.toFixed(2)}`;
+
+                    // Tech-style Coordinate Update
+                    const lat = (p.y * 1.2).toFixed(4);
+                    const long = (p.x * 0.8).toFixed(4);
+                    coordsDisplay.innerHTML = `<i class="fa-solid fa-location-crosshairs"></i> LAT: ${lat} // LON: ${long}`;
 
                 }, delay);
-                delay += 600; 
+                delay += stepDuration; 
             });
 
-            // DRAW LINE
+            // 7. ANIMATE LINE
             setTimeout(() => {
-                atlasPathLine.style.transition = `stroke-dashoffset ${scenario.points.length * 0.5}s linear`;
-                atlasPathLine.style.strokeDashoffset = '0';
+                // Determine speed based on complexity
+                const lineDuration = (scenario.points.length * 0.7) * (scenario.speed || 1);
+                atlasPathLine.style.transition = `stroke-dashoffset ${lineDuration}s ease-in-out`;
+                atlasPathLine.style.strokeDashoffset = '0px';
             }, 100);
 
-            // 5. SHOW CARD
+            // 8. SHOW CARD
             setTimeout(() => {
                 const lastPoint = scenario.points[scenario.points.length - 1];
                 const card = document.createElement('div');
@@ -616,13 +712,14 @@
 
             }, delay + 200);
 
-            // 6. LOOP
+            // 9. LOOP
             setTimeout(() => {
                 currentScenarioIndex = (currentScenarioIndex + 1) % scenarios.length;
                 playAtlasAnimation();
             }, delay + 4000); 
         }
 
+        // --- OBSERVER ---
         const atlasObserver = new IntersectionObserver((entries) => {
             if(entries[0].isIntersecting) {
                 playAtlasAnimation();
@@ -632,7 +729,7 @@
         atlasObserver.observe(atlasContainer);
 
 
-        // --- TUNNEL ZOOM LOGIC (BEAM EFFECT) ---
+        // --- TUNNEL ZOOM LOGIC ---
         const light = document.getElementById('tunnelLight');
         
         window.addEventListener('scroll', () => {
@@ -640,10 +737,7 @@
             const height = document.body.scrollHeight - window.innerHeight;
             const fraction = scrolled / height;
             
-            // ZOOM: Starts at 0.2 (Distant) -> Grows to 8.0 (Screen Filled)
             const scale = 0.2 + (fraction * 3); 
-            
-            // OPACITY
             let opacity = 0.2 + (fraction * 1); 
             opacity = Math.min(opacity, 1); 
 
@@ -695,8 +789,8 @@
                 "btn_clarity": "Get Clarity", "btn_about": "About TFP",
                 "philo_title": "Absolute Clarity + Actionable Strategy = <br><span style='color: var(--gold);'>A Transformed Life</span>",
                 "philo_desc": "We believe the universal energy wants the best for you. Absolute clarity is just the beginning; it's <strong><u>HOW</u></strong> and <strong><u>WHEN</u></strong> to take strategic actions for a transformed life.",
-                "atlas_tag": "YOUR MAP", "atlas_title": "Crafting Your Life's Atlas",
-                "atlas_desc": "Cutting the fluff, you’ll gain a personalised life’s map. Life’s already not easy, let us help you to achieve that important, <span style='border-bottom: 3px solid var(--burgundy); color: black; font-weight: 700;'>transformative shift!</span>",
+                "atlas_tag": "YOUR LIFE'S ATLAS", "atlas_title": "Navigating Your Map",
+                "atlas_desc": "Cutting the fluff, you’ll gain a personalised life’s map. From periods of stagnation to rapid elevation, let us help you achieve that important, <span style='border-bottom: 3px solid var(--burgundy); color: black; font-weight: 700;'>transformative shift!</span>",
                 "btn_book": "Book a Call", "role_tag": "PRINCIPAL CONSULTANT",
                 "story1_tag": "THE ORIGINS", "story1_title": "A Reluctant Beginning",
                 "story1_desc": "Growing up in a family of geomancy practitioners, Jose was exposed to ancient metaphysical wisdom from a young age. Despite this early exposure, he was initially reluctant to practise the discipline, believing it to be largely psychological in nature rather than a practical tool.",
@@ -724,7 +818,7 @@
                 "philo_title": "绝对清晰 + 可行策略 = <br><span style='color: var(--gold);'>焕然一新的人生</span>",
                 "philo_desc": "我们相信宇宙能量希望给您最好的。绝对清晰只是开始；关键在于<strong><u>如何</u></strong>以及<strong><u>何时</u></strong>采取战略行动来实现人生的蜕变。",
                 "atlas_tag": "您的人生蓝图", "atlas_title": "打造您的人生版图",
-                "atlas_desc": "去繁就简，您将获得一份个性化的人生蓝图。生活本不易，让我们助您实现那至关重要的<span style='border-bottom: 3px solid var(--burgundy); color: black; font-weight: 700;'>蜕变！</span>",
+                "atlas_desc": "去繁就简，您将获得一份个性化的人生蓝图。从停滞期到快速提升，让我们助您实现那至关重要的<span style='border-bottom: 3px solid var(--burgundy); color: black; font-weight: 700;'>蜕变！</span>",
                 "btn_book": "预约咨询", "role_tag": "首席顾问",
                 "story1_tag": "缘起", "story1_title": "不情愿的开始",
                 "story1_desc": "成长于风水世家，Jose 从小就接触古代玄学智慧。尽管耳濡目染，但他最初并不愿从事这一学科，认为这主要是心理作用，而非实用的工具。",
